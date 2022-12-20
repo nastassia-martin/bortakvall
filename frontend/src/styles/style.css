@@ -29,3 +29,12 @@ body header {
   padding-bottom: 10px;
   padding-right: 30px;
 }
+body .shopping-cart {
+  background-color: #FCBD1A;
+  height: 50px;
+  width: 50px;
+}
+body .bi-cart {
+  font-size: 20px;
+  color: black;
+}
