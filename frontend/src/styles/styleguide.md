@@ -3,15 +3,15 @@
 heading-logo-dark: #5C080E
 heading-logo-light: #C20220
 
-bg-gradient-dark: BA0426
-bg-gradient-light: E17987
+bg-gradient-dark: #BA0426
+bg-gradient-light: #E17987
 
-clr-button: FCBD1A
+clr-button: #FCBD1A
 
-menu-gradient-dark: FFD15A
-menu-gradient-light: FFE5A0
+menu-gradient-dark: #FFD15A
+menu-gradient-light: #FFE5A0
 
-clr-white: F6F6F6
+clr-white: #F6F6F6
 
 
 ## PRIMARY FONTS 
