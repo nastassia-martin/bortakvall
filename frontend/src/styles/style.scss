@@ -42,6 +42,7 @@ $fw-bold: 700;
 
 
 body {
+  
   header {
     background-image: url(./public/images/header.png);
     background-size: cover;
@@ -52,5 +53,9 @@ body {
     align-items: flex-end;
     padding-bottom: 10px;
     padding-right: 30px;
+  }
+  main {
+    background: linear-gradient(to right, $bg-gradient-dark, $bg-gradient-light);
+    height: 800px; // remove when w have the sweet-grid in place
   }
 }
