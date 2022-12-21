@@ -1,4 +1,4 @@
-import { IProduct } from "./interfaces";
+import { IResult} from "./interfaces";
 
 // Fetch data from API  
 export const fetchData = async () => {
@@ -7,5 +7,5 @@ export const fetchData = async () => {
         throw new Error(`could not get data: ${res.status} ${res.statusText}`)
     }
 
-    return await res.json() as IProduct[]
+    return await res.json() as IResult
 }

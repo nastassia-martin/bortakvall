@@ -7,46 +7,35 @@ import './styles/style.css'
 
 import { fetchData } from "./API";
 import { IProduct } from "./interfaces";
-
+const rowEl = document.querySelector('.row')
 
 // Empty array to fetch data to
-//let products: IProduct[] = []
+let products: IProduct[] = []
 
 // Get data from API and save it into products-array
-const getProducts = async () => {
-    let products: IProduct[] = await fetchData()
+ const getProducts = async () => {
+    const result = await fetchData()
+    products = result.data
     renderProducts();
-    return products
-}
 
-// Call function (test for now)
+} 
 getProducts()
 
-/* const getData = async () => {
-    let data: IProduct[] = await fetchData()
-    console.log(data)
-} */
 
 // Render products to DOM 
 const renderProducts = async () => {
-
-    const test = await getData()
-    console.log(test)
-
-    /*  console.log(...productArr[1])
-     const product: IProduct = [...productArr[1]]  */
-
-    document.querySelector('.row')!.innerHTML =
-        test.map(product => `<div class="col-6 col-sm-4 col-lg-3">
+    console.log('products:',products)
+    rowEl!.innerHTML = products
+        .map(product => `<div class="col-6 col-sm-4 col-lg-3">
          <div class="card mt-5">
            <!-- E2S1T2 - add path to product and name of product from objects in TS -->
            <img class="card-img img-fluid" src="/public/images/placeholderx116.png" alt="Image of ***">
            <div class="card-body">
              <!-- E2S1T2 - print product name from objects in TS -->
-             <h2 class="card-title pt-3">Product Name</h2>
-             <!-- E2S1T2 - add price from objects in TS -->
-             <p class="card-text">10 kr</p>
-             <!-- E2S1T3 - add eventlistener -->
+                <h2 class="card-title pt-3">${product.name}</h2>
+                <!-- E2S1T2 - add price from objects in TS -->
+                 <p class="card-text">10 kr</p>
+               <!-- E2S1T3 - add eventlistener -->
              <button><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                  class="bi bi-basket" viewBox="0 0 16 16">
                  <path
