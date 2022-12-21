@@ -1,4 +1,4 @@
-import { Product } from "./interfaces";
+import { IProduct } from "./interfaces";
 
 // Function for fetching data
 export const fetchData = async () => {
@@ -8,5 +8,5 @@ export const fetchData = async () => {
         return
     }
 
-    return await res.json() as Product[]
+    return await res.json() as IProduct[]
 }
