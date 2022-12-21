@@ -21,41 +21,107 @@ $fw-light: 400;
 $fw-bold: 700;
 
 
-// heading-logo
-.heading-logo-dark,
-.heading-logo-light {
-  font-family: 'DM Serif Display', serif;
-  font-size: 60px;
-  text-transform: uppercase;
-  letter-spacing: 10px;
-  border-bottom: #000000 solid 1px;
-  margin: 0;
-}
-
-.heading-logo-dark {
-  color: $heading-logo-dark;
-}
-
-.heading-logo-light {
-  color: $heading-logo-light;
-}
-
-
 body {
-  
+
   header {
     background-image: url(./public/images/header.png);
     background-size: cover;
     height: 320px;
     display: flex;
-    flex-direction: row;
     justify-content: end;
     align-items: flex-end;
-    padding-bottom: 10px;
-    padding-right: 30px;
+    padding: 0 30px 10px 0;
+
+
+    // heading-logo
+    .heading-logo-dark,
+    .heading-logo-light {
+      font-family: 'DM Serif Display', serif;
+      font-size: 60px;
+      text-transform: uppercase;
+      letter-spacing: 10px;
+      border-bottom: #000000 solid 1px;
+      margin: 0;
+    }
+
+    .heading-logo-dark {
+      color: $heading-logo-dark;
+    }
+
+    .heading-logo-light {
+      color: $heading-logo-light;
+    }
+
   }
+
   main {
     background: linear-gradient(to right, $bg-gradient-dark, $bg-gradient-light);
-    height: 800px; // remove when w have the sweet-grid in place
+
+    .container {
+      --bs-gutter-x: 3rem;
+    }
+
+    .card {
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 1px 1px 15px #0000007c;
+
+      .card-img {
+        border-radius: 20px;
+        box-shadow: 1px 1px 15px #0000007c;
+      }
+
+      .card-body {
+        padding: 0;
+        text-align: center;
+
+        .card-title {
+          font-family: $ff-product;
+          font-weight: $fw-bold;
+          font-size: 16px;
+        }
+
+        .card-text {
+          font-family: $ff-price;
+          font-size: 20px;
+        }
+
+        button {
+          .bi-basket {
+            height: 25px;
+            width: 25px;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* MEDIA QUERIES - TABLET */
+@media screen and (min-width: 768px) {}
+
+/* MEDIA QUERIES - LAPTOP/DESKTOP */
+@media screen and (min-width: 1440px) {
+  body {
+    main {
+      .row {
+        // adding space between the cards
+        --bs-gutter-x: 4rem;
+      }
+
+      .card {
+        .card-body {
+          .card-title {
+            font-size: 22px;
+          }
+
+          .card-text {
+            font-size: 30px;
+          }
+
+          // E1S1T9 - add styling to btn if necessary
+        }
+      }
+    }
   }
 }
