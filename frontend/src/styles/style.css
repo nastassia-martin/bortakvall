@@ -1,7 +1,16 @@
 /* PRIMARY COLORS */
 /* PRIMARY FONTS */
-.heading-logo-dark,
-.heading-logo-light {
+body header {
+  background-image: url(./public/images/header.png);
+  background-size: cover;
+  height: 320px;
+  display: flex;
+  justify-content: end;
+  align-items: flex-end;
+  padding: 0 30px 10px 0;
+}
+body header .heading-logo-dark,
+body header .heading-logo-light {
   font-family: "DM Serif Display", serif;
   font-size: 60px;
   text-transform: uppercase;
@@ -9,23 +18,57 @@
   border-bottom: #000000 solid 1px;
   margin: 0;
 }
-
-.heading-logo-dark {
+body header .heading-logo-dark {
   color: #5C080E;
 }
-
-.heading-logo-light {
+body header .heading-logo-light {
   color: #C20220;
 }
+body main {
+  background: linear-gradient(to right, #BA0426, #E17987);
+  border-top: 3px solid #BA0426;
+  box-shadow: inset 0px 10px 50px -30px #000000;
+}
+body main .container {
+  --bs-gutter-x: 3rem;
+}
+body main .card {
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.4862745098);
+}
+body main .card .card-img {
+  border-radius: 20px;
+  box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.4862745098);
+}
+body main .card .card-body {
+  padding: 0;
+  text-align: center;
+}
+body main .card .card-body .card-title {
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+}
+body main .card .card-body .card-text {
+  font-family: "Neucha", cursive;
+  font-size: 20px;
+}
+body main .card .card-body button .bi-basket {
+  height: 25px;
+  width: 25px;
+}
 
-body header {
-  background-image: url(./public/images/header.png);
-  background-size: cover;
-  height: 320px;
-  display: flex;
-  flex-direction: row;
-  justify-content: end;
-  align-items: flex-end;
-  padding-bottom: 10px;
-  padding-right: 30px;
+/* MEDIA QUERIES - TABLET */
+/* MEDIA QUERIES - LAPTOP/DESKTOP */
+@media screen and (min-width: 1440px) {
+  body main .row {
+    --bs-gutter-x: 4rem;
+  }
+  body main .card .card-body .card-title {
+    font-size: 22px;
+  }
+  body main .card .card-body .card-text {
+    font-size: 30px;
+  }
 }
