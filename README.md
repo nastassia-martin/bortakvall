@@ -39,7 +39,7 @@ Ni ska samarbeta i grupper om 3 där ni ska göra en enkel webbshop där man ska
     Lösning: 
 
 ---
-## Assets 
+## Links 
 - [Figma](https://www.figma.com/team_invite/redeem/k9Suf5Dh06lWW6c343VTVo) 
-- 
+- [Trello](https://trello.com/invite/b/HDwTnRm8/ATTIcdaf93fca38400346eb3fc1b709cf8ffDEE5AB97/hockey-baby)
 
