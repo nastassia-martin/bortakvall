@@ -23,30 +23,50 @@
   <!-- displayed products -->
   <main>
     <!-- all products - created in js -->
-    <div>
-      <!-- specific product - created in js -->
-      <div>
-        <h3>NAME OF PRODUCT</h3>
-        <div>
-          <div>
-            <img src="" alt="large image of candy">
-          </div>
-          <!-- text about specific product - created in js -->
-          <div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- specific product - created in js -->
+    <!-- text about specific product - created in js -->
     <!-- shopping cart button  -->
-    <div>
-      <button></button>
-      <span>1</span>
-    </div>
     <!-- shopping cart -->
     <!-- Place order  -->
     <!-- Order confirmation -->
+
+    <!-- Container should contain bg-gradient -->
+    <div class="container">
+      <div class="row gy-5 gx-5">
+        <!-- col + card is the thing being printed to DOM from TS -->
+        <div class="col-6 col-sm-4 col-lg-3">
+          <div class="card">
+            <!-- add path to product and name of product from objects in TS -->
+            <img class="card-img" src="###" alt="Image of ***">
+            <div class="card-body">
+              <!-- print product name from objects in TS -->
+              <h2 class="card-title">Product Name</h2>
+              <!-- add price from objects in TS -->
+              <p class="card-text">Price</p>
+              <!-- add eventlistener -->
+              <button>Lägg till</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-3">
+          <div class="card"></div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-3">
+          <div class="card"></div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-3">
+          <div class="card"></div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-3">
+          <div class="card"></div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-3">
+          <div class="card"></div>
+        </div>
+        <div class="col-6 col-sm-4 col-lg-3">
+          <div class="card"></div>
+        </div>
+      </div>
   </main>
   <script type="module" src="/src/main.ts"></script>
 </body>
-
-</html>
