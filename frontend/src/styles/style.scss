@@ -56,6 +56,8 @@ body {
 
   main {
     background: linear-gradient(to right, $bg-gradient-dark, $bg-gradient-light);
+    border-top: 3px solid $bg-gradient-dark;
+    box-shadow: inset 0px 10px 50px -30px #000000;
 
     .container {
       --bs-gutter-x: 3rem;

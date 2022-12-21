@@ -26,6 +26,8 @@ body header .heading-logo-light {
 }
 body main {
   background: linear-gradient(to right, #BA0426, #E17987);
+  border-top: 3px solid #BA0426;
+  box-shadow: inset 0px 10px 50px -30px #000000;
 }
 body main .container {
   --bs-gutter-x: 3rem;
