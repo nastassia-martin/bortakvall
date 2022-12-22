@@ -29,6 +29,30 @@ body main {
   border-top: 3px solid #BA0426;
   box-shadow: inset 0px 10px 50px -30px #000000;
 }
+
+body main .cart_container {
+  position: sticky;
+  display: flex;
+  top: 1rem; 
+  z-index: 1;
+}
+
+body main .shopping-cart {
+  display: flex;
+  background-color: #fcbd1a;
+  height: 6rem;
+  width: 6rem;
+  border-radius: 4rem;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-left: 1rem;
+
+}
+body main .bi-cart {
+  font-size: 5rem;
+  color: black;
+}
 body main .container {
   --bs-gutter-x: 3rem;
 }
