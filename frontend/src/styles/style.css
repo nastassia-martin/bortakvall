@@ -29,6 +29,23 @@ body main {
   border-top: 3px solid #BA0426;
   box-shadow: inset 0px 10px 50px -30px #000000;
 }
+body main .modal {
+  background: linear-gradient(to right, #BA0426, #E17987);
+  top: unset;
+}
+body main .modal .heading-container {
+  display: flex;
+  justify-content: center;
+}
+body main .modal .heading-container h2 {
+  font-family: "DM Serif Display", serif;
+  color: #F6F6F6;
+  padding: 20px;
+  border-bottom: 10px dotted white;
+  display: inline-block;
+  font-size: 50px;
+  letter-spacing: 3px;
+}
 body main .container {
   --bs-gutter-x: 3rem;
 }

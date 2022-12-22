@@ -71,6 +71,11 @@ rowEl?.addEventListener('click', e => {
         modal.show()
 
         // print to DOM 
+        // product header
+        document.querySelector('.heading-container')!.innerHTML =
+            `<h2>${products[index].name}</h2>`
+
+        // product information
         document.querySelector('.modal-body')!.innerHTML = `
         <img class="" src="${URL}${products[index].images.thumbnail}" alt="">
         <h3 class="">${products[index].name}</h3>

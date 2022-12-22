@@ -58,6 +58,26 @@ body {
     border-top: 3px solid $bg-gradient-dark;
     box-shadow: inset 0px 10px 50px -30px #000000;
 
+    .modal {
+      background: linear-gradient(to right, $bg-gradient-dark, $bg-gradient-light);
+      top: unset;
+
+      .heading-container {
+        display: flex;
+        justify-content: center;
+
+        h2 {
+          font-family: $ff-logo;
+          color: $clr-white;
+          padding: 20px;
+          border-bottom: 10px dotted white;
+          display: inline-block;
+          font-size: 50px;
+          letter-spacing: 3px;
+        }
+      }
+    }
+
     .container {
       --bs-gutter-x: 3rem;
     }
