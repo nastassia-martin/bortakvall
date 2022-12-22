@@ -28,12 +28,12 @@ Ni ska samarbeta i grupper om 3 där ni ska göra en enkel webbshop där man ska
 
 ---
 ## Dokumentation buggar
-- ### Beskrivning av bugg
-    Task [S1S1T1]
+- ### När man trycker på ett kort registreras ibland ingen produkt
+    Task [E2S1T2]
 
     Lösning: 
 
-- ### Beskrivning av bugg
+- ### Scroll-funktionen fungerar inte när modal är aktiv
     Task [S1S1T1]
 
     Lösning: 

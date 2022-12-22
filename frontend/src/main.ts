@@ -28,7 +28,7 @@ const renderProducts = async () => {
         .map(product => `<div class="col-6 col-sm-4 col-lg-3">
          <div data-id="${product.id}" class="card mt-5">
            <!-- E2S1T2 - add path to product and name of product from objects in TS -->
-           <img data-id="${product.id}" class="card-img img-fluid" src="${URL}${product.images.thumbnail}" alt="Image of ***">
+           <img data-id="${product.id}" class="card-img img-fluid" src="${URL}${product.images.large}" alt="Image of ***">
            <div data-id="${product.id}" class="card-body">
              <!-- E2S1T2 - print product name from objects in TS -->
                 <h2 data-id="${product.id}" class="card-title pt-3">${product.name}</h2>
