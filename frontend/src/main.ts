@@ -8,6 +8,7 @@ import './styles/style.css'
 import { fetchData } from "./API";
 import { IProduct } from "./interfaces";
 const rowEl = document.querySelector('.row')
+const URL = 'https://www.bortakvall.se/'
 
 // Empty array to fetch data to
 let products: IProduct[] = []
@@ -29,12 +30,12 @@ const renderProducts = async () => {
         .map(product => `<div class="col-6 col-sm-4 col-lg-3">
          <div class="card mt-5">
            <!-- E2S1T2 - add path to product and name of product from objects in TS -->
-           <img class="card-img img-fluid" src="${product.images.thumbnail}" alt="Image of ***">
+           <img class="card-img img-fluid" src="${URL}${product.images.thumbnail}" alt="Image of ***">
            <div class="card-body">
              <!-- E2S1T2 - print product name from objects in TS -->
                 <h2 class="card-title pt-3">${product.name}</h2>
                 <!-- E2S1T2 - add price from objects in TS -->
-                 <p class="card-text">10 kr</p>
+                 <p class="card-text">${product.price} kr</p>
                <!-- E2S1T3 - add eventlistener -->
              <button><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                  class="bi bi-basket" viewBox="0 0 16 16">

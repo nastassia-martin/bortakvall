@@ -1,5 +1,7 @@
 import { IResult} from "./interfaces";
 
+
+
 // Fetch data from API  
 export const fetchData = async () => {
     const res = await fetch('https://www.bortakvall.se/api/products');
