@@ -46,7 +46,7 @@ body main .shopping-cart {
   align-items: center;
   justify-content: center;
   margin-top: 1rem;
-  margin-left: 1rem;
+  margin-right: 1rem;
 }
 body main .bi-cart {
   font-size: 5rem;
@@ -85,6 +85,32 @@ body main .card .card-body button .bi-basket {
 /* MEDIA QUERIES - TABLET */
 /* MEDIA QUERIES - LAPTOP/DESKTOP */
 @media screen and (min-width: 1440px) {
+  body main {
+    /* footer {
+      .cart_container2 {
+        position: sticky;
+        display: flex;
+        justify-content: flex-end;
+        bottom: 1rem;
+        z-index: 1;
+      }
+
+      .shopping-cart2 {
+        display: flex;
+        background-color: #fcbd1a;
+        height: 6rem;
+        width: 6rem;
+        border-radius: 4rem;
+        align-items: center;
+        justify-content: center;
+        margin: 1rem;
+      }
+      .bi-cart2 {
+        font-size: 5rem;
+        color: black;
+      }
+    } */
+  }
   body main .row {
     --bs-gutter-x: 4rem;
   }
@@ -93,28 +119,5 @@ body main .card .card-body button .bi-basket {
   }
   body main .card .card-body .card-text {
     font-size: 30px;
-  }
-  body footer .cart_container {
-    position: -webkit-sticky;
-    position: sticky;
-    display: flex;
-    justify-content: flex-end;
-    bottom: 1rem;
-    z-index: 1;
-  }
-  body footer .shopping-cart {
-    display: flex;
-    background-color: #fcbd1a;
-    height: 6rem;
-    width: 6rem;
-    border-radius: 4rem;
-    align-items: center;
-    justify-content: center;
-    margin-top: 1rem;
-    margin-left: 1rem;
-  }
-  body footer .bi-cart {
-    font-size: 5rem;
-    color: black;
   }
 }
