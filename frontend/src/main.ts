@@ -15,20 +15,20 @@ let products: IProduct[] = []
 
 // Get data from API and save it into products-array
 const getProducts = async () => {
-    const result = await fetchData()
-    products = result.data
-    renderProducts();
+  const result = await fetchData()
+  products = result.data
+  renderProducts();
 }
 
 getProducts()
 
 // Render products to DOM
 const renderProducts = async () => {
-    rowEl!.innerHTML = products
-        .map(product => `<div class="col-6 col-sm-4 col-lg-3">
+  rowEl!.innerHTML = products
+    .map(product => `<div class="col-6 col-sm-4 col-lg-3">
          <div data-id="${product.id}" class="card mt-5">
            <!-- E2S1T2 - add path to product and name of product from objects in TS -->
-           <img data-id="${product.id}" class="card-img img-fluid" src="${URL}${product.images.thumbnail}" alt="Image of ***">
+           <img data-id="${product.id}" class="card-img img-fluid" src="${URL}${product.images.large}" alt="Image of ***">
            <div data-id="${product.id}" class="card-body">
              <!-- E2S1T2 - print product name from objects in TS -->
                 <h2 data-id="${product.id}" class="card-title pt-3">${product.name}</h2>
@@ -44,7 +44,7 @@ const renderProducts = async () => {
          </div>
        </div>
        `
-        ).join('')
+    ).join('')
 }
 
 
@@ -58,25 +58,24 @@ const modalEl = document.getElementById('moreInfoModal')!
 const modal = new Modal(modalEl)
 
 rowEl?.addEventListener('click', e => {
-    // save e.target to clickedItem
-    const clickedItem = e.target as HTMLElement
+  // save e.target to clickedItem
+  const clickedItem = e.target as HTMLElement
 
-    // if click on picture, card, name or
-    if (clickedItem.tagName !== "BUTTON") {
-        // save ID on clicked item to search for index
-        const clickedID = clickedItem.dataset.id
-        // search for index to get the rest of key values
-        const index = products.findIndex(product => product.id === Number(clickedID))
-        // open modal
-        modal.show()
+  // if click on picture, card, name or
+  if (clickedItem.tagName !== "BUTTON") {
+    // save ID on clicked item to search for index
+    const clickedID = clickedItem.dataset.id
+    // search for index to get the rest of key values
+    const index = products.findIndex(product => product.id === Number(clickedID))
+    // open modal
+    modal.show()
 
-        // print to DOM 
-        // this code creates a bug so will leaveout for now //
-        
-        document.querySelector('.heading-container')!.innerHTML = `
+
+    document.querySelector('.heading-container')!.innerHTML = `
             <h2>${products[index].name}</h2>`
-        
-        document.querySelector('.modal-body')!.innerHTML = `
+
+    // print to DOM 
+    document.querySelector('.modal-body')!.innerHTML = `
         <div class="container">
           <div class="row">
             <div class="col-6">
@@ -97,9 +96,9 @@ rowEl?.addEventListener('click', e => {
           </div>
         </div>
         `
-    }
-    // E3 - ADD TO CART 
-    else if (clickedItem.tagName === "BUTTON") {
-        //const clickedBtn = e.target as HTMLButtonElement
-    }
+  }
+  // E3 - ADD TO CART 
+  else if (clickedItem.tagName === "BUTTON") {
+    //const clickedBtn = e.target as HTMLButtonElement
+  }
 })
