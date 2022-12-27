@@ -80,7 +80,45 @@ body {
       }
     }
 
-    
+    .modal {
+      background: linear-gradient(to right, $bg-gradient-dark, $bg-gradient-light);
+      top: 0; // set to unset if header is supposed to be showing
+
+      .heading-container {
+        display: flex;
+        justify-content: center;
+
+        h2 {
+          font-family: $ff-logo;
+          color: $clr-white;
+          padding: 20px;
+          border-bottom: 10px dotted white;
+          display: inline-block;
+          font-size: 50px;
+          letter-spacing: 3px;
+        }
+      }
+
+      .modal-img {
+        border-radius: 20px;
+        box-shadow: 1px 1px 15px #0000007c;
+      }
+
+      .modal-title {
+        font-family: $ff-product;
+        font-weight: $fw-bold;
+        font-size: 16px;
+        color: $bg-gradient-dark;
+      }
+
+      .modal-body {
+        font-family: $ff-product;
+
+        .modal-price {
+          font-family: $ff-price;
+        }
+      }
+    }
 
     .container {
       --bs-gutter-x: 3rem;
@@ -125,45 +163,6 @@ body {
                   padding-right: 5px;
                 }
               }
-            }
-          }
-        }
-        .modal {
-          background: linear-gradient(to right, $bg-gradient-dark, $bg-gradient-light);
-          top: 0; // set to unset if header is supposed to be showing
-    
-          .heading-container {
-            display: flex;
-            justify-content: center;
-    
-            h2 {
-              font-family: $ff-logo;
-              color: $clr-white;
-              padding: 20px;
-              border-bottom: 10px dotted white;
-              display: inline-block;
-              font-size: 50px;
-              letter-spacing: 3px;
-            }
-          }
-    
-          .modal-img {
-            border-radius: 20px;
-            box-shadow: 1px 1px 15px #0000007c;
-          }
-    
-          .modal-title {
-            font-family: $ff-product;
-            font-weight: $fw-bold;
-            font-size: 16px;
-            color: $bg-gradient-dark;
-          }
-    
-          .modal-body {
-            font-family: $ff-product;
-    
-            .modal-price {
-              font-family: $ff-price;
             }
           }
         }
