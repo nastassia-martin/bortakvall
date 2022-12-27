@@ -2,11 +2,12 @@ import 'bootstrap/dist/css/bootstrap.css'
 import './styles/style.css'
 import { fetchData } from "./API";
 import { IProduct, IOrderInfo, IOrder, ICartItems } from "./interfaces";
-import { Modal } from "bootstrap";
+import { Modal, Offcanvas } from "bootstrap";
 
 //(E2S1T3) - add when we are doing E3
 //import { addToCart } from './btn-click-counter-trolley'
 //addToCart() */
+
 const rowEl = document.querySelector('.row')
 const URL = 'https://www.bortakvall.se/'
 
@@ -43,7 +44,7 @@ const renderProducts = () => {
 }
 
 
-// *** TEST MODAL ***
+// create variables to use modal (bootstrap)
 const modalEl = document.getElementById('moreInfoModal')!
 const modal = new Modal(modalEl)
 
@@ -75,13 +76,13 @@ const addToCart = () => {
   })
 }
 
-
+// ** listen for clicks on cards / 'lägg till'-button section **
 rowEl?.addEventListener('click', e => {
 
   // save e.target to clickedItem
   clickedItem = e.target as HTMLElement
 
-  // if click on picture, card, name or
+  // if click on picture, card, name or price
   if (clickedItem.className !== "clr-button") {
     // call function to find index of products to print
     findIndex()
@@ -113,19 +114,28 @@ rowEl?.addEventListener('click', e => {
       </div>
     </div>
         `
-    // add button to cart through modal 'lägg till' button
+    // add item to cart through modal 'lägg till' button
     document.querySelector('.modal-button')?.addEventListener('click', e => {
       findIndex()
       addToCart()
-      console.log(cartItems)
     })
   }
-  // E3 - ADD TO CART 
+  // add item to cart through card 'lägg till'-button
   else if (clickedItem.className === "clr-button") {
     findIndex()
     addToCart()
-    console.log(cartItems)
   }
 })
 
-// let order: IOrderInfo[] = []
+
+// display cart 
+document.querySelector('.shopping-cart')?.addEventListener('click', () => {
+  document.querySelector('#offcanvasWithBothOptions')?.classList.add('show')
+
+  // E3S6T1 - change btn-close (querySelector and html) to 'fortsätt handla'
+  document.querySelector('.btn-close')?.addEventListener('click', () => {
+    document.querySelector('#offcanvasWithBothOptions')?.classList.remove('show')
+  })
+
+  // OBS - need to fix backdrop, currently not working
+})

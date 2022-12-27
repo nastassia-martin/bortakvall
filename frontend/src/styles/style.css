@@ -47,10 +47,14 @@ body main .cart_container .shopping-cart {
   justify-content: center;
   margin-top: 1rem;
   margin-right: 1rem;
+  border: none;
 }
 body main .cart_container .bi-cart {
   font-size: 5rem;
-  color: black;
+}
+body main .offcanvas.offcanvas-end {
+  top: 21rem;
+  width: 40rem;
 }
 body main .modal {
   background: linear-gradient(to right, #ba0426, #e17987);

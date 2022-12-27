@@ -20,6 +20,7 @@ $ff-product: "Source Sans Pro", sans-serif;
 $fw-light: 400;
 $fw-bold: 700;
 
+
 body {
   header {
     background-image: url(./public/images/header.png);
@@ -55,6 +56,7 @@ body {
     border-top: 3px solid $bg-gradient-dark;
     box-shadow: inset 0px 10px 50px -30px #000000;
 
+    // *** CART ICON ***
     .cart_container {
       position: sticky;
       display: flex;
@@ -64,7 +66,7 @@ body {
 
       .shopping-cart {
         display: flex;
-        background-color: #fcbd1a;
+        background-color: $clr-button;
         height: 6rem;
         width: 6rem;
         border-radius: 4rem;
@@ -72,14 +74,22 @@ body {
         justify-content: center;
         margin-top: 1rem;
         margin-right: 1rem;
+        border: none;
       }
 
       .bi-cart {
         font-size: 5rem;
-        color: black;
       }
     }
 
+    // *** OFF CANVAS *** 
+    .offcanvas.offcanvas-end {
+      top: 21rem;
+      width: 40rem;
+    }
+
+
+    // *** MODAL ***
     .modal {
       background: linear-gradient(to right, $bg-gradient-dark, $bg-gradient-light);
       top: 0; // set to unset if header is supposed to be showing
