@@ -1,9 +1,5 @@
 /* PRIMARY COLORS */
 /* PRIMARY FONTS */
-body {
-  /* MEDIA QUERIES - TABLET */
-  /* MEDIA QUERIES - LAPTOP/DESKTOP */
-}
 body header {
   background-image: url(./public/images/header.png);
   background-size: cover;
@@ -41,7 +37,7 @@ body main .cart_container {
   top: 1rem;
   z-index: 1;
 }
-body main .shopping-cart {
+body main .cart_container .shopping-cart {
   display: flex;
   background-color: #fcbd1a;
   height: 6rem;
@@ -52,7 +48,7 @@ body main .shopping-cart {
   margin-top: 1rem;
   margin-right: 1rem;
 }
-body main .bi-cart {
+body main .cart_container .bi-cart {
   font-size: 5rem;
   color: black;
 }
@@ -89,46 +85,87 @@ body main .modal .modal-body {
 body main .modal .modal-body .modal-price {
   font-family: "Neucha", cursive;
 }
-body main .modal .container {
+body main .container {
   --bs-gutter-x: 3rem;
 }
-body main .modal .card {
+body main .container .row div .card {
   padding: 20px;
   border-radius: 20px;
   box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.4862745098);
+  height: 293px;
 }
-body main .modal .card .card-img {
+body main .container .row div .card .card-img {
   border-radius: 20px;
   box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.4862745098);
 }
-body main .modal .card .card-body {
+body main .container .row div .card .card-body {
   padding: 0;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-body main .modal .card .card-body .card-title {
+body main .container .row div .card .card-body .card-title {
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 14px;
+  margin: 0;
 }
-body main .modal .card .card-body .card-text {
+body main .container .row div .card .card-body .card-text {
   font-family: "Neucha", cursive;
   font-size: 20px;
+  margin: 0;
 }
-body main .modal .card .card-body button .bi-basket {
+body main .container .row div .card .card-body button .bi-basket {
   height: 25px;
   width: 25px;
+  padding-right: 5px;
 }
-body .clr-button {
+body main .clr-button {
   background-color: #fcbd1a;
+  border: 0;
+  border-radius: 10px;
+  padding: 3px 8px;
+  font-size: 14px;
 }
+
+/* MEDIA QUERIES - TABLET */
+@media screen and (min-width: 768px) {
+  body main .container .row div .card {
+    height: 367px;
+  }
+  body main .container .row div .card .card-body .card-title {
+    font-size: 18px;
+  }
+  body main .container .row div .card .card-body .card-text {
+    font-size: 30px;
+  }
+  body main .clr-button {
+    font-size: 20px;
+    padding: 5px 15px;
+  }
+}
+/* MEDIA QUERIES - LAPTOP/DESKTOP */
 @media screen and (min-width: 1440px) {
-  body body main .row {
+  body main .container .row {
     --bs-gutter-x: 4rem;
   }
-  body body main .card .card-body .card-title {
+  body main .container .row div .card {
+    height: unset;
+  }
+  body main .container .row div .card .card-body {
+    display: block;
+  }
+  body main .container .row div .card .card-body .card-title {
+    margin: 5px;
     font-size: 22px;
   }
-  body body main .card .card-body .card-text {
+  body main .container .row div .card .card-body .card-text {
+    margin: 5px;
     font-size: 30px;
+  }
+  body main .clr-button {
+    font-size: 20px;
+    padding: 5px 15px;
   }
 }

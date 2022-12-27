@@ -61,23 +61,23 @@ body {
       justify-content: flex-end;
       top: 1rem;
       z-index: 1;
-    }
 
-    .shopping-cart {
-      display: flex;
-      background-color: #fcbd1a;
-      height: 6rem;
-      width: 6rem;
-      border-radius: 4rem;
-      align-items: center;
-      justify-content: center;
-      margin-top: 1rem;
-      margin-right: 1rem;
-    }
+      .shopping-cart {
+        display: flex;
+        background-color: #fcbd1a;
+        height: 6rem;
+        width: 6rem;
+        border-radius: 4rem;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1rem;
+        margin-right: 1rem;
+      }
 
-    .bi-cart {
-      font-size: 5rem;
-      color: black;
+      .bi-cart {
+        font-size: 5rem;
+        color: black;
+      }
     }
 
     .modal {
@@ -118,76 +118,141 @@ body {
           font-family: $ff-price;
         }
       }
+    }
 
-      .container {
-        --bs-gutter-x: 3rem;
-      }
+    .container {
+      --bs-gutter-x: 3rem;
 
-      .card {
-        padding: 20px;
-        border-radius: 20px;
-        box-shadow: 1px 1px 15px #0000007c;
+      .row {
+        div {
+          .card {
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 1px 1px 15px #0000007c;
+            height: 293px;
 
-        .card-img {
-          border-radius: 20px;
-          box-shadow: 1px 1px 15px #0000007c;
-        }
+            .card-img {
+              border-radius: 20px;
+              box-shadow: 1px 1px 15px #0000007c;
+            }
 
-        .card-body {
-          padding: 0;
-          text-align: center;
+            .card-body {
+              padding: 0;
+              text-align: center;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
 
-          .card-title {
-            font-family: $ff-product;
-            font-weight: $fw-bold;
-            font-size: 16px;
-          }
+              .card-title {
+                font-family: $ff-product;
+                font-weight: $fw-bold;
+                font-size: 14px;
+                margin: 0;
+              }
 
-          .card-text {
-            font-family: $ff-price;
-            font-size: 20px;
-          }
+              .card-text {
+                font-family: $ff-price;
+                font-size: 20px;
+                margin: 0;
+              }
 
-          button {
-            .bi-basket {
-              height: 25px;
-              width: 25px;
+              button {
+                .bi-basket {
+                  height: 25px;
+                  width: 25px;
+                  padding-right: 5px;
+                }
+              }
             }
           }
         }
       }
     }
+
+    // PRIMARY BUTTON STYLING
+    .clr-button {
+      background-color: $clr-button;
+      border: 0;
+      border-radius: 10px;
+      padding: 3px 8px;
+      font-size: 14px;
+    }
   }
+}
 
-  .clr-button {
-    background-color: $clr-button;
+/* MEDIA QUERIES - TABLET */
+@media screen and (min-width: 768px) {
+  body {
+    main {
+      .container {
+        .row {
+          div {
+            .card {
+              height: 367px;
+
+              .card-body {
+                .card-title {
+                  font-size: 18px;
+                }
+
+                .card-text {
+                  font-size: 30px;
+                }
+
+                // E1S1T9 - add styling to btn if necessary
+              }
+            }
+          }
+        }
+      }
+
+
+      .clr-button {
+        font-size: 20px;
+        padding: 5px 15px;
+      }
+    }
   }
+}
 
-  /* MEDIA QUERIES - TABLET */
-  @media screen and (min-width: 768px) {}
 
-  /* MEDIA QUERIES - LAPTOP/DESKTOP */
-  @media screen and (min-width: 1440px) {
-    body {
-      main {
+/* MEDIA QUERIES - LAPTOP/DESKTOP */
+@media screen and (min-width: 1440px) {
+  body {
+    main {
+      .container {
         .row {
           // adding space between the cards
           --bs-gutter-x: 4rem;
-        }
 
-        .card {
-          .card-body {
-            .card-title {
-              font-size: 22px;
+          div {
+            .card {
+              height: unset;
+
+              .card-body {
+                display: block;
+
+                .card-title {
+                  margin: 5px;
+                  font-size: 22px;
+                }
+
+                .card-text {
+                  margin: 5px;
+                  font-size: 30px;
+                }
+
+                // E1S1T9 - add styling to btn if necessary
+              }
             }
-
-            .card-text {
-              font-size: 30px;
-            }
-
-            // E1S1T9 - add styling to btn if necessary
           }
         }
+      }
+
+
+      .clr-button {
+        font-size: 20px;
+        padding: 5px 15px;
       }
     }
   }
