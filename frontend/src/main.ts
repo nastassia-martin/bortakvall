@@ -76,6 +76,7 @@ const addToCart = () => {
 }
 
 
+
 rowEl?.addEventListener('click', e => {
 
   // save e.target to clickedItem
@@ -118,13 +119,29 @@ rowEl?.addEventListener('click', e => {
       findIndex()
       addToCart()
       console.log(cartItems)
+      document.querySelector('#cart-row')!.innerHTML = `
+      <div>${cartItems[index].id}</div>
+      <div>${cartItems[index].name}</div>
+      <div>${cartItems[index].image}</div>
+      <div>${cartItems[index].qty}</div>
+      <div>${cartItems[index].item_price}</div>
+      <div>${cartItems[index].item_total}</div>
+  `
+
     })
   }
   // E3 - ADD TO CART 
   else if (clickedItem.className === "clr-button") {
     findIndex()
     addToCart()
-    console.log(cartItems)
+    document.querySelector('#cart-row')!.innerHTML = `
+    <div>${cartItems[index].id}</div>
+    <div>${cartItems[index].name}</div>
+    <div>${cartItems[index].image}</div>
+    <div>${cartItems[index].qty}</div>
+    <div>${cartItems[index].item_price}</div>
+    <div>${cartItems[index].item_total}</div>
+`
   }
 })
 
