@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import './styles/style.css'
 import { fetchData } from "./API";
-import { IProduct, IOrderInfo, IOrder, CartItems} from "./interfaces";
+import { IProduct, IOrderInfo, IOrder, ICartItems} from "./interfaces";
 import { Modal } from "bootstrap";
 
 //(E2S1T3) - add when we are doing E3
@@ -23,7 +23,7 @@ const getProducts = async () => {
 getProducts()
 
 // Render products to DOM
-const renderProducts = async () => {
+const renderProducts = () => {
   rowEl!.innerHTML = products
     .map(product => `<div class="col-6 col-sm-4 col-lg-3">
          <div data-id="${product.id}" class="card mt-5">
@@ -53,15 +53,18 @@ const modalEl = document.getElementById('moreInfoModal')!
 const modal = new Modal(modalEl)
 
 rowEl?.addEventListener('click', e => {
+  
   // save e.target to clickedItem
   const clickedItem = e.target as HTMLElement
-
+  const clickedID = clickedItem.dataset.id
+  let index = products.findIndex(product => product.id === Number(clickedID))
+  let cartItems: ICartItems[] = []
   // if click on picture, card, name or
-  if (clickedItem.tagName !== "BUTTON") {
+  if (clickedItem.className !== "clr-button") {
     // save ID on clicked item to search for index
-    const clickedID = clickedItem.dataset.id
+    // const clickedID = clickedItem.dataset.id
     // search for index to get the rest of key values
-    const index = products.findIndex(product => product.id === Number(clickedID))
+    //index = products.findIndex(product => product.id === Number(clickedID))
     // open modal
     modal.show()
 
@@ -93,8 +96,17 @@ rowEl?.addEventListener('click', e => {
         `
   }
   // E3 - ADD TO CART 
-  else if (clickedItem.tagName === "BUTTON") {
-    
+  else if (clickedItem.className === "clr-button") {
+    // need to figure out how to do qty & item total , with if statement inside push {}
+    cartItems.push({
+      id: products[index].id,
+      name: products[index].name,
+      image: products[index].images.thumbnail,
+      qty: 1,
+      item_price: products[index].price,
+      item_total: 12
+    })
+    console.log(cartItems)
 
     //const clickedBtn = e.target as HTMLButtonElement
     //skapa funktion med variabel som känner av om products[index].id återupprepas?
@@ -102,4 +114,5 @@ rowEl?.addEventListener('click', e => {
   }
 })
 
-let order: IOrderInfo[] = []
+
+// let order: IOrderInfo[] = []

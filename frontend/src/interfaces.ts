@@ -32,12 +32,12 @@ export interface IOrder {
     order_items: IOrderInfo[]
   }
 
-export interface CartItems {
-  id: number,
-  name: string,
-  image: string,
-  qty: number,
-  item_price: number,
-  item_total: number,
+export interface ICartItems {
+    id: number,
+    name: string,
+    image: string,
+    qty: number,
+    item_price: number,
+    item_total: number,
 }
 
