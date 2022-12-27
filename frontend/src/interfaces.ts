@@ -31,3 +31,13 @@ export interface IOrder {
     order_total: number,
     order_items: IOrderInfo[]
   }
+
+export interface CartItems {
+  id: number,
+  name: string,
+  image: string,
+  qty: number,
+  item_price: number,
+  item_total: number,
+}
+

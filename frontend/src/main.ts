@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import './styles/style.css'
 import { fetchData } from "./API";
-import { IProduct, IOrderInfo, IOrder } from "./interfaces";
+import { IProduct, IOrderInfo, IOrder, CartItems} from "./interfaces";
 import { Modal } from "bootstrap";
 
 //(E2S1T3) - add when we are doing E3
@@ -94,6 +94,8 @@ rowEl?.addEventListener('click', e => {
   }
   // E3 - ADD TO CART 
   else if (clickedItem.tagName === "BUTTON") {
+    
+
     //const clickedBtn = e.target as HTMLButtonElement
     //skapa funktion med variabel som känner av om products[index].id återupprepas?
     //foreach 
