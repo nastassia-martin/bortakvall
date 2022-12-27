@@ -73,9 +73,18 @@ const addToCart = () => {
     item_price: products[index].price,
     item_total: 12
   })
+  // Still need to print the image correctly
+  document.querySelector('#cart-row')!.innerHTML = cartItems
+      .map(cartItem => `
+      <div>${cartItem.id}</div>
+      <div>${cartItem.name}</div>
+      <div>${cartItem.image}</div>
+      <div>${cartItem.qty}</div>
+      <div>${cartItem.item_price}</div>
+      <div>${cartItem.item_total}</div>
+      `
+  ).join('')
 }
-
-
 
 rowEl?.addEventListener('click', e => {
 
@@ -115,33 +124,22 @@ rowEl?.addEventListener('click', e => {
     </div>
         `
     // add button to cart through modal 'lägg till' button
+
+
+    /**
+     * if user clicks on lägg till button in body or in modal
+     */
     document.querySelector('.modal-button')?.addEventListener('click', e => {
       findIndex()
       addToCart()
-      console.log(cartItems)
-      document.querySelector('#cart-row')!.innerHTML = `
-      <div>${cartItems[index].id}</div>
-      <div>${cartItems[index].name}</div>
-      <div>${cartItems[index].image}</div>
-      <div>${cartItems[index].qty}</div>
-      <div>${cartItems[index].item_price}</div>
-      <div>${cartItems[index].item_total}</div>
-  `
-
+      // console.log(cartItems)
+      
     })
   }
   // E3 - ADD TO CART 
   else if (clickedItem.className === "clr-button") {
     findIndex()
     addToCart()
-    document.querySelector('#cart-row')!.innerHTML = `
-    <div>${cartItems[index].id}</div>
-    <div>${cartItems[index].name}</div>
-    <div>${cartItems[index].image}</div>
-    <div>${cartItems[index].qty}</div>
-    <div>${cartItems[index].item_price}</div>
-    <div>${cartItems[index].item_total}</div>
-`
   }
 })
 
