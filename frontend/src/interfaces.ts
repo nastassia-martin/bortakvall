@@ -14,3 +14,20 @@ export interface IResult {
     status: string,
     data: IProduct[]
 }
+export interface IOrderInfo {
+    product_id: number,
+    qty: number,
+    item_price: number,
+    item_total: number,
+  }
+
+export interface IOrder {
+    customer_first_name: string,
+    customer_last_name: string,
+    customer_address: string | number,
+    customer_postcode: number,
+    customer_city: string,
+    customer_email: string | number,
+    order_total: number,
+    order_items: IOrderInfo[]
+  }

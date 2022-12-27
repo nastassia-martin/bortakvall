@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import './styles/style.css'
 import { fetchData } from "./API";
-import { IProduct } from "./interfaces";
+import { IProduct, IOrderInfo, IOrder } from "./interfaces";
 import { Modal } from "bootstrap";
 
 //(E2S1T3) - add when we are doing E3
@@ -99,3 +99,5 @@ rowEl?.addEventListener('click', e => {
     //foreach 
   }
 })
+
+let order: IOrderInfo[] = []
