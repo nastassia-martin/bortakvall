@@ -44,6 +44,18 @@ const renderProducts = () => {
        </div>
        `
     ).join('')
+
+// render number of products to 'product overview' section
+// EX3T3 - change 'antal' to number in stock
+document.querySelector('.product-overview').innerHTML = `<div class="col-6">
+<p>Antal produkter: ${products.length}</p>
+<p>Varav ***antal*** i lager</p>
+</div>
+<div class="col-6 filter">
+<p>Filtrera</p>
+</div>
+`
+
 }
 
 
