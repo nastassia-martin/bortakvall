@@ -73,35 +73,38 @@ const addToCart = () => {
 
   // OM det inte finns något i cartItems, lägg till ny med qty 1 
   if (!cartItems[0]) {
-    cartItems.push({
+    cartItems.unshift({
       id: products[index].id,
       name: products[index].name,
       image: products[index].images.thumbnail,
       qty: 0,
       item_price: products[index].price,
+      item_total: products[index].price
     })  
   } 
 
   // kolla igenom cartItems efter id som lagts till tidigare
   let doubleID = cartItems.find(item => item.id === products[index].id)
-
+  let itemTotal;
   // OM något lagts till tidigare, leta upp index där det ID ligger
   if (doubleID) {
       const index = cartItems.findIndex(product => product.id === doubleID.id)
       cartItems[index].qty++
+      cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
     } 
   // ANNARS (om det inte fanns två lika id), pusha in nytt med qty 1
     else {
-      cartItems.push({
+      cartItems.unshift({
         id: products[index].id,
         name: products[index].name,
         image: products[index].images.thumbnail,
         qty: 1,
         item_price: products[index].price,
+        item_total: products[index].price
       })  
     } 
 
-
+console.log(cartItems)
   // COUNT total_price 
   const totalPrice = cartItems.map(item => item.qty * item.item_price)
   console.log(totalPrice)

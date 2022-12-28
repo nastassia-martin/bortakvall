@@ -38,5 +38,6 @@ export interface ICartItems {
     image: string,
     qty: number,
     item_price: number,
+    item_total: number,
 }
 
