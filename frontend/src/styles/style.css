@@ -29,15 +29,7 @@ body main {
   border-top: 3px solid #ba0426;
   box-shadow: inset 0px 10px 50px -30px #000000;
 }
-body main .cart_container {
-  position: -webkit-sticky;
-  position: sticky;
-  display: flex;
-  justify-content: flex-end;
-  top: 1rem;
-  z-index: 1;
-}
-body main .cart_container .shopping-cart {
+body main .shopping-cart {
   display: flex;
   background-color: #fcbd1a;
   height: 6rem;
@@ -48,13 +40,23 @@ body main .cart_container .shopping-cart {
   margin-top: 1rem;
   margin-right: 1rem;
   border: none;
+  position: fixed;
+  right: 0;
+  z-index: 1;
 }
-body main .cart_container .bi-cart {
+body main .bi-cart {
   font-size: 5rem;
 }
-body main .offcanvas.offcanvas-end {
+body main .cart-container .offcanvas.offcanvas-end {
   top: 21rem;
   width: 40rem;
+  z-index: 1055;
+}
+body main .cart-container .modal-backdrop {
+  --bs-backdrop-bg: $clr-white;
+  background-color: #f6f6f6;
+  top: unset;
+  border-top: 3px solid #ba0426;
 }
 body main .modal {
   background: linear-gradient(to right, #ba0426, #e17987);

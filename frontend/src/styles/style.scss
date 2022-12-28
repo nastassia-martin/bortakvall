@@ -57,35 +57,41 @@ body {
     box-shadow: inset 0px 10px 50px -30px #000000;
 
     // *** CART ICON ***
-    .cart_container {
-      position: sticky;
+    .shopping-cart {
       display: flex;
-      justify-content: flex-end;
-      top: 1rem;
+      background-color: $clr-button;
+      height: 6rem;
+      width: 6rem;
+      border-radius: 4rem;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1rem;
+      margin-right: 1rem;
+      border: none;
+      position: fixed;
+      right: 0;
       z-index: 1;
-
-      .shopping-cart {
-        display: flex;
-        background-color: $clr-button;
-        height: 6rem;
-        width: 6rem;
-        border-radius: 4rem;
-        align-items: center;
-        justify-content: center;
-        margin-top: 1rem;
-        margin-right: 1rem;
-        border: none;
-      }
-
-      .bi-cart {
-        font-size: 5rem;
-      }
     }
 
+    .bi-cart {
+      font-size: 5rem;
+    }
+
+
     // *** OFF CANVAS *** 
-    .offcanvas.offcanvas-end {
-      top: 21rem;
-      width: 40rem;
+    .cart-container {
+      .offcanvas.offcanvas-end {
+        top: 21rem;
+        width: 40rem;
+        z-index: 1055;
+      }
+
+      .modal-backdrop {
+        --bs-backdrop-bg: $clr-white;
+        background-color: $clr-white;
+        top: unset;
+        border-top: 3px solid $bg-gradient-dark;
+      }
     }
 
 

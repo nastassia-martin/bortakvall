@@ -23,12 +23,15 @@ const getProducts = async () => {
 
 getProducts()
 
+// LÄGG TILL IGEN
+// <img data-id="${product.id}" class="card-img img-fluid" src="${URL}${product.images.large}" alt="Image of ***">
+
 // Render products to DOM
 const renderProducts = () => {
   rowEl!.innerHTML = products
     .map(product => `<div class="col-6 col-sm-4 col-lg-3">
          <div data-id="${product.id}" class="card mt-5">
-           <img data-id="${product.id}" class="card-img img-fluid" src="${URL}${product.images.large}" alt="Image of ***">
+           
            <div data-id="${product.id}" class="card-body">
               <h2 data-id="${product.id}" class="card-title pt-3">${product.name}</h2>
               <p data-id="${product.id}" class="card-text">${product.price} kr</p>
@@ -131,6 +134,8 @@ rowEl?.addEventListener('click', e => {
 // display cart 
 document.querySelector('.shopping-cart')?.addEventListener('click', () => {
   document.querySelector('#offcanvasWithBothOptions')?.classList.add('show')
+  document.querySelector('.cart-container').innerHTML += `
+  <div class="modal-backdrop fade show"></div>`
 
   // E3S6T1 - change btn-close (querySelector and html) to 'fortsätt handla'
   document.querySelector('.btn-close')?.addEventListener('click', () => {
