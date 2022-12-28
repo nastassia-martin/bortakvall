@@ -47,16 +47,36 @@ const renderProducts = () => {
 
 // render number of products to 'product overview' section
 // EX3T3 - change 'antal' to number in stock
-document.querySelector('.product-overview').innerHTML = `<div class="col-6">
+
+products.sort( (a, b) => {
+  if (a.name < b.name) {
+    return -1;
+  }
+  if (a.name > b.name) {
+    return 1;
+  }
+  return 0;
+})
+
+
+document.querySelector('.product-overview')!.innerHTML = `<div class="col-6">
 <p>Antal produkter: ${products.length}</p>
 <p>Varav ***antal*** i lager</p>
 </div>
 <div class="col-6 filter">
-<p>Filtrera</p>
+<button type="button" class ="filter-button button">Filtrera (A-Ö)</button>
 </div>
 `
+document.querySelector('.filter-button')?.addEventListener('click', () => {
+  renderProducts()
+})
+
+
 
 }
+
+
+
 
 
 // create variables to use modal (bootstrap)
@@ -105,7 +125,7 @@ const addToCart = () => {
       `
   ).join('')
 
-  document.querySelector('.offcanvas-body').innerHTML += `
+  document.querySelector('.offcanvas-body')!.innerHTML += `
   <div class="button-container">
   <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
   <button type="button" class="clr-button">Betala</button>
@@ -152,7 +172,7 @@ rowEl?.addEventListener('click', e => {
     </div>
         `
     // add item to cart through modal 'lägg till' button
-    document.querySelector('.modal-button')?.addEventListener('click', e => {
+    document.querySelector('.modal-button')?.addEventListener('click', () => {
       findIndex()
       addToCart()
     })
