@@ -70,17 +70,16 @@ let x: number;
 let existingProductIndex = 0; 
 const addToCart = () => {
   //LOOPS OVER ARRAY TO FIND IF ITEM EXISTS AND WHAT INDEX - IF YES INCREASE QUANTITY BY ONE ELSE ONLY ADD ITEM. 
-  
    existingProductIndex = cartItems.findIndex(Item => {
    return Item.id === products[index].id
   })
 if(existingProductIndex > -1){
-  
     //update quantity of object with the same id. 
+    
      cartItems[existingProductIndex].qty++
-     x =  cartItems[existingProductIndex].qty * products[index].price
+     //x =  cartItems[existingProductIndex].qty * products[index].price
 
-     cartItems.push({
+    /*  cartItems.push({
       id: products[index].id,
       name: products[index].name,
       image: products[index].images.thumbnail,
@@ -88,10 +87,9 @@ if(existingProductIndex > -1){
       qty: cartItems[existingProductIndex].qty,
       item_price: products[index].price,
       item_total: x
-    })
-
+    }) */
       // print out added items to cart
-/*   document.querySelector('.offcanvas-body')!.innerHTML = cartItems
+ document.querySelector('.offcanvas-body')!.innerHTML = cartItems
     .map(cartItem => `
     <div class="container cart-item">
           <div class="cart-img col-2">
@@ -110,11 +108,11 @@ if(existingProductIndex > -1){
   <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
   <button type="button" class="clr-button">Betala</button>
   </div>
-  ` */
+  `
       //cartItems[existingProductIndex].qty * products[index].price
-    //cartItems[existingProductIndex].item_total = cartItems[existingProductIndex].qty * products[index].price
+    //cartItems[existingProductIndex].item_total = cartItems[existingProductIndex].qty * products[index].price */
 } else {
-      
+
       cartItems.push({
         id: products[index].id,
         name: products[index].name,
@@ -122,11 +120,11 @@ if(existingProductIndex > -1){
         // need to figure out how to do qty & item total , with if statement inside push {}
         qty: 1,
         item_price: products[index].price,
-        item_total: 0
+        item_total: x
       })
-
+      
         // print out added items to cart
-/*     document.querySelector('.offcanvas-body')!.innerHTML = cartItems
+    document.querySelector('.offcanvas-body')!.innerHTML = cartItems
     .map(cartItem => `
     <div class="container cart-item">
           <div class="cart-img col-2">
@@ -140,16 +138,15 @@ if(existingProductIndex > -1){
     `
   ).join('')
 
-  document.querySelector('.offcanvas-body')!.innerHTML += `
+  /*document.querySelector('.offcanvas-body')!.innerHTML += `
   <div class="button-container">
   <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
   <button type="button" class="clr-button">Betala</button>
   </div>
   ` */
   }
-    console.log(cartItems)
   
-
+} 
 
 
 rowEl?.addEventListener('click', e => {
@@ -193,13 +190,15 @@ rowEl?.addEventListener('click', e => {
     document.querySelector('.modal-button')?.addEventListener('click', () => {
       findIndex()
       addToCart()
+      console.log(cartItems)
     })
   }
   // add item to cart through card 'lägg till'-button
   else if (clickedItem.className === "clr-button") {
     findIndex()
     addToCart()
-    //console.log(cartItems)
+    console.log(cartItems)
+
   }
 })
 
@@ -213,8 +212,7 @@ plusBtn?.addEventListener('click', () =>{
   addToCart()
 })
 
-trashBtn?.addEventListener('click', () =>{
+trashBtn?.addEventListener('click', () => {
   findIndex()
   addToCart()
 })
-} 
