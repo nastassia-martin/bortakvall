@@ -11,6 +11,7 @@ const rowEl = document.querySelector('.row')
 const URL = 'https://www.bortakvall.se/'
 const minusBtn = document.querySelector('.minus')
 const plusBtn = document.querySelector('.plus')
+const trashBtn = document.querySelector('.trash')
 
 // Empty array to fetch data to
 let products: IProduct[] = []
@@ -106,7 +107,6 @@ const addToCart = () => {
   }
 }
 
-  
 
 
 
@@ -167,6 +167,11 @@ minusBtn?.addEventListener('click', ()=>{
 })
 
 plusBtn?.addEventListener('click', () =>{
+  findIndex()
+  addToCart()
+})
+
+trashBtn?.addEventListener('click', () =>{
   findIndex()
   addToCart()
 })
