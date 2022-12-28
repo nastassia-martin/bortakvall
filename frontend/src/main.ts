@@ -77,6 +77,20 @@ const addToCart = () => {
     item_price: products[index].price,
     item_total: 12
   })
+
+  document.querySelector('.offcanvas-body')!.innerHTML = cartItems
+      .map(cartItem => `
+      <div class="container cart-item">
+            <div class="cart-img col-2">
+              <img src="${URL}${cartItem.image}" alt="">
+            </div>
+            <br>
+            <div class="cart-info col-10">
+              <p class="cart-name">${cartItem.name}</p>
+            </div>
+          </div>
+      `
+  ).join('')
 }
 
 // ** listen for clicks on cards / 'lägg till'-button section **
@@ -128,22 +142,4 @@ rowEl?.addEventListener('click', e => {
     findIndex()
     addToCart()
   }
-})
-
-
-// display cart 
-
-
-document.querySelector('.shopping-cart')?.addEventListener('click', () => {
-  document.querySelector('#offcanvasWithBackdrop')?.classList.add('show')
-
-  // E3S6T1 - change btn-close (querySelector and html) to 'fortsätt handla'
-  document.querySelector('.btn-close')?.addEventListener('click', () => {
-
-    //document.querySelector('#offcanvasWithBackdrop')?.classList.remove('show', 'showing')    
-  })
-
-  // hämta ut last element i offcanvas div för att kunna nollställa html 
-
-  // OBS - need to fix backdrop, currently not working
 })
