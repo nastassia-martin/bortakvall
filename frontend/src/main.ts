@@ -9,6 +9,8 @@ import { Modal } from "bootstrap";
 //addToCart() */
 const rowEl = document.querySelector('.row')
 const URL = 'https://www.bortakvall.se/'
+const minusBtn = document.querySelector('.minus')
+const plusBtn = document.querySelector('.plus')
 
 // Empty array to fetch data to
 let products: IProduct[] = []
@@ -21,13 +23,13 @@ const getProducts = async () => {
 }
 
 getProducts()
-
+// <img data-id="${product.id}" class="card-img img-fluid" src="${URL}${product.images.large}" alt="Image of ***">
 // Render products to DOM
 const renderProducts = () => {
   rowEl!.innerHTML = products
     .map(product => `<div class="col-6 col-sm-4 col-lg-3">
          <div data-id="${product.id}" class="card mt-5">
-           <img data-id="${product.id}" class="card-img img-fluid" src="${URL}${product.images.large}" alt="Image of ***">
+          
            <div data-id="${product.id}" class="card-body">
               <h2 data-id="${product.id}" class="card-title pt-3">${product.name}</h2>
               <p data-id="${product.id}" class="card-text">${product.price} kr</p>
@@ -63,20 +65,34 @@ const findIndex = () => {
 }
 
 // function to push clicked item to the cartItems array
-
+let x: number; 
+let existingProductIndex = 0; 
 const addToCart = () => {
-  //CHECK TO SEE IF ITEM EXISTS IN CART - IF YES ONLY INCREMENT QUANTITY ELSE ONLY ADD ITEM. 
+  //LOOPS OVER ARRAY TO FIND IF ITEM EXISTS AND WHAT INDEX - IF YES INCREASE QUANTITY BY ONE ELSE ONLY ADD ITEM. 
   
-   const existingProductIndex = cartItems.findIndex(Item => {
+   existingProductIndex = cartItems.findIndex(Item => {
    return Item.id === products[index].id
   })
 
   if(existingProductIndex > -1){
     //update quantity of object with the same id. 
-    cartItems[existingProductIndex].qty++
-    console.log('yes',cartItems[existingProductIndex].qty)
-  
+     cartItems[existingProductIndex].qty++
+     x =  cartItems[existingProductIndex].qty * products[index].price
+     cartItems.push({
+      id: products[index].id,
+      name: products[index].name,
+      image: products[index].images.thumbnail,
+      // need to figure out how to do qty & item total , with if statement inside push {}
+      qty: cartItems[existingProductIndex].qty,
+      item_price: products[index].price,
+      item_total: x
+    })
+    console.log(cartItems)
+
+    //cartItems[existingProductIndex].qty * products[index].price
+  //cartItems[existingProductIndex].item_total = cartItems[existingProductIndex].qty * products[index].price
   } else {
+    
     cartItems.push({
       id: products[index].id,
       name: products[index].name,
@@ -84,10 +100,14 @@ const addToCart = () => {
       // need to figure out how to do qty & item total , with if statement inside push {}
       qty: 1,
       item_price: products[index].price,
-      item_total: 12
+      item_total: 0
     })
     console.log(cartItems)
   }
+}
+
+  
+
 
 
 rowEl?.addEventListener('click', e => {
@@ -140,5 +160,16 @@ rowEl?.addEventListener('click', e => {
     //console.log(cartItems)
   }
 })
+
+minusBtn?.addEventListener('click', ()=>{
+  findIndex()
+  addToCart()
+})
+
+plusBtn?.addEventListener('click', () =>{
+  findIndex()
+  addToCart()
+})
+
 
 // let order: IOrderInfo[] = []
