@@ -74,6 +74,7 @@ const addToCart = () => {
   if(existingProductIndex > -1){
     //update quantity of object with the same id. 
     cartItems[existingProductIndex].qty++
+    console.log('yes',cartItems[existingProductIndex].qty)
   
   } else {
     cartItems.push({
@@ -85,7 +86,7 @@ const addToCart = () => {
       item_price: products[index].price,
       item_total: 12
     })
-   
+    console.log(cartItems)
   }
  /*  cartItems.push({
     id: products[index].id,
