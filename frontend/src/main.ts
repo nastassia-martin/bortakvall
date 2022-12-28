@@ -133,13 +133,13 @@ rowEl?.addEventListener('click', e => {
 
 // display cart 
 document.querySelector('.shopping-cart')?.addEventListener('click', () => {
-  document.querySelector('#offcanvasWithBothOptions')?.classList.add('show')
+  document.querySelector('#offcanvasWithBackdrop')?.classList.add('show')
   document.querySelector('.cart-container').innerHTML += `
   <div class="modal-backdrop fade show"></div>`
 
   // E3S6T1 - change btn-close (querySelector and html) to 'fortsätt handla'
   document.querySelector('.btn-close')?.addEventListener('click', () => {
-    document.querySelector('#offcanvasWithBothOptions')?.classList.remove('show')
+    document.querySelector('#offcanvasWithBackdrop')?.classList.remove('show')
   })
 
   // OBS - need to fix backdrop, currently not working
