@@ -16,8 +16,6 @@ const trashBtn = document.querySelector('.trash')
 
 // Empty array to fetch data to
 let products: IProduct[] = []
-// empty array to put cartItems in 
-let cartItems: ICartItems[] = []
 
 // Get data from API and save it into products-array
 const getProducts = async () => {
@@ -65,30 +63,45 @@ const findIndex = () => {
   index = products.findIndex(product => product.id === Number(clickedID))
 }
 
-// function to push clicked item to the cartItems array
-let x: number; 
-let existingProductIndex = 0; 
-const addToCart = () => {
-  //LOOPS OVER ARRAY TO FIND IF ITEM EXISTS AND WHAT INDEX - IF YES INCREASE QUANTITY BY ONE ELSE ONLY ADD ITEM. 
-   existingProductIndex = cartItems.findIndex(Item => {
-   return Item.id === products[index].id
-  })
-if(existingProductIndex > -1){
-    //update quantity of object with the same id. 
-    
-     cartItems[existingProductIndex].qty++
-     //x =  cartItems[existingProductIndex].qty * products[index].price
 
-    /*  cartItems.push({
+
+// empty array to put cartItems in 
+let cartItems: ICartItems[] = []
+
+// function to push clicked item to the cartItems array
+const addToCart = () => {
+
+  // OM det inte finns något i cartItems, lägg till ny med qty 1 
+  if (!cartItems[0]) {
+    cartItems.push({
       id: products[index].id,
       name: products[index].name,
       image: products[index].images.thumbnail,
-      // need to figure out how to do qty & item total , with if statement inside push {}
-      qty: cartItems[existingProductIndex].qty,
+      qty: 0,
       item_price: products[index].price,
-      item_total: x
-    }) */
-      // print out added items to cart
+    })  
+  } 
+
+  // kolla igenom cartItems efter id som lagts till tidigare
+  let doubleID = cartItems.find(item => item.id === products[index].id)
+
+  // OM något lagts till tidigare, leta upp index där det ID ligger
+  if (doubleID) {
+      const index = cartItems.findIndex(product => product.id === test.id)
+      cartItems[index].qty++
+    } 
+  // ANNARS (om det inte fanns två lika id), pusha in nytt med qty 1
+    else {
+      cartItems.push({
+        id: products[index].id,
+        name: products[index].name,
+        image: products[index].images.thumbnail,
+        qty: 1,
+        item_price: products[index].price,
+      })  
+    } 
+
+  // print out added items to cart
  document.querySelector('.offcanvas-body')!.innerHTML = cartItems
     .map(cartItem => `
     <div class="container cart-item">
@@ -103,27 +116,15 @@ if(existingProductIndex > -1){
     `
   ).join('')
 
+    // print out 'fortsätt handla' and 'betala' buttons to cart
   document.querySelector('.offcanvas-body')!.innerHTML += `
   <div class="button-container">
   <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
   <button type="button" class="clr-button">Betala</button>
   </div>
   `
-      //cartItems[existingProductIndex].qty * products[index].price
-    //cartItems[existingProductIndex].item_total = cartItems[existingProductIndex].qty * products[index].price */
-} else {
 
-      cartItems.push({
-        id: products[index].id,
-        name: products[index].name,
-        image: products[index].images.thumbnail,
-        // need to figure out how to do qty & item total , with if statement inside push {}
-        qty: 1,
-        item_price: products[index].price,
-        item_total: x
-      })
-      
-        // print out added items to cart
+    // print out added items to cart
     document.querySelector('.offcanvas-body')!.innerHTML = cartItems
     .map(cartItem => `
     <div class="container cart-item">
@@ -137,16 +138,8 @@ if(existingProductIndex > -1){
         </div>
     `
   ).join('')
+}
 
-  /*document.querySelector('.offcanvas-body')!.innerHTML += `
-  <div class="button-container">
-  <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
-  <button type="button" class="clr-button">Betala</button>
-  </div>
-  ` */
-  }
-  
-} 
 
 
 rowEl?.addEventListener('click', e => {
@@ -190,15 +183,12 @@ rowEl?.addEventListener('click', e => {
     document.querySelector('.modal-button')?.addEventListener('click', () => {
       findIndex()
       addToCart()
-      console.log(cartItems)
     })
   }
   // add item to cart through card 'lägg till'-button
   else if (clickedItem.className === "clr-button") {
     findIndex()
     addToCart()
-    console.log(cartItems)
-
   }
 })
 
