@@ -88,60 +88,6 @@ const addToCart = () => {
     })
     console.log(cartItems)
   }
- /*  cartItems.push({
-    id: products[index].id,
-    name: products[index].name,
-    image: products[index].images.thumbnail,
-    // need to figure out how to do qty & item total , with if statement inside push {}
-    qty: 1,
-    item_price: products[index].price,
-    item_total: 12
-  }) */
-}
-  
-/*   console.log("CART ITEM",cartItems[index].id)
-
-*   const  itemCount = (id) => {
-    let Counter: number  = 0
-    if(id.includes(products[index].id)){
-      
-    }
-      for(let i: number  =0; i < cartItems.length; i++){
-       
-      } */
-  
-
-  
- /*  const sameItems = cartItems.map((item) => {
-    if(item.id === products[index].id) {
-     
-    }else {
-      console.log('just one item')
-    }
-  }) */
-  
-
-
-
-  /* const sameItem = cartItems.find(product => products[index].id === cartItems[index].id)
-  if(sameItem) {
-    counter++
-    console.log(counter)
-  } else {
-    console.log(cartItems)
-  } 
- 
-  }*/
-  
- /*  console.log('hello',products[index].id)
-  if(products[index].id == cartItems[index].id){
-   counter++
-   console.log("hi",counter)
-  }
-  else{
-    console.log('fuckoff')
-  } */
-
 
 
 rowEl?.addEventListener('click', e => {
