@@ -8,7 +8,7 @@ import { Modal, Offcanvas } from "bootstrap";
 //import { addToCart } from './btn-click-counter-trolley'
 //addToCart() */
 
-const rowEl = document.querySelector('.row')
+const rowEl = document.querySelector('.products-container')
 const URL = 'https://www.bortakvall.se/'
 
 // Empty array to fetch data to
@@ -33,7 +33,7 @@ const renderProducts = () => {
          <div data-id="${product.id}" class="card mt-5">
            
            <div data-id="${product.id}" class="card-body">
-              <h2 data-id="${product.id}" class="card-title pt-3">${product.name}</h2>
+              <h3 data-id="${product.id}" class="card-title pt-3">${product.name}</h3>
               <p data-id="${product.id}" class="card-text">${product.price} kr</p>
               <button class = "clr-button" data-id="${product.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
               class="bi bi-basket" viewBox="0 0 16 16">
@@ -116,7 +116,7 @@ rowEl?.addEventListener('click', e => {
 
     // print out headline to modal section
     document.querySelector('.heading-container')!.innerHTML = `
-            <h2>${products[index].name}</h2>`
+            <h2 class="main-heading">${products[index].name}</h2>`
 
     // print modal to DOM
     document.querySelector('.modal-body')!.innerHTML = `
