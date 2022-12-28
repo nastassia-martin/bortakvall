@@ -46,8 +46,12 @@ const renderProducts = () => {
     ).join('')
 
 // render number of products to 'product overview' section
-// EX3T3 - change 'antal' to number in stock
+// EX3T3 - change 'antal' to number in stock, if products.stock–status is not equal to in stock then filter out
+const inStockProducts = products.filter( product => product.stock_status === 'instock') 
 
+
+
+// sort function from a-ö
 products.sort( (a, b) => {
   if (a.name < b.name) {
     return -1;
@@ -61,7 +65,7 @@ products.sort( (a, b) => {
 
 document.querySelector('.product-overview')!.innerHTML = `<div class="col-6">
 <p>Antal produkter: ${products.length}</p>
-<p>Varav ***antal*** i lager</p>
+<p>Varav ${inStockProducts.length} i lager</p>
 </div>
 <div class="col-6 filter">
 <button type="button" class ="filter-button button">Filtrera (A-Ö)</button>
