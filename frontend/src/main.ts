@@ -47,7 +47,7 @@ const renderProducts = () => {
 
 // render number of products to 'product overview' section
 // EX3T3 - change 'antal' to number in stock
-document.querySelector('.product-overview').innerHTML = `<div class="col-6">
+document.querySelector('.product-overview')!.innerHTML = `<div class="col-6">
 <p>Antal produkter: ${products.length}</p>
 <p>Varav ***antal*** i lager</p>
 </div>
@@ -105,7 +105,7 @@ const addToCart = () => {
       `
   ).join('')
 
-  document.querySelector('.offcanvas-body').innerHTML += `
+  document.querySelector('.offcanvas-body')!.innerHTML += `
   <div class="button-container">
   <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
   <button type="button" class="clr-button">Betala</button>
@@ -152,7 +152,7 @@ rowEl?.addEventListener('click', e => {
     </div>
         `
     // add item to cart through modal 'lägg till' button
-    document.querySelector('.modal-button')?.addEventListener('click', e => {
+    document.querySelector('.modal-button')?.addEventListener('click', () => {
       findIndex()
       addToCart()
     })
