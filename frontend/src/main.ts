@@ -87,7 +87,7 @@ const addToCart = () => {
 
   // OM något lagts till tidigare, leta upp index där det ID ligger
   if (doubleID) {
-      const index = cartItems.findIndex(product => product.id === test.id)
+      const index = cartItems.findIndex(product => product.id === doubleID.id)
       cartItems[index].qty++
     } 
   // ANNARS (om det inte fanns två lika id), pusha in nytt med qty 1
@@ -100,6 +100,11 @@ const addToCart = () => {
         item_price: products[index].price,
       })  
     } 
+
+
+  // COUNT total_price 
+  const totalPrice = cartItems.map(item => item.qty * item.item_price)
+  console.log(totalPrice)
 
   // print out added items to cart
  document.querySelector('.offcanvas-body')!.innerHTML = cartItems
