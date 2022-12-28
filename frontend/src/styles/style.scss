@@ -100,6 +100,7 @@ body {
 
         .offcanvas-body {
           background: linear-gradient(to bottom, $menu-gradient-dark, $menu-gradient-light);
+          overflow-x: hidden;
 
           .cart-item {
             background-color: #fff;
@@ -128,6 +129,17 @@ body {
                 padding: 0 10px;
                 font-size: 0.8rem;
               }
+            }
+          }
+
+          .button-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+
+            button {
+              width: 170px;
+              padding: 10px;
             }
           }
         }

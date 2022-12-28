@@ -65,6 +65,7 @@ body main .cart-container .offcanvas.offcanvas-end .offcanvas-header .offcanvas-
 }
 body main .cart-container .offcanvas.offcanvas-end .offcanvas-body {
   background: linear-gradient(to bottom, #ffd15a, #ffe5a0);
+  overflow-x: hidden;
 }
 body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item {
   background-color: #fff;
@@ -89,6 +90,15 @@ body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .c
   margin: 1rem 0;
   padding: 0 10px;
   font-size: 0.8rem;
+}
+body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .button-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .button-container button {
+  width: 170px;
+  padding: 10px;
 }
 body main .cart-container .offcanvas-backdrop {
   --bs-backdrop-bg: $clr-white;

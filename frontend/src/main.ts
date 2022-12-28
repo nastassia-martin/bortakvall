@@ -76,6 +76,7 @@ const addToCart = () => {
    return Item.id === products[index].id
   })
 
+  // print out added items to cart
   document.querySelector('.offcanvas-body')!.innerHTML = cartItems
       .map(cartItem => `
       <div class="container cart-item">
@@ -89,6 +90,13 @@ const addToCart = () => {
           </div>
       `
   ).join('')
+
+  document.querySelector('.offcanvas-body').innerHTML += `
+  <div class="button-container">
+  <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
+  <button type="button" class="clr-button">Betala</button>
+  </div>
+  `
 }
 
 // ** listen for clicks on cards / 'lägg till'-button section **
