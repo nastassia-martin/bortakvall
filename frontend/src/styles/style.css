@@ -49,10 +49,48 @@ body main .bi-cart {
 }
 body main .cart-container .offcanvas.offcanvas-end {
   top: 21rem;
-  width: 40rem;
+  width: 30rem;
   z-index: 1055;
 }
-body main .cart-container .modal-backdrop {
+body main .cart-container .offcanvas.offcanvas-end .offcanvas-header {
+  justify-content: center;
+  border: 1px solid #000;
+  padding: 10px 0;
+}
+body main .cart-container .offcanvas.offcanvas-end .offcanvas-header .offcanvas-title {
+  font-family: "DM Serif Display", serif;
+  letter-spacing: 7px;
+  text-transform: uppercase;
+  padding-left: 20px;
+}
+body main .cart-container .offcanvas.offcanvas-end .offcanvas-body {
+  background: linear-gradient(to bottom, #ffd15a, #ffe5a0);
+}
+body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item {
+  background-color: #fff;
+  height: 90px;
+  --bs-gutter-x: 0;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid rgb(196, 196, 196);
+}
+body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .cart-img {
+  border-right: 1px solid rgb(150, 150, 150);
+  margin: 1rem;
+}
+body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .cart-img img {
+  width: 50px;
+  height: 50px;
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4862745098);
+}
+body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .cart-info .cart-name {
+  background-color: #f6f6f6;
+  display: inline-block;
+  margin: 1rem 0;
+  padding: 0 10px;
+  font-size: 0.8rem;
+}
+body main .cart-container .offcanvas-backdrop {
   --bs-backdrop-bg: $clr-white;
   background-color: #f6f6f6;
   top: unset;

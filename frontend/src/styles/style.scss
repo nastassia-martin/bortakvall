@@ -82,11 +82,59 @@ body {
     .cart-container {
       .offcanvas.offcanvas-end {
         top: 21rem;
-        width: 40rem;
+        width: 30rem;
         z-index: 1055;
+
+        .offcanvas-header {
+          justify-content: center;
+          border: 1px solid #000;
+          padding: 10px 0;
+
+          .offcanvas-title {
+            font-family: $ff-logo;
+            letter-spacing: 7px;
+            text-transform: uppercase;
+            padding-left: 20px;
+          }
+        }
+
+        .offcanvas-body {
+          background: linear-gradient(to bottom, $menu-gradient-dark, $menu-gradient-light);
+
+          .cart-item {
+            background-color: #fff;
+            height: 90px;
+            --bs-gutter-x: 0;
+            display: flex;
+            flex-direction: row;
+            border-bottom: 1px solid rgb(196, 196, 196);
+
+            .cart-img {
+              border-right: 1px solid rgb(150, 150, 150);
+              margin: 1rem;
+
+              img {
+                width: 50px;
+                height: 50px;
+                box-shadow: 1px 1px 7px #0000007c;
+              }
+            }
+
+            .cart-info {
+              .cart-name {
+                background-color: $clr-white;
+                display: inline-block;
+                margin: 1rem 0;
+                padding: 0 10px;
+                font-size: 0.8rem;
+              }
+            }
+          }
+        }
+
       }
 
-      .modal-backdrop {
+      .offcanvas-backdrop {
         --bs-backdrop-bg: $clr-white;
         background-color: $clr-white;
         top: unset;
