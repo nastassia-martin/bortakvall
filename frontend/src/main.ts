@@ -88,12 +88,18 @@ products.filter ( (product) => {
 
 // const OutOfStock = products.filter(( product => product.stock_quantity <1)) 
 //   console.log(OutOfStock) // logs all 10 items which are out of stock! how to access this?????
-
+*/
 // for(let i = 0; products[i].stock_quantity < 0 ; i ++) 
 // {
 // console.log(products[i].stock_quantity)
 // }
-*/
+const OutOfStock = products.filter(( product => product.stock_quantity <1)) 
+if(OutOfStock){
+  //document.querySelector('.clr-button')!.setAttribute('disabled', 'disabled')
+  // you cannot add to cart????
+  console.log(OutOfStock)
+}
+
 
 
 }
