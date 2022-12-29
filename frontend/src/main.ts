@@ -28,15 +28,18 @@ getProducts()
 
 // Render products to DOM
 const renderProducts = () => {
+  
+  
+
   rowEl!.innerHTML = products
     .map(product => `<div class="col-6 col-sm-4 col-lg-3">
          <div data-id="${product.id}" class="card mt-5">
-           
+        
            <div data-id="${product.id}" class="card-body">
               <h3 data-id="${product.id}" class="card-title pt-3">${product.name}</h3>
               <p data-id="${product.id}" class="card-text">${product.price} kr</p>
               <p data-id="${product.id}" class="card-text">${product.stock_quantity} i lager</p>
-              <button id="test-disable" class = "clr-button" data-id="${product.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              <button id="${product.id}" class = "clr-button" data-id="${product.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
               class="bi bi-basket" viewBox="0 0 16 16">
               <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z" />
               </svg>Lägg till</button>
@@ -46,14 +49,63 @@ const renderProducts = () => {
        `
     ).join('')
 
+
+
+/*
+ //Test 1
+const disableButon = () => {
+  products.forEach(product => { product.stock_quantity === null
+  document.querySelector('#${product.id}')!.setAttribute('disabled', 'disabled')
+         }); 
+        }
+disableButon()
+*/
+
+/* Test 2
+// to be able to print out multiple qty i need to make an array of the elements
+// const OutOfStock = document.querySelectorAll('.clr-button')
+// const OutOfStockArr = Array.from(OutOfStock)
+
+
+
+
+// const NullStock = products
+  
+//   .filter(product => product.stock_quantity <1)
+//   .map(product => {
+   
+//     if (product.stock_quantity === null){
+      
+
+
+      
+//       document.getElementById('product.id')!.setAttribute ('disabled', 'disabled')
+//       console.log(product.stock_quantity)
+//       //OutOfStockArr.forEach( item => item.setAttribute ('disabled', 'disabled'))
+      
+//     }
+//   } )
+//   console.log(NullStock)
+
+*/
+
+
+ 
+
+
+
+
+
+// products.forEach(product => { 
+//   product.stock_quantity === 'null'
+// });  
+
 // render number of products to 'product overview' section
 // EX3T3 - change 'antal' to number in stock, if products.stock–status is not equal to in stock then filter out
 const inStockProducts = products.filter( product => product.stock_status === 'instock') 
-
-
-
 // sort function from a-ö
-products.sort( (a, b) => {
+products
+  .sort( (a, b) => {
   if (a.name < b.name) {
     return -1;
   }
@@ -75,6 +127,7 @@ document.querySelector('.product-overview')!.innerHTML = `<div class="col-6">
 document.querySelector('.filter-button')?.addEventListener('click', () => {
   renderProducts()
 })
+disableButon()
 /*
 
 tried to disable button if stock was null, no chance! 
@@ -93,16 +146,23 @@ products.filter ( (product) => {
 // {
 // console.log(products[i].stock_quantity)
 // }
-const OutOfStock = products.filter(( product => product.stock_quantity <1)) 
-if(OutOfStock){
+// const OutOfStock = products.filter(( product => product.stock_quantity <1)) 
+// OutOfStock.forEach(product => { 
+//   product.stock_quantity === 'finns inte'
+// });  
+// const index = OutOfStock.findIndex(product => product.stock_quantity === )
+
+  
   //document.querySelector('.clr-button')!.setAttribute('disabled', 'disabled')
   // you cannot add to cart????
-  console.log(OutOfStock)
+  // console.log(OutOfStock)
 }
 
 
 
-}
+
+
+
 
 
 
@@ -126,6 +186,10 @@ const findIndex = () => {
   // search for index to get the rest of key values
   index = products.findIndex(product => product.id === Number(clickedID))
 }
+
+
+  
+ 
 
 // function to push clicked item to the cartItems array
 const addToCart = () => {
@@ -168,6 +232,20 @@ rowEl?.addEventListener('click', e => {
   // save e.target to clickedItem
   clickedItem = e.target as HTMLElement
 
+  // function to disable 'lägg till' if item doesn't exist
+//   const disableButon = () => {
+//   // const OutOFStock = products.filter( product => product.stock_quantity <1)
+//   // if (OutOFStock) {
+//     products.forEach(element => { element.stock_quantity === null
+//       document.querySelector('.clr-button')!.setAttribute('disabled', 'disabled')
+//     });
+//     console.log()
+    
+     
+//   // } 
+// }
+
+
   // if click on picture, card, name or price
   if (clickedItem.className !== "clr-button") {
     // call function to find index of products to print
@@ -202,13 +280,17 @@ rowEl?.addEventListener('click', e => {
         `
     // add item to cart through modal 'lägg till' button
     document.querySelector('.modal-button')?.addEventListener('click', () => {
+      
       findIndex()
+ 
       addToCart()
     })
   }
   // add item to cart through card 'lägg till'-button
   else if (clickedItem.className === "clr-button") {
+    
     findIndex()
+  
     addToCart()
   }
 })
