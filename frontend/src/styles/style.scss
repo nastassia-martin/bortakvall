@@ -70,6 +70,7 @@ body {
       border: none;
       position: fixed;
       right: 0;
+      bottom: 20px;
       z-index: 1;
     }
 
@@ -87,8 +88,10 @@ body {
 
         .offcanvas-header {
           justify-content: center;
-          border: 1px solid #000;
+          border: 1px solid rgb(97, 97, 97);
           padding: 10px 0;
+          background-color: $clr-white;
+          box-shadow: 1px 1px 7px #0000007c;
 
           .offcanvas-title {
             font-family: $ff-logo;
@@ -122,6 +125,11 @@ body {
             }
 
             .cart-info {
+              button {
+                border: 0;
+                background-color: #fff;
+              }
+
               .cart-name {
                 background-color: $clr-white;
                 display: inline-block;
@@ -139,14 +147,15 @@ body {
               .qty {
                 display: flex;
                 align-items: center;
+                margin-top: 10px;
 
                 p {
                   margin: 0;
                 }
 
                 .product-sum {
-                  position: absolute;
-                  right: 2rem;
+                  width: 100%;
+                  text-align: right;
                 }
               }
             }
@@ -168,7 +177,6 @@ body {
       .offcanvas-backdrop {
         --bs-backdrop-bg: $clr-white;
         background-color: $clr-white;
-        top: unset;
       }
     }
 
