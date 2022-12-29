@@ -125,9 +125,18 @@ body {
               .cart-name {
                 background-color: $clr-white;
                 display: inline-block;
-                margin: 1rem 0;
-                padding: 0 10px;
+                margin: 1rem 0 0 0;
+                padding: 0 10px 0 10px;
                 font-size: 0.8rem;
+              }
+
+              .qty {
+                display: flex;
+                align-items: center;
+
+                p {
+                  margin: 0;
+                }
               }
             }
           }

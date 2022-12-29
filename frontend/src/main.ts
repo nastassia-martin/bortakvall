@@ -10,9 +10,6 @@ import { Modal, Offcanvas } from "bootstrap";
 
 const rowEl = document.querySelector('.row')
 const URL = 'https://www.bortakvall.se/'
-const minusBtn = document.querySelector('.minus')
-const plusBtn = document.querySelector('.plus')
-const trashBtn = document.querySelector('.trash')
 
 // Empty array to fetch data to
 let products: IProduct[] = []
@@ -25,13 +22,13 @@ const getProducts = async () => {
 }
 
 getProducts()
-// <img data-id="${product.id}" class="card-img img-fluid" src="${URL}${product.images.large}" alt="Image of ***">
+
 // Render products to DOM
 const renderProducts = () => {
   rowEl!.innerHTML = products
     .map(product => `<div class="col-6 col-sm-4 col-lg-3">
          <div data-id="${product.id}" class="card mt-5">
-        
+          <img data-id="${product.id}" class="card-img img-fluid" src="${URL}${product.images.large}" alt="Image of ***">
            <div data-id="${product.id}" class="card-body">
               <h2 data-id="${product.id}" class="card-title pt-3">${product.name}</h2>
               <p data-id="${product.id}" class="card-text">${product.price} kr</p>
@@ -71,7 +68,7 @@ let cartItems: ICartItems[] = []
 // function to push clicked item to the cartItems array
 const addToCart = () => {
 
-  // OM det inte finns något i cartItems, lägg till ny med qty 1 
+  // put a new item in cart with qty 1, if there is no items added already
   if (!cartItems[0]) {
     cartItems.unshift({
       id: products[index].id,
@@ -80,37 +77,33 @@ const addToCart = () => {
       qty: 0,
       item_price: products[index].price,
       item_total: products[index].price
-    })  
-  } 
+    })
+  }
 
-  // kolla igenom cartItems efter id som lagts till tidigare
+  // look for a product already in cart with the same id as the one being added
   let doubleID = cartItems.find(item => item.id === products[index].id)
-  let itemTotal;
-  // OM något lagts till tidigare, leta upp index där det ID ligger
-  if (doubleID) {
-      const index = cartItems.findIndex(product => product.id === doubleID.id)
-      cartItems[index].qty++
-      cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
-    } 
-  // ANNARS (om det inte fanns två lika id), pusha in nytt med qty 1
-    else {
-      cartItems.unshift({
-        id: products[index].id,
-        name: products[index].name,
-        image: products[index].images.thumbnail,
-        qty: 1,
-        item_price: products[index].price,
-        item_total: products[index].price
-      })  
-    } 
 
-console.log(cartItems)
-  // COUNT total_price 
-  const totalPrice = cartItems.map(item => item.qty * item.item_price)
-  console.log(totalPrice)
+  // find the index of the cart item that has the same id as the one being added,
+  // instead of adding a new one, only add qty of that item and count item_total
+  if (doubleID) {
+    const index = cartItems.findIndex(product => product.id === doubleID?.id)
+    cartItems[index].qty++
+    cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
+  }
+  // if no dublicates was found, put the item in cart with qty 1 
+  else {
+    cartItems.unshift({
+      id: products[index].id,
+      name: products[index].name,
+      image: products[index].images.thumbnail,
+      qty: 1,
+      item_price: products[index].price,
+      item_total: products[index].price
+    })
+  }
 
   // print out added items to cart
- document.querySelector('.offcanvas-body')!.innerHTML = cartItems
+  document.querySelector('.offcanvas-body')!.innerHTML = cartItems
     .map(cartItem => `
     <div class="container cart-item">
           <div class="cart-img col-2">
@@ -122,9 +115,35 @@ console.log(cartItems)
           </div>
         </div>
     `
-  ).join('')
+    ).join('')
 
-    // print out 'fortsätt handla' and 'betala' buttons to cart
+  // print out added items to cart
+  document.querySelector('.offcanvas-body')!.innerHTML = cartItems
+    .map(cartItem => `
+    <div class="container cart-item">
+          <div class="cart-img col-2">
+            <img src="${URL}${cartItem.image}" alt="">
+          </div>
+          <br>
+          <div class="cart-info col-10">
+            <p class="cart-name">${cartItem.name}</p>
+              <div class="qty">
+                <button title="btnMinus" class="btn minus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
+                </svg></button>
+                <p>${cartItem.qty}</p>
+                <button title="btnPlus" class="btn plus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg></i></button>
+              </div>
+          </div>
+        </div>
+    `
+    ).join('')
+
+  // print out 'fortsätt handla' and 'betala' buttons to cart
   document.querySelector('.offcanvas-body')!.innerHTML += `
   <div class="button-container">
   <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
@@ -132,23 +151,23 @@ console.log(cartItems)
   </div>
   `
 
-    // print out added items to cart
-    document.querySelector('.offcanvas-body')!.innerHTML = cartItems
-    .map(cartItem => `
-    <div class="container cart-item">
-          <div class="cart-img col-2">
-            <img src="${URL}${cartItem.image}" alt="">
-          </div>
-          <br>
-          <div class="cart-info col-10">
-            <p class="cart-name">${cartItem.name}</p>
-          </div>
-        </div>
-    `
-  ).join('')
+  // change nr of products in cart
+  const minusBtn = document.querySelector('.minus')
+  const plusBtn = document.querySelector('.plus')
+  const trashBtn = document.querySelector('.trash')
+
+  minusBtn?.addEventListener('click', () => {
+    console.log('HEJ')
+  })
+
+  plusBtn?.addEventListener('click', () => {
+    console.log('HEJ')
+  })
+
+  trashBtn?.addEventListener('click', () => {
+  })
+
 }
-
-
 
 rowEl?.addEventListener('click', e => {
 
@@ -163,8 +182,7 @@ rowEl?.addEventListener('click', e => {
     modal.show()
 
     // print out headline to modal section
-    document.querySelector('.heading-container')!.innerHTML = `
-            <h2>${products[index].name}</h2>`
+    document.querySelector('.heading-container')!.innerHTML = `<h2>${products[index].name}</h2>`
 
     // print modal to DOM
     document.querySelector('.modal-body')!.innerHTML = `
@@ -200,17 +218,4 @@ rowEl?.addEventListener('click', e => {
   }
 })
 
-minusBtn?.addEventListener('click', ()=>{
-  findIndex()
-  addToCart()
-})
 
-plusBtn?.addEventListener('click', () =>{
-  findIndex()
-  addToCart()
-})
-
-trashBtn?.addEventListener('click', () => {
-  findIndex()
-  addToCart()
-})

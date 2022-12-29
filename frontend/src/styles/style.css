@@ -87,9 +87,16 @@ body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .c
 body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .cart-info .cart-name {
   background-color: #f6f6f6;
   display: inline-block;
-  margin: 1rem 0;
-  padding: 0 10px;
+  margin: 1rem 0 0 0;
+  padding: 0 10px 0 10px;
   font-size: 0.8rem;
+}
+body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .cart-info .qty {
+  display: flex;
+  align-items: center;
+}
+body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .cart-info .qty p {
+  margin: 0;
 }
 body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .button-container {
   display: flex;
