@@ -110,22 +110,6 @@ const addToCart = () => {
             <img src="${URL}${cartItem.image}" alt="">
           </div>
           <br>
-          <div class="cart-info col-10">
-            <p class="cart-name">${cartItem.name}</p>
-          </div>
-        </div>
-    `
-    ).join('')
-
-
-  // print out added items to cart
-  document.querySelector('.offcanvas-body')!.innerHTML = cartItems
-    .map(cartItem => `
-    <div class="container cart-item">
-          <div class="cart-img col-2">
-            <img src="${URL}${cartItem.image}" alt="">
-          </div>
-          <br>
           <div class="cart-info col-9">
               <div class="product-name">
                 <p class="cart-name">${cartItem.name}</p>
@@ -151,6 +135,8 @@ const addToCart = () => {
   `
 }
 
+
+// ** Modal section ** 
 rowEl?.addEventListener('click', e => {
 
   // save e.target to clickedItem

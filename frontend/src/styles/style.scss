@@ -105,6 +105,12 @@ body {
           background: linear-gradient(to bottom, $menu-gradient-dark, $menu-gradient-light);
           overflow-x: hidden;
 
+          .empty-cart-info {
+            text-align: center;
+            font-family: $ff-product;
+            font-size: 2rem;
+          }
+
           .cart-item {
             background-color: #fff;
             height: 90px;
