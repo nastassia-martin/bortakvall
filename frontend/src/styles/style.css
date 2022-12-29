@@ -91,12 +91,21 @@ body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .c
   padding: 0 10px 0 10px;
   font-size: 0.8rem;
 }
+body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .cart-info .product-name {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .cart-info .qty {
   display: flex;
   align-items: center;
 }
 body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .cart-info .qty p {
   margin: 0;
+}
+body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .cart-info .qty .product-sum {
+  position: absolute;
+  right: 2rem;
 }
 body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .button-container {
   display: flex;

@@ -130,12 +130,23 @@ body {
                 font-size: 0.8rem;
               }
 
+              .product-name {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+              }
+
               .qty {
                 display: flex;
                 align-items: center;
 
                 p {
                   margin: 0;
+                }
+
+                .product-sum {
+                  position: absolute;
+                  right: 2rem;
                 }
               }
             }
