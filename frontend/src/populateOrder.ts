@@ -4,13 +4,14 @@ const calculateOrderTotal = (orderInfoList: IOrderInfo[]) => {
   // return orderTotal.
   // orderTotal s the quantity of each product * price + sum of each unique product
   let orderSum = 0;
-  orderInfoList.forEach((item) => {
-    orderSum = item.item_price * item.qty;
+  orderInfoList.forEach((foo) => {
+    orderSum += foo.item_price * foo.qty;
   });
   return orderSum;
 };
 
 export const populateOrder = (cartItems: ICartItems[]) => {
+  console.log("cart items inside populate order ", cartItems);
   let orderInfo: IOrderInfo[] = cartItems.map((item) => {
     return {
       product_id: item.id,
@@ -19,6 +20,7 @@ export const populateOrder = (cartItems: ICartItems[]) => {
       item_total: item.item_total, // totala summan för hela mängden av en produkt
     };
   });
+  console.log("return orderinfo", orderInfo);
 
   //cartItems.filter(orderInfo[].item_price)
   let order: IOrder = {
@@ -31,5 +33,6 @@ export const populateOrder = (cartItems: ICartItems[]) => {
     order_total: calculateOrderTotal(orderInfo), // summan för allt
     order_items: orderInfo,
   };
+  console.log("Total sum ", order.order_total);
   return order;
 };
