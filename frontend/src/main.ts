@@ -4,6 +4,7 @@ import { fetchData } from "./API";
 import { IProduct, IOrderInfo, IOrder, ICartItems } from "./interfaces";
 import { Modal, Offcanvas } from "bootstrap";
 import { populateOrder } from "./populateOrder";
+import { fetchOrder, postOrder } from "./post";
 
 //(E2S1T3) - add when we are doing E3
 //import { addToCart } from './btn-click-counter-trolley'
@@ -238,7 +239,6 @@ rowEl?.addEventListener("click", (e) => {
   }
 });
 
-
 // ** Add / subtract / delete items inside of cart **
 document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
   // change nr of products in cart
@@ -261,32 +261,47 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
     if (clickedBtn.classList.contains("btn-plus")) {
       // get the product.id from the clicked product and save as index, add 1 to qty and print out new qty
       clickedID = clickedBtn.dataset.id;
-      index = cartItems.findIndex((product) => product.id === Number(clickedID));
+      index = cartItems.findIndex(
+        (product) => product.id === Number(clickedID)
+      );
       cartItems[index].qty++;
-      cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price;
+      cartItems[index].item_total =
+        cartItems[index].qty * cartItems[index].item_price;
       productQtyArr[index].innerHTML = `${cartItems[index].qty}`;
-      productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
+      productPriceArr[
+        index
+      ].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
       const order = populateOrder(cartItems);
-      totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
+      totalSum!.innerHTML = `<h4>TOTALSUMMAN ${
+        order.order_total
+      } kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
     } else if (clickedBtn.classList.contains("btn-trash")) {
       // do the same with trashcan, but remove item from cartItems arr and delete el from DOM
       clickedID = clickedBtn.dataset.id;
-      index = cartItems.findIndex((product) => product.id === Number(clickedID));
+      index = cartItems.findIndex(
+        (product) => product.id === Number(clickedID)
+      );
       cartItems.splice(index, 1);
       totalSum!.innerHTML = ``;
       cartInfoArr[index].remove();
     } else if (clickedBtn.classList.contains("btn-minus")) {
       // do the same with -, but instead subtract by 1 and delete el from DOM
       clickedID = clickedBtn.dataset.id;
-      index = cartItems.findIndex((product) => product.id === Number(clickedID));
+      index = cartItems.findIndex(
+        (product) => product.id === Number(clickedID)
+      );
       if (cartItems[index].qty > 1) {
         cartItems[index].qty--;
         cartItems[index].item_total =
           cartItems[index].qty * cartItems[index].item_price;
         productQtyArr[index].innerHTML = `${cartItems[index].qty}`;
-        productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
+        productPriceArr[
+          index
+        ].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
         const order = populateOrder(cartItems);
-        totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
+        totalSum!.innerHTML = `<h4>TOTALSUMMAN ${
+          order.order_total
+        } kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
       } else {
         cartItems.splice(index, 1);
         cartInfoArr[index].remove();
@@ -294,21 +309,52 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       }
     }
   }
-})
+});
 
+// fetches otder from server... Do we need it?
+let cusOrder: IOrder[] = [];
+const getOrder = async () => {
+  cusOrder = await fetchOrder();
+  //render the order?
+};
+// ** BETALA BUTTON **
+document
+  .querySelector("#checkout-btn")
+  ?.addEventListener("submit", async (e) => {
+    modal.show();
 
+    // all kundens data ska in hit
+    const customersOrder = document.querySelector<HTMLInputElement>("")?.value;
+    // catch ifall kunden är trög och skriver fel
+    if (!customersOrder) {
+      alert("this is not right!");
+      return;
+    }
 
-// ** BETALA BUTTON ** 
-document.querySelector('#checkout-btn')?.addEventListener('click', () => {
-  console.log('test')
-  modal.show();
+    //Maybe put order here? Do we need it?
+    const order = populateOrder(cartItems);
+    /*  order = {
+      customer_first_name: "",
+      customer_last_name: "",
+      customer_address: "" | 0,
+      customer_postcode: 0,
+      customer_city: "",
+      customer_email: "" | 0,
+      order_total: calculateOrderTotal(orderInfo),
+      order_items: orderInfo,
+    }; */
 
-  // print out headline to modal section
-  document.querySelector('.heading-container')!.innerHTML = `
-            <h2 class="main-heading">Kassa</h2>`
+    // post to server
+    await postOrder(order);
 
-  // print modal to DOM
-  document.querySelector(".modal-body")!.innerHTML = `
+    // GET todo med uppdaterade värden från servern och skriv ut igen
+    getOrder();
+    // print out headline to modal section
+    document.querySelector(".heading-container")!.innerHTML = `
+            <h2 class="main-heading">Kassa</h2>`;
+
+    // print modal to DOM
+    document.querySelector(".modal-body")!.innerHTML = `
     <div class="container">
       <div class="row">        
         <div class="col-6 modal-body checkout-products">
@@ -319,5 +365,5 @@ document.querySelector('#checkout-btn')?.addEventListener('click', () => {
         </div>
       </div>
     </div>
-        `
-})
+        `;
+  });
