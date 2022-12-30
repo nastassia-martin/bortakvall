@@ -34,7 +34,7 @@ const renderProducts = () => {
            <div data-id="${product.id}" class="card-body">
               <h2 data-id="${product.id}" class="card-title pt-3">${product.name}</h2>
               <p data-id="${product.id}" class="card-text">${product.price} kr</p>
-              <button class = "clr-button" data-id="${product.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              <button data-id="${product.id}" class="clr-button" data-id="${product.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
               class="bi bi-basket" viewBox="0 0 16 16">
               <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z" />
               </svg>Lägg till</button>
@@ -101,27 +101,10 @@ const addToCart = () => {
       item_total: products[index].price,
     });
   }
-
-  const order = populateOrder(cartItems);
-
-  // print out added items to cart
-  document.querySelector(".offcanvas-body")!.innerHTML = cartItems
-    .map(
-      (cartItem) => `
-    <div class="container cart-item">
-          <div class="cart-img col-2">
-            <img src="${URL}${cartItem.image}" alt="">
-          </div>
-          <br>
-          <div class="cart-info col-10">
-            <p class="cart-name">${cartItem.name}</p>
-          </div>
-        </div>
-    `
-    )
-    .join("");
-
-  // print out added items to cart
+};
+const order = populateOrder(cartItems);
+// print out added items to cart
+const renderToCart = () => {
   document.querySelector(".offcanvas-body")!.innerHTML = cartItems
     .map(
       (cartItem) => `
@@ -133,22 +116,12 @@ const addToCart = () => {
           <div class="cart-info col-9">
               <div class="product-name">
                 <p class="cart-name">${cartItem.name}</p>
-                <button title="trash" class="btn trash"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16"><svg xmlns="http://www.w3.org/2000/svg"
-                width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
-                </svg></button>
+                <button title="trash" class="btn-trash" data-id="${cartItem.id}"><img data-id="${cartItem.id}" class="btn-trash" src="/node_modules/bootstrap-icons/icons/trash3.svg" alt="Bootstrap" width="20" height="20"></button>
               </div>
               <div class="qty">
-                <button title="btnMinus" class="btn minus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-circle" viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
-                </svg></button>
-                <p>${cartItem.qty}</p>
-                <button title="btnPlus" class="btn plus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-                </svg></i></button>
+                <button title="btnMinus" class="btn-minus" data-id="${cartItem.id}"><img data-id="${cartItem.id}" class="btn-minus" src="/node_modules/bootstrap-icons/icons/dash-circle.svg" alt="Bootstrap" width="25" height="25"></button>
+                <p data-id="${cartItem.id}" class="product-qty">${cartItem.qty}</p>
+                <button title="btnPlus" class="btn-plus" data-id="${cartItem.id}"><img data-id="${cartItem.id}" class="btn-plus" src="/node_modules/bootstrap-icons/icons/plus-circle-fill.svg" alt="Bootstrap" width="25" height="25"></button>
                 <p class="product-sum">Totalt: ${cartItem.item_total}kr (${cartItem.item_price}kr/st)</p>
               </div>
           </div>
@@ -169,23 +142,6 @@ const addToCart = () => {
   <p>Varav moms ${order.order_total / 4} kr<p>
   </div> 
   `;
-
-  // change nr of products in cart
-  const minusBtn = document.querySelector(".minus");
-  const plusBtn = document.querySelector(".plus");
-  const trashBtn = document.querySelector(".trash");
-
-  minusBtn?.addEventListener("click", () => {
-    console.log("HEJ");
-  });
-
-  plusBtn?.addEventListener("click", () => {
-    console.log("HEJ");
-  });
-
-  trashBtn?.addEventListener("click", () => {
-    
-  });
 };
 
 rowEl?.addEventListener("click", (e) => {
@@ -230,11 +186,75 @@ rowEl?.addEventListener("click", (e) => {
     document.querySelector(".modal-button")?.addEventListener("click", () => {
       findIndex();
       addToCart();
+      renderToCart();
     });
   }
   // add item to cart through card 'lägg till'-button
   else if (clickedItem.className === "clr-button") {
     findIndex();
     addToCart();
+    renderToCart();
+  }
+});
+
+// ** Add / subtract / delete items inside of cart **
+document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
+  // change nr of products in cart
+  let clickedBtn;
+  let clickedID: any;
+  clickedBtn = e.target as HTMLButtonElement;
+
+  // to be able to print out multiple qty i need to make an array of the elements
+  const productQty = document.querySelectorAll(".product-qty");
+  const productQtyArr = Array.from(productQty);
+  const cartInfo = document.querySelectorAll(".cart-item");
+  const cartInfoArr = Array.from(cartInfo);
+  const productPrice = document.querySelectorAll(".product-sum");
+  const productPriceArr = Array.from(productPrice);
+
+  // only respond to button/img elements
+  if (clickedBtn.tagName === "BUTTON" || clickedBtn.tagName === "IMG") {
+    // when + is clicked
+    if (clickedBtn.classList.contains("btn-plus")) {
+      // get the product.id from the clicked product and save as index, add 1 to qty and print out new qty
+      clickedID = clickedBtn.dataset.id;
+      index = cartItems.findIndex(
+        (product) => product.id === Number(clickedID)
+      );
+      cartItems[index].qty++;
+      cartItems[index].item_total =
+        cartItems[index].qty * cartItems[index].item_price;
+      productQtyArr[index].innerHTML = `${cartItems[index].qty}`;
+      productPriceArr[
+        index
+      ].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
+    } else if (clickedBtn.classList.contains("btn-trash")) {
+      // do the same with trashcan, but remove item from cartItems arr and delete el from DOM
+      clickedID = clickedBtn.dataset.id;
+      index = cartItems.findIndex(
+        (product) => product.id === Number(clickedID)
+      );
+      cartItems.splice(index, 1);
+      console.log("trashcan clicked", cartInfoArr[index]);
+      cartInfoArr[index].remove();
+    } else if (clickedBtn.classList.contains("btn-minus")) {
+      // do the same with -, but instead subtract by 1 and delete el from DOM
+      clickedID = clickedBtn.dataset.id;
+      index = cartItems.findIndex(
+        (product) => product.id === Number(clickedID)
+      );
+      if (cartItems[index].qty > 1) {
+        cartItems[index].qty--;
+        cartItems[index].item_total =
+          cartItems[index].qty * cartItems[index].item_price;
+        productQtyArr[index].innerHTML = `${cartItems[index].qty}`;
+        productPriceArr[
+          index
+        ].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
+      } else {
+        cartItems.splice(index, 1);
+        cartInfoArr[index].remove();
+      }
+    }
   }
 });
