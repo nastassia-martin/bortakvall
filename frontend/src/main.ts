@@ -310,7 +310,7 @@ document.querySelector('#checkout-btn')?.addEventListener('click', () => {
         <div class="col-6 modal-body checkout-products">
         test
         </div>
-        <div class="col-6 modal-body">
+        <div class="col-6 modal-body customer-info">
         test
         </div>
       </div>
