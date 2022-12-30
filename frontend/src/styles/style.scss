@@ -211,6 +211,12 @@ body {
       .modal-img {
         border-radius: 20px;
         box-shadow: 1px 1px 15px #0000007c;
+
+        img {
+          width: 50px;
+          height: 50px;
+          box-shadow: 1px 1px 7px #0000007c;
+        }
       }
 
       .modal-title {
