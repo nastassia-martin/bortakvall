@@ -233,6 +233,10 @@ body main .container .products-container div .card .card-body .card-text {
   font-size: 20px;
   margin: 0;
 }
+body main .container .products-container div .card .card-body .stock-qty {
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 0.8rem;
+}
 body main .container .products-container div .card .card-body button .bi-basket {
   height: 25px;
   width: 25px;
@@ -257,6 +261,9 @@ body main .clr-button {
   body main .container .row div .card .card-body .card-text {
     font-size: 30px;
   }
+  body main .container .row div .card .card-body .stock-qty {
+    font-size: 1rem;
+  }
   body main .clr-button {
     font-size: 20px;
     padding: 5px 15px;
@@ -280,6 +287,9 @@ body main .clr-button {
   body main .container .row div .card .card-body .card-text {
     margin: 5px;
     font-size: 30px;
+  }
+  body main .container .row div .card .card-body .stock-qty {
+    font-size: 1rem;
   }
   body main .clr-button {
     font-size: 20px;

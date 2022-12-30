@@ -9,7 +9,7 @@ export interface IProduct {
         large: string,
     },
     stock_status: string | boolean,
-    stock_quantity: number | boolean,
+    stock_quantity: number | boolean | string,
 }
 
 export interface IResult {
@@ -21,7 +21,7 @@ export interface IOrderInfo {
     qty: number,
     item_price: number,
     item_total: number,
-  }
+}
 
 export interface IOrder {
     customer_first_name: string,
@@ -32,7 +32,7 @@ export interface IOrder {
     customer_email: string | number,
     order_total: number,
     order_items: IOrderInfo[]
-  }
+}
 
 export interface ICartItems {
     id: number,

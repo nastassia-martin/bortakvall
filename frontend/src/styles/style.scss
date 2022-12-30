@@ -312,6 +312,11 @@ body {
                 margin: 0;
               }
 
+              .stock-qty {
+                font-family: $ff-product;
+                font-size: 0.8rem;
+              }
+
               button {
                 .bi-basket {
                   height: 25px;
@@ -355,6 +360,10 @@ body {
                   font-size: 30px;
                 }
 
+                .stock-qty {
+                  font-size: 1rem;
+                }
+
                 // E1S1T9 - add styling to btn if necessary
               }
             }
@@ -396,6 +405,10 @@ body {
                 .card-text {
                   margin: 5px;
                   font-size: 30px;
+                }
+
+                .stock-qty {
+                  font-size: 1rem;
                 }
 
                 // E1S1T9 - add styling to btn if necessary
