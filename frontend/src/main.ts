@@ -55,75 +55,18 @@ const renderProducts = () => {
  //Test 1 THIS WORKS
 const disableButon = () => {
   products.forEach(product => {
-     console.log(product)
      if (product.stock_quantity < 1){
         document.querySelector(`#product-num${product.id}`)!.setAttribute('disabled', 'disabled')
-
      }
-
-  // document.querySelector(`#product-num${product.id}`)!.setAttribute('disabled', 'disabled')
          }); 
         }
-console.log(products)
         
         
 disableButon()
 
-
-// //Test 2
-// // to be able to print out multiple qty i need to make an array of the elements
-// const OutOfStock = document.querySelectorAll('.clr-button')
-// const OutOfStockArr = Array.from(OutOfStock)
-
-
-// const NullStock = products
-  
-//   .filter(product => product.stock_quantity <1)
-//   .map(product => {
-   
-//     if (product.stock_quantity === null){
-      
-
-
-      
-//       // document.getElementById('product.id')!.setAttribute ('disabled', 'disabled')
-//       console.log(product.stock_quantity)
-//       //OutOfStockArr.forEach( item => item.setAttribute ('disabled', 'disabled'))
-      
-//     }
-//   } )
-//   console.log(NullStock)
-
-
-
-//Test 3
-  // function to disable 'lägg till' if item doesn't exist
-//   const disableButons = () => {
-//     const OutOFStock = products.filter( product => product.stock_quantity <1)
-//     if (OutOFStock) {
-//       products.forEach(product => { product.stock_quantity === null
-//         // document.querySelector<HTMLButtonElement>(`#${product.id}`)!.disabled = product.stock_quantity === 0
-//       });
-//       console.log(OutOFStock)
-//     } 
-//   }
-// disableButons()
-
-// // Test 4
-
-  
-// const disableButton = () => {
-//   // document.querySelector<HTMLButtonElement>(`#product-add${product.id}`)!.disabled  = 
-
-// products.forEach(product => { 
-//   product.stock_quantity === 0
-// })
-// };  
-// console.log(disableButton)
 // render number of products to 'product overview' section
-// EX3T3 - change 'antal' to number in stock, if products.stock–status is not equal to in stock then filter out
+// EX3T3 - change 'antal' to number in stock
 const inStockProducts = products.filter( product => product.stock_status === 'instock') 
-
 
 // sort function from a-ö
 products
@@ -149,46 +92,7 @@ document.querySelector('.product-overview')!.innerHTML = `<div class="col-6">
 document.querySelector('.filter-button')?.addEventListener('click', () => {
   renderProducts()
 })
-
-
-// disableButon()
-/*
-
-tried to disable button if stock was null, no chance! 
-products.filter ( (product) => {
-  if (product.stock_quantity <= 1){
-    document.querySelector('.clr-button')!.setAttribute('disabled', 'disabled')
-  }
-})
-
-
-
-// const OutOfStock = products.filter(( product => product.stock_quantity <1)) 
-//   console.log(OutOfStock) // logs all 10 items which are out of stock! how to access this?????
-*/
-// for(let i = 0; products[i].stock_quantity < 0 ; i ++) 
-// {
-// console.log(products[i].stock_quantity)
-// }
-// const OutOfStock = products.filter(( product => product.stock_quantity <1)) 
-// OutOfStock.forEach(product => { 
-//   product.stock_quantity === 'finns inte'
-// });  
-// const index = OutOfStock.findIndex(product => product.stock_quantity === )
-
-  
-  //document.querySelector('.clr-button')!.setAttribute('disabled', 'disabled')
-  // you cannot add to cart????
-  // console.log(OutOfStock)
 }
-
-
-
-
-
-
-
-
 
 
 
