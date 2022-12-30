@@ -144,6 +144,9 @@ const addToCart = () => {
       item_total: products[index].price,
     });
   }
+
+  // remove 'disabled' from betala-button when something is added to cart
+  document.querySelector('.checkout-btn')?.removeAttribute('disabled')
 };
 
 // print out added items to cart
@@ -177,7 +180,7 @@ const renderToCart = () => {
   document.querySelector(".offcanvas-body")!.innerHTML += `
   <div class="button-container">
   <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
-  <button id="checkout-btn" type="button" class="clr-button">Betala</button>
+  <button type="button" class="clr-button checkout-btn">Betala</button>
   </div>
  
   <div class="total_order_container">
@@ -224,11 +227,11 @@ rowEl?.addEventListener("click", (e) => {
     </div>
         `;
     // add item to cart through modal 'lägg till' button
-    document.querySelector(".modal-button")?.addEventListener("click", (e) => {
-      findIndex();
-      addToCart();
-      renderToCart();
-    });
+    document.querySelector('.modal-button')?.addEventListener('click', () => {
+      findIndex()
+      addToCart()
+      renderToCart()
+    })
   }
   // add item to cart through card 'lägg till'-button
   else if (clickedItem.className === "clr-button") {
@@ -256,68 +259,100 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
   const totalSum = document.querySelector(".total_order_container");
 
   // only respond to button/img elements
-  if (clickedBtn.tagName === "BUTTON" || clickedBtn.tagName === "IMG") {
+  if (clickedBtn.tagName === 'BUTTON' || clickedBtn.tagName === 'IMG') {
     // when + is clicked
     if (clickedBtn.classList.contains("btn-plus")) {
       // get the product.id from the clicked product and save as index, add 1 to qty and print out new qty
-      clickedID = clickedBtn.dataset.id;
-      index = cartItems.findIndex((product) => product.id === Number(clickedID));
-      cartItems[index].qty++;
-      cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price;
-      productQtyArr[index].innerHTML = `${cartItems[index].qty}`;
-      productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
+      clickedID = clickedBtn.dataset.id
+      index = cartItems.findIndex(product => product.id === Number(clickedID))
+      cartItems[index].qty++
+      cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
+      productQtyArr[index].innerHTML = `${cartItems[index].qty}`
+      productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`
       const order = populateOrder(cartItems);
       totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
-    } else if (clickedBtn.classList.contains("btn-trash")) {
-      // do the same with trashcan, but remove item from cartItems arr and delete el from DOM
-      clickedID = clickedBtn.dataset.id;
-      index = cartItems.findIndex((product) => product.id === Number(clickedID));
-      cartItems.splice(index, 1);
-      totalSum!.innerHTML = ``;
-      cartInfoArr[index].remove();
-    } else if (clickedBtn.classList.contains("btn-minus")) {
-      // do the same with -, but instead subtract by 1 and delete el from DOM
-      clickedID = clickedBtn.dataset.id;
-      index = cartItems.findIndex((product) => product.id === Number(clickedID));
+    } else if (clickedBtn.classList.contains('btn-trash')) {
+      // do the same with trashcan, but remove item from cartItems arr and delete el from DOM 
+      clickedID = clickedBtn.dataset.id
+      index = cartItems.findIndex(product => product.id === Number(clickedID))
+      cartItems.splice(index, 1)
+      cartInfoArr[index].remove()
+      const order = populateOrder(cartItems);
+      totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
+      // if there no longer is any items in cartItems, set 'betala-btn' to disabled
+      if (cartItems.length < 1) {
+        document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
+        totalSum!.innerHTML = ``;
+      }
+    } else if (clickedBtn.classList.contains('btn-minus')) {
+      // do the same with -, but instead subtract by 1 and delete el from DOM 
+      clickedID = clickedBtn.dataset.id
+      index = cartItems.findIndex(product => product.id === Number(clickedID))
       if (cartItems[index].qty > 1) {
         cartItems[index].qty--;
-        cartItems[index].item_total =
-          cartItems[index].qty * cartItems[index].item_price;
+        cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price;
         productQtyArr[index].innerHTML = `${cartItems[index].qty}`;
         productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
         const order = populateOrder(cartItems);
         totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
       } else {
-        cartItems.splice(index, 1);
-        cartInfoArr[index].remove();
         totalSum!.innerHTML = ``;
+        cartItems.splice(index, 1)
+        cartInfoArr[index].remove()
+        // if there no longer is any items in cartItems, set 'betala-btn' to disabled
+        document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
       }
+    } else if (clickedBtn.classList.contains('checkout-btn')) {
+      modal.show()
+
+      // print out headline to modal section
+      document.querySelector('.heading-container')!.innerHTML = `
+            <h2 class="main-heading">Kassa</h2>`
+
+      // print modal to DOM
+      document.querySelector(".modal-body")!.innerHTML = `
+      <div class="container">
+        <div class="row">        
+          <div class="col-6 modal-body checkout-products">
+          test
+          </div>
+          <div class="col-6 modal-body customer-info">
+            <form action="post">
+              <div class="form-group mb-1">
+                <label for="name">Namn</label>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn Efternamn" required>
+              </div>
+              <div class="form-group mb-1">
+                <label for="adress">Adress</label>
+                <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" required>
+              </div>
+              <div class="row mb-1">
+                <div class="col-5">
+                  <label for="postcode">Postnr</label>
+                  <input type="number" name="postcode" id="postcode" class="form-control" placeholder="123 45" required>
+                </div>
+                <div class="col-7">
+                  <label for="city">Ort</label>
+                  <input type="text" name="city" id="city" class="form-control" placeholder="Ort" required>
+                </div>
+              </div>
+              <div class="form-group mb-1">
+                <label for="phone">Telefon</label>
+                <input type="tel" name="phone" id="phone" class="form-control" placeholder="+46 701 23 45 67">
+              </div>
+              <div class="form-group mb-3">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" class="form-control" placeholder="exempel@mail.se" required>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="clr-button btn-small">Betala</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+        `
     }
   }
 })
 
-
-
-// ** BETALA BUTTON ** 
-document.querySelector('#checkout-btn')?.addEventListener('click', () => {
-  console.log('test')
-  modal.show();
-
-  // print out headline to modal section
-  document.querySelector('.heading-container')!.innerHTML = `
-            <h2 class="main-heading">Kassa</h2>`
-
-  // print modal to DOM
-  document.querySelector(".modal-body")!.innerHTML = `
-    <div class="container">
-      <div class="row">        
-        <div class="col-6 modal-body checkout-products">
-        test
-        </div>
-        <div class="col-6 modal-body">
-        test
-        </div>
-      </div>
-    </div>
-        `
-})

@@ -12,7 +12,6 @@ const calculateOrderTotal = (orderInfoList: IOrderInfo[]) => {
 
 // gives informaton from each product the user has picked (amount, price and total sum).
 export const populateOrder = (cartItems: ICartItems[]) => {
-  console.log("cart items inside populate order ", cartItems);
   let orderInfo: IOrderInfo[] = cartItems.map((item) => {
     return {
       product_id: item.id,
@@ -21,7 +20,6 @@ export const populateOrder = (cartItems: ICartItems[]) => {
       item_total: item.item_total, // totala summan för hela mängden av en produkt
     };
   });
-  console.log("return orderinfo", orderInfo);
 
   //cartItems.filter(orderInfo[].item_price)
   let order: IOrder = {
@@ -34,6 +32,5 @@ export const populateOrder = (cartItems: ICartItems[]) => {
     order_total: calculateOrderTotal(orderInfo), // summan för allt
     order_items: orderInfo,
   };
-  console.log("Total sum ", order.order_total);
   return order;
 };
