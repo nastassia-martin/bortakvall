@@ -9,8 +9,8 @@ import { populateOrder } from "./populateOrder";
 //import { addToCart } from './btn-click-counter-trolley'
 //addToCart() */
 
-const rowEl = document.querySelector('.products-container')
-const URL = 'https://www.bortakvall.se/'
+const rowEl = document.querySelector(".products-container");
+const URL = "https://www.bortakvall.se/";
 
 // Empty array to fetch data to
 let products: IProduct[] = [];
@@ -43,51 +43,51 @@ const renderProducts = () => {
          </div>
        </div>
        `
-    ).join('')
-
+    )
+    .join("");
 
   //Test 1 THIS WORKS
   const disableButon = () => {
-    products.forEach(product => {
+    products.forEach((product) => {
       if (product.stock_quantity < 1) {
-        document.querySelector(`#product-num${product.id}`)!.setAttribute('disabled', 'disabled')
+        document
+          .querySelector(`#product-num${product.id}`)!
+          .setAttribute("disabled", "disabled");
       }
     });
-  }
+  };
 
-
-  disableButon()
+  disableButon();
 
   // render number of products to 'product overview' section
   // EX3T3 - change 'antal' to number in stock
-  const inStockProducts = products.filter(product => product.stock_status === 'instock')
+  const inStockProducts = products.filter(
+    (product) => product.stock_status === "instock"
+  );
 
   // sort function from a-ö
-  products
-    .sort((a, b) => {
-      if (a.name < b.name) {
-        return -1;
-      }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
-    })
+  products.sort((a, b) => {
+    if (a.name < b.name) {
+      return -1;
+    }
+    if (a.name > b.name) {
+      return 1;
+    }
+    return 0;
+  });
 
-
-  document.querySelector('.product-overview')!.innerHTML = `<div class="col-6">
+  document.querySelector(".product-overview")!.innerHTML = `<div class="col-6">
 <p>Antal produkter: ${products.length}</p>
 <p>Varav ${inStockProducts.length} i lager</p>
 </div>
 <div class="col-6 filter">
 <button type="button" class ="filter-button button">Filtrera (A-Ö)</button>
 </div>
-`
-  document.querySelector('.filter-button')?.addEventListener('click', () => {
-    renderProducts()
-  })
-}
-
+`;
+  document.querySelector(".filter-button")?.addEventListener("click", () => {
+    renderProducts();
+  });
+};
 
 // create variables to use modal (bootstrap)
 const modalEl = document.getElementById("moreInfoModal")!;
@@ -104,8 +104,6 @@ const findIndex = () => {
   // search for index to get the rest of key values
   index = products.findIndex((product) => product.id === Number(clickedID));
 };
-
-
 
 // empty array to put cartItems in
 let cartItems: ICartItems[] = [];
@@ -148,12 +146,12 @@ const addToCart = () => {
   }
 };
 
-
 // print out added items to cart
 const renderToCart = () => {
   const order = populateOrder(cartItems);
   document.querySelector(".offcanvas-body")!.innerHTML = cartItems
-    .map((cartItem) => `
+    .map(
+      (cartItem) => `
     <div class="container cart-item">
           <div class="cart-img col-2">
             <img src="${URL}${cartItem.image}" alt="">
@@ -176,13 +174,13 @@ const renderToCart = () => {
     )
     .join("");
 
-  document.querySelector('.offcanvas-body')!.innerHTML += `
+  document.querySelector(".offcanvas-body")!.innerHTML += `
   <div class="button-container">
   <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
   <button id="checkout-btn" type="button" class="clr-button">Betala</button>
   </div>
  
-  <div class ="total_order_container">
+  <div class="total_order_container">
   <h4>TOTALSUMMAN ${order.order_total} kr</h4>
   <p>Varav moms ${order.order_total / 4} kr</p>
   </div> 
@@ -191,7 +189,7 @@ const renderToCart = () => {
 
 rowEl?.addEventListener("click", (e) => {
   // save e.target to clickedItem
-  clickedItem = e.target as HTMLElement
+  clickedItem = e.target as HTMLElement;
 
   // if click on picture, card, name or price
   if (clickedItem.className !== "clr-button") {
@@ -201,8 +199,8 @@ rowEl?.addEventListener("click", (e) => {
     modal.show();
 
     // print out headline to modal section
-    document.querySelector('.heading-container')!.innerHTML = `
-            <h2 class="main-heading">${products[index].name}</h2>`
+    document.querySelector(".heading-container")!.innerHTML = `
+            <h2 class="main-heading">${products[index].name}</h2>`;
 
     // print modal to DOM
     document.querySelector(".modal-body")!.innerHTML = `
@@ -224,69 +222,75 @@ rowEl?.addEventListener("click", (e) => {
         </div>
       </div>
     </div>
-        `
+        `;
     // add item to cart through modal 'lägg till' button
-    document.querySelector('.modal-button')?.addEventListener('click', e => {
-      findIndex()
-      addToCart()
-      renderToCart()
-    })
+    document.querySelector(".modal-button")?.addEventListener("click", (e) => {
+      findIndex();
+      addToCart();
+      renderToCart();
+    });
   }
   // add item to cart through card 'lägg till'-button
   else if (clickedItem.className === "clr-button") {
-    findIndex()
-    addToCart()
-    renderToCart()
+    findIndex();
+    addToCart();
+    renderToCart();
   }
 });
 
 
-// ** Add / subtract / delete items inside of cart ** 
-document.querySelector('.offcanvas-body')?.addEventListener('click', e => {
+// ** Add / subtract / delete items inside of cart **
+document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
   // change nr of products in cart
   let clickedBtn;
   let clickedID: any;
-  clickedBtn = e.target as HTMLButtonElement
+  clickedBtn = e.target as HTMLButtonElement;
 
   // to be able to print out multiple qty i need to make an array of the elements
-  const productQty = document.querySelectorAll('.product-qty')
-  const productQtyArr = Array.from(productQty)
-  const cartInfo = document.querySelectorAll('.cart-item')
-  const cartInfoArr = Array.from(cartInfo)
-  const productPrice = document.querySelectorAll('.product-sum')
-  const productPriceArr = Array.from(productPrice)
+  const productQty = document.querySelectorAll(".product-qty");
+  const productQtyArr = Array.from(productQty);
+  const cartInfo = document.querySelectorAll(".cart-item");
+  const cartInfoArr = Array.from(cartInfo);
+  const productPrice = document.querySelectorAll(".product-sum");
+  const productPriceArr = Array.from(productPrice);
+  const totalSum = document.querySelector(".total_order_container");
 
   // only respond to button/img elements
-  if (clickedBtn.tagName === 'BUTTON' || clickedBtn.tagName === 'IMG') {
-
+  if (clickedBtn.tagName === "BUTTON" || clickedBtn.tagName === "IMG") {
     // when + is clicked
-    if (clickedBtn.classList.contains('btn-plus')) {
+    if (clickedBtn.classList.contains("btn-plus")) {
       // get the product.id from the clicked product and save as index, add 1 to qty and print out new qty
-      clickedID = clickedBtn.dataset.id
-      index = cartItems.findIndex(product => product.id === Number(clickedID))
-      cartItems[index].qty++
-      cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
-      productQtyArr[index].innerHTML = `${cartItems[index].qty}`
-      productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`
-    } else if (clickedBtn.classList.contains('btn-trash')) {
-      // do the same with trashcan, but remove item from cartItems arr and delete el from DOM 
-      clickedID = clickedBtn.dataset.id
-      index = cartItems.findIndex(product => product.id === Number(clickedID))
-      cartItems.splice(index, 1)
-      console.log('trashcan clicked', cartInfoArr[index])
-      cartInfoArr[index].remove()
-    } else if (clickedBtn.classList.contains('btn-minus')) {
-      // do the same with -, but instead subtract by 1 and delete el from DOM 
-      clickedID = clickedBtn.dataset.id
-      index = cartItems.findIndex(product => product.id === Number(clickedID))
+      clickedID = clickedBtn.dataset.id;
+      index = cartItems.findIndex((product) => product.id === Number(clickedID));
+      cartItems[index].qty++;
+      cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price;
+      productQtyArr[index].innerHTML = `${cartItems[index].qty}`;
+      productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
+      const order = populateOrder(cartItems);
+      totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
+    } else if (clickedBtn.classList.contains("btn-trash")) {
+      // do the same with trashcan, but remove item from cartItems arr and delete el from DOM
+      clickedID = clickedBtn.dataset.id;
+      index = cartItems.findIndex((product) => product.id === Number(clickedID));
+      cartItems.splice(index, 1);
+      totalSum!.innerHTML = ``;
+      cartInfoArr[index].remove();
+    } else if (clickedBtn.classList.contains("btn-minus")) {
+      // do the same with -, but instead subtract by 1 and delete el from DOM
+      clickedID = clickedBtn.dataset.id;
+      index = cartItems.findIndex((product) => product.id === Number(clickedID));
       if (cartItems[index].qty > 1) {
         cartItems[index].qty--;
-        cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
-        productQtyArr[index].innerHTML = `${cartItems[index].qty}`
-        productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`
+        cartItems[index].item_total =
+          cartItems[index].qty * cartItems[index].item_price;
+        productQtyArr[index].innerHTML = `${cartItems[index].qty}`;
+        productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
+        const order = populateOrder(cartItems);
+        totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
       } else {
-        cartItems.splice(index, 1)
-        cartInfoArr[index].remove()
+        cartItems.splice(index, 1);
+        cartInfoArr[index].remove();
+        totalSum!.innerHTML = ``;
       }
     }
   }
