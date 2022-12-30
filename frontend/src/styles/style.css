@@ -209,7 +209,6 @@ body main .container .products-container div .card {
   padding: 20px;
   border-radius: 20px;
   box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.4862745098);
-  height: 293px;
 }
 body main .container .products-container div .card .card-img {
   border-radius: 20px;
@@ -227,6 +226,7 @@ body main .container .products-container div .card .card-body .card-title {
   font-weight: 700;
   font-size: 14px;
   margin: 0;
+  min-height: 60px;
 }
 body main .container .products-container div .card .card-body .card-text {
   font-family: "Neucha", cursive;
@@ -236,6 +236,7 @@ body main .container .products-container div .card .card-body .card-text {
 body main .container .products-container div .card .card-body .stock-qty {
   font-family: "Source Sans Pro", sans-serif;
   font-size: 0.8rem;
+  margin-bottom: 5px;
 }
 body main .container .products-container div .card .card-body button .bi-basket {
   height: 25px;
@@ -252,9 +253,6 @@ body main .clr-button {
 
 /* MEDIA QUERIES - TABLET */
 @media screen and (min-width: 768px) {
-  body main .container .row div .card {
-    height: 367px;
-  }
   body main .container .row div .card .card-body .card-title {
     font-size: 18px;
   }
@@ -273,9 +271,6 @@ body main .clr-button {
 @media screen and (min-width: 1440px) {
   body main .container .row {
     --bs-gutter-x: 4rem;
-  }
-  body main .container .row div .card {
-    height: unset;
   }
   body main .container .row div .card .card-body {
     display: block;
