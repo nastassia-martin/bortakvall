@@ -10,6 +10,7 @@ const calculateOrderTotal = (orderInfoList: IOrderInfo[]) => {
   return orderSum;
 };
 
+// gives informaton from each product the user has picked (amount, price and total sum).
 export const populateOrder = (cartItems: ICartItems[]) => {
   console.log("cart items inside populate order ", cartItems);
   let orderInfo: IOrderInfo[] = cartItems.map((item) => {

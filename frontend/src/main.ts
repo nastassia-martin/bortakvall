@@ -163,10 +163,10 @@ const addToCart = () => {
   <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
   <button type="button" class="clr-button">Betala</button>
   </div>
+ 
   <div class ="total_order_container">
-  <h4>TOTALSUMMAN ${order.order_total}<h4>
-  <p>Varav moms<p>
-  <h4><h4> 
+  <h4>TOTALSUMMAN ${order.order_total} kr<h4>
+  <p>Varav moms ${order.order_total / 4} kr<p>
   </div> 
   `;
 
@@ -183,41 +183,10 @@ const addToCart = () => {
     console.log("HEJ");
   });
 
-  trashBtn?.addEventListener("click", () => {});
+  trashBtn?.addEventListener("click", () => {
+    
+  });
 };
-// Why do we have this?
-/* cartItems.push({
-  id: 0,
-  name: '',
-  image: 'tj',
-  qty: 0,
-  item_price: 4,
-  item_total: 1,
-})
- */
-
-console.log("cart items", cartItems);
-let orderInfo: IOrderInfo[] = cartItems.map((item) => {
-  return {
-    product_id: item.id,
-    qty: item.qty,
-    item_price: item.item_price,
-    item_total: item.item_total, // totala summan för hela mängden av en produkt
-  };
-});
-
-//cartItems.filter(orderInfo[].item_price)
-let order: IOrder = {
-  customer_first_name: "",
-  customer_last_name: "",
-  customer_address: "",
-  customer_postcode: 0,
-  customer_city: "",
-  customer_email: "",
-  order_total: 0, // summan för allt
-  order_items: orderInfo,
-};
-console.log("order", order);
 
 rowEl?.addEventListener("click", (e) => {
   // save e.target to clickedItem
