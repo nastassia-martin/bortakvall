@@ -147,6 +147,10 @@ body main .modal {
   background: linear-gradient(to right, #ba0426, #e17987);
   top: 0;
 }
+body main .modal .order-section {
+  background-color: #fcbd1a;
+  border-radius: 20px;
+}
 body main .modal .heading-container {
   display: flex;
   justify-content: center;

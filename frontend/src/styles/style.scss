@@ -203,6 +203,11 @@ body {
       background: linear-gradient(to right, $bg-gradient-dark, $bg-gradient-light);
       top: 0; // set to unset if header is supposed to be showing
 
+      .order-section {
+        background-color: $clr-button;
+        border-radius: 20px;
+      }
+
       .heading-container {
         display: flex;
         justify-content: center;

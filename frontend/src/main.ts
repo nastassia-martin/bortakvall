@@ -47,7 +47,7 @@ const renderProducts = () => {
     .join("");
 
   //Test 1 THIS WORKS
-  const disableButon = () => {
+  const disableButton = () => {
     products.forEach((product) => {
       if (product.stock_quantity < 1) {
         document
@@ -57,7 +57,7 @@ const renderProducts = () => {
     });
   };
 
-  disableButon();
+  disableButton();
 
   // render number of products to 'product overview' section
   // EX3T3 - change 'antal' to number in stock
@@ -309,7 +309,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       document.querySelector('.heading-container')!.innerHTML = `
             <h2 class="main-heading">Kassa</h2>`
 
-      // print modal to DOM
+      // print checkout-section to DOM
       document.querySelector(".modal-body")!.innerHTML = `
       <div class="container">
         <div class="row">        
@@ -320,20 +320,20 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
             <form action="post">
               <div class="form-group mb-1">
                 <label for="name">Namn</label>
-                <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn Efternamn" required>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn Efternamn">
               </div>
               <div class="form-group mb-1">
                 <label for="adress">Adress</label>
-                <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" required>
+                <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn">
               </div>
               <div class="row mb-1">
                 <div class="col-5">
                   <label for="postcode">Postnr</label>
-                  <input type="number" name="postcode" id="postcode" class="form-control" placeholder="123 45" required>
+                  <input type="number" name="postcode" id="postcode" class="form-control" placeholder="123 45">
                 </div>
                 <div class="col-7">
                   <label for="city">Ort</label>
-                  <input type="text" name="city" id="city" class="form-control" placeholder="Ort" required>
+                  <input type="text" name="city" id="city" class="form-control" placeholder="Ort">
                 </div>
               </div>
               <div class="form-group mb-1">
@@ -342,16 +342,33 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
               </div>
               <div class="form-group mb-3">
                 <label for="email">Email</label>
-                <input type="text" name="email" id="email" class="form-control" placeholder="exempel@mail.se" required>
+                <input type="text" name="email" id="email" class="form-control" placeholder="exempel@mail.se">
               </div>
               <div class="col-12">
-                <button type="submit" class="clr-button btn-small">Betala</button>
+                <button type="submit" class="clr-button order-btn">Betala</button>
               </div>
             </form>
           </div>
         </div>
       </div>
         `
+
+
+      // *** ORDER SECTION ***
+      /* OBS GLÖM INTE LÄGGA TILL REQUIRED PÅ INPUT ELEMENTS IGEN INNAN MERGE */
+      document.querySelector('.order-btn')?.addEventListener('click', () => {
+        // print out headline to modal section
+        document.querySelector('.heading-container')!.innerHTML = `
+            <h2 class="main-heading">Orderbekräftelse</h2>`
+        // print out order-section to DOM
+        document.querySelector(".modal-dialog")!.innerHTML = `
+         <div class="modal-content order-section">
+          <div class="modal-body">
+          </div>
+        </div>
+      </div>
+        `
+      })
     }
   }
 })
