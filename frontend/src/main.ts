@@ -145,76 +145,6 @@ const addToCart = () => {
     });
   }
 };
-document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
-  // change nr of products in cart
-  let clickedBtn;
-  let clickedID: any;
-  clickedBtn = e.target as HTMLButtonElement;
-
-  // to be able to print out multiple qty i need to make an array of the elements
-  const productQty = document.querySelectorAll(".product-qty");
-  const productQtyArr = Array.from(productQty);
-  const cartInfo = document.querySelectorAll(".cart-item");
-  const cartInfoArr = Array.from(cartInfo);
-  const productPrice = document.querySelectorAll(".product-sum");
-  const productPriceArr = Array.from(productPrice);
-  const totalSum = document.querySelector(".total_order_container");
-
-  // only respond to button/img elements
-  if (clickedBtn.tagName === "BUTTON" || clickedBtn.tagName === "IMG") {
-    // when + is clicked
-    if (clickedBtn.classList.contains("btn-plus")) {
-      // get the product.id from the clicked product and save as index, add 1 to qty and print out new qty
-      clickedID = clickedBtn.dataset.id;
-      index = cartItems.findIndex(
-        (product) => product.id === Number(clickedID)
-      );
-      cartItems[index].qty++;
-      cartItems[index].item_total =
-        cartItems[index].qty * cartItems[index].item_price;
-      productQtyArr[index].innerHTML = `${cartItems[index].qty}`;
-      productPriceArr[
-        index
-      ].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
-      const order = populateOrder(cartItems);
-      totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4>`;
-    } else if (clickedBtn.classList.contains("btn-trash")) {
-      // do the same with trashcan, but remove item from cartItems arr and delete el from DOM
-      clickedID = clickedBtn.dataset.id;
-      index = cartItems.findIndex(
-        (product) => product.id === Number(clickedID)
-      );
-      cartItems.splice(index, 1);
-      const order = populateOrder(cartItems);
-      totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4>`;
-
-      console.log("trashcan clicked", cartInfoArr[index]);
-      cartInfoArr[index].remove();
-    } else if (clickedBtn.classList.contains("btn-minus")) {
-      // do the same with -, but instead subtract by 1 and delete el from DOM
-      clickedID = clickedBtn.dataset.id;
-      index = cartItems.findIndex(
-        (product) => product.id === Number(clickedID)
-      );
-      if (cartItems[index].qty > 1) {
-        cartItems[index].qty--;
-        cartItems[index].item_total =
-          cartItems[index].qty * cartItems[index].item_price;
-        productQtyArr[index].innerHTML = `${cartItems[index].qty}`;
-        productPriceArr[
-          index
-        ].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
-        const order = populateOrder(cartItems);
-        totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4>`;
-      } else {
-        cartItems.splice(index, 1);
-        cartInfoArr[index].remove();
-        const order = populateOrder(cartItems);
-        totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4>`;
-      }
-    }
-  }
-});
 
 // print out added items to cart
 const renderToCart = () => {
@@ -250,7 +180,7 @@ const renderToCart = () => {
   <button type="button" class="clr-button">Betala</button>
   </div>
  
-  <div class ="total_order_container">
+  <div class="total_order_container">
   <h4>TOTALSUMMAN ${order.order_total} kr</h4>
   <p>Varav moms ${order.order_total / 4} kr</p>
   </div> 
@@ -308,4 +238,60 @@ rowEl?.addEventListener("click", (e) => {
   }
 });
 
+
 // ** Add / subtract / delete items inside of cart **
+document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
+  // change nr of products in cart
+  let clickedBtn;
+  let clickedID: any;
+  clickedBtn = e.target as HTMLButtonElement;
+
+  // to be able to print out multiple qty i need to make an array of the elements
+  const productQty = document.querySelectorAll(".product-qty");
+  const productQtyArr = Array.from(productQty);
+  const cartInfo = document.querySelectorAll(".cart-item");
+  const cartInfoArr = Array.from(cartInfo);
+  const productPrice = document.querySelectorAll(".product-sum");
+  const productPriceArr = Array.from(productPrice);
+  const totalSum = document.querySelector(".total_order_container");
+
+  // only respond to button/img elements
+  if (clickedBtn.tagName === "BUTTON" || clickedBtn.tagName === "IMG") {
+    // when + is clicked
+    if (clickedBtn.classList.contains("btn-plus")) {
+      // get the product.id from the clicked product and save as index, add 1 to qty and print out new qty
+      clickedID = clickedBtn.dataset.id;
+      index = cartItems.findIndex((product) => product.id === Number(clickedID));
+      cartItems[index].qty++;
+      cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price;
+      productQtyArr[index].innerHTML = `${cartItems[index].qty}`;
+      productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
+      const order = populateOrder(cartItems);
+      totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
+    } else if (clickedBtn.classList.contains("btn-trash")) {
+      // do the same with trashcan, but remove item from cartItems arr and delete el from DOM
+      clickedID = clickedBtn.dataset.id;
+      index = cartItems.findIndex((product) => product.id === Number(clickedID));
+      cartItems.splice(index, 1);
+      totalSum!.innerHTML = ``;
+      cartInfoArr[index].remove();
+    } else if (clickedBtn.classList.contains("btn-minus")) {
+      // do the same with -, but instead subtract by 1 and delete el from DOM
+      clickedID = clickedBtn.dataset.id;
+      index = cartItems.findIndex((product) => product.id === Number(clickedID));
+      if (cartItems[index].qty > 1) {
+        cartItems[index].qty--;
+        cartItems[index].item_total =
+          cartItems[index].qty * cartItems[index].item_price;
+        productQtyArr[index].innerHTML = `${cartItems[index].qty}`;
+        productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
+        const order = populateOrder(cartItems);
+        totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
+      } else {
+        cartItems.splice(index, 1);
+        cartInfoArr[index].remove();
+        totalSum!.innerHTML = ``;
+      }
+    }
+  }
+});
