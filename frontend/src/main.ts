@@ -316,4 +316,16 @@ document.querySelector('#checkout-btn')?.addEventListener('click', () => {
       </div>
     </div>
         `
+  // Print cart to checkout 
+
+  const renderCheckout = () => {
+      
+      document.querySelector(".checkout-products")!.innerHTML = cartItems
+      .map
+      `
+  
+   
+  `         
+  }      
+  
 })
