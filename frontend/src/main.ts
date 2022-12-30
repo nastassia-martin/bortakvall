@@ -338,6 +338,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       }
     } else if (clickedBtn.classList.contains("checkout-btn")) {
       modal.show();
+      const ItemOrder = populateOrder(cartItems);
 
       // print out headline to modal section
       document.querySelector(".heading-container")!.innerHTML = `
@@ -351,11 +352,15 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
           test
           </div>
           <div class="col-6 modal-body customer-info">
-            <form action="post">
+            <form class =post''action="post">
               <div class="form-group mb-1">
                 <label for="name">Namn</label>
-                <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn Efternamn" required>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn" required>
               </div>
+              <div class="form-group mb-1">
+              <label for="name">Efternamn</label>
+              <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Efternamn" required>
+            </div>
               <div class="form-group mb-1">
                 <label for="adress">Adress</label>
                 <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" required>
@@ -379,7 +384,12 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
                 <input type="text" name="email" id="email" class="form-control" placeholder="exempel@mail.se" required>
               </div>
               <div class="col-12">
-                <button type="submit" class="clr-button btn-small">Betala</button>
+
+               <div class="total_order_container">
+                  <h4>TOTALSUMMAN ${ItemOrder.order_total} kr</h4>
+                  <p>Varav moms ${ItemOrder.order_total / 4} kr</p>
+               </div> 
+                <button type="submit" class="clr-button btn-small">Lägg order</button>
               </div>
             </form>
           </div>
@@ -388,39 +398,13 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
         `;
     }
   } //order button - lägg in postkod här  // fetches otder from server... Do we need it?
-  /* let cusOrder: IOrder[] = [];
+  let order: IOrder[] = [];
   const getOrder = async () => {
-    cusOrder = await fetchOrder();
-    //render the order?
-  
-    // all kundens data ska in hit
-    const customersOrder =
-      document.querySelector<HTMLInputElement>(".customer-info")?.value;
-    // catch ifall kunden är trög och skriver fel
-    if (!customersOrder) {
-      alert("this is not right!");
-      return;
+    order = await fetchOrder();
+    //render the order to new modul
+
     }
   
-    //Maybe put order here? Do we need it?
-    const order = populateOrder(cartItems);
-    /*  order = {
-        customer_first_name: "",
-        customer_last_name: "",
-        customer_address: "" | 0,
-        customer_postcode: 0,
-        customer_city: "",
-        customer_email: "" | 0,
-        order_total: calculateOrderTotal(orderInfo),
-        order_items: orderInfo,
-      }; */
-
-  // post to server
-  /* await postOrder(order);
-  
-    // GET todo med uppdaterade värden från servern och skriv ut igen
-    getOrder();
-}); */
 });
 // ** BETALA BUTTON **
 document.querySelector("#checkout-btn")?.addEventListener("click", async () => {
@@ -438,11 +422,15 @@ document.querySelector("#checkout-btn")?.addEventListener("click", async () => {
           test
           </div>
           <div class="col-6 modal-body customer-info">
-            <form action="post">
+            <form action=
               <div class="form-group mb-1">
                 <label for="name">Namn</label>
-                <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn Efternamn" required>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn required>
               </div>
+              <div class="form-group mb-1">
+              <label for="name">Efternamn</label>
+              <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Efternamn" required>
+            </div>
               <div class="form-group mb-1">
                 <label for="adress">Adress</label>
                 <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" required>
@@ -474,4 +462,37 @@ document.querySelector("#checkout-btn")?.addEventListener("click", async () => {
       </div>
     </div>
         `;
+});
+
+const orderEl = document.querySelector(".post")?.addEventListener("submit", async (e) => {
+  const ItemOrder = populateOrder(cartItems);
+
+  const customerInputName = document.querySelector<HTMLInputElement>('#name"')?.value
+  const customerInputLastname = document.querySelector<HTMLInputElement>('#lastname"')?.value
+  const customerInputAdress = document.querySelector<HTMLInputElement>('#adress"')?.value
+  const customerInputPostcode  = document.querySelector<HTMLInputElement>('#postcode"')?.value
+  const customerInputCity = document.querySelector<HTMLInputElement>('#city"')?.value
+  const customerInputEmail = document.querySelector<HTMLInputElement>('#email"')?.value 
+ 
+
+
+  if (!customerInputName) {
+    alert("That's not a todo")
+    return
+  }
+
+
+  const newOrder: IOrder ={
+    customer_first_name: customerInputName,
+    customer_last_name: customerInputLastname,
+    customer_address: customerInputAdress ,
+    customer_postcode: customerInputPostcode,
+    customer_city: customerInputCity,
+    customer_email: customerInputEmail,
+    order_total: ItemOrder.order_total,
+    order_items: IOrderInfo[]
+}
+
+await postOrder(newOrder)
+
 });

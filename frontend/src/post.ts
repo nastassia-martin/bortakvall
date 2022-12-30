@@ -12,13 +12,13 @@ export const fetchOrder = async () => {
 };
 
 // ** POST EN TODO TILL SERVERN **
-export const postOrder = async (order: IOrder) => {
+export const postOrder = async (newOrder: IOrder) => {
   const res = await fetch("order from localhost", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(order),
+    body: JSON.stringify(newOrder),
   });
 
   if (!res.ok) {
