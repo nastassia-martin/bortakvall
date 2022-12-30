@@ -130,6 +130,7 @@ body {
             display: flex;
             flex-direction: row;
             border-bottom: 1px solid rgb(196, 196, 196);
+            max-width: 100%;
 
             .cart-img {
               border-right: 1px solid rgb(150, 150, 150);
@@ -143,6 +144,9 @@ body {
             }
 
             .cart-info {
+              padding-right: 5px;
+              max-width: 100%;
+
               button {
                 border: 0;
                 background-color: #fff;
@@ -174,6 +178,7 @@ body {
                 .product-sum {
                   width: 100%;
                   text-align: right;
+                  font-size: 0.8rem;
                 }
               }
             }
@@ -354,44 +359,40 @@ body {
       }
     }
 
-    main {
-      .container {
-        .main-heading {
-          font-size: 50px;
-        }
+    .container {
+      .main-heading {
+        font-size: 50px;
+      }
 
-        .row {
-          div {
-            .card {
+      .row {
+        div {
+          .card {
 
-              .card-body {
-                .card-title {
-                  font-size: 18px;
-                }
+            .card-body {
+              .card-title {
+                font-size: 18px;
+              }
 
-                .card-text {
-                  font-size: 30px;
-                }
+              .card-text {
+                font-size: 30px;
+              }
 
-                .stock-qty {
-                  font-size: 1rem;
-                }
-
-                // E1S1T9 - add styling to btn if necessary
+              .stock-qty {
+                font-size: 1rem;
               }
             }
           }
         }
       }
+    }
 
-
-      .clr-button {
-        font-size: 20px;
-        padding: 5px 15px;
-      }
+    .clr-button {
+      font-size: 20px;
+      padding: 5px 15px;
     }
   }
 }
+
 
 
 /* MEDIA QUERIES - LAPTOP/DESKTOP */

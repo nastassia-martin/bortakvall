@@ -93,6 +93,7 @@ body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item {
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid rgb(196, 196, 196);
+  max-width: 100%;
 }
 body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .cart-img {
   border-right: 1px solid rgb(150, 150, 150);
@@ -102,6 +103,10 @@ body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .c
   width: 50px;
   height: 50px;
   box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.4862745098);
+}
+body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .cart-info {
+  padding-right: 5px;
+  max-width: 100%;
 }
 body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .cart-info button {
   border: 0;
@@ -130,6 +135,7 @@ body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .c
 body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .cart-item .cart-info .qty .product-sum {
   width: 100%;
   text-align: right;
+  font-size: 0.8rem;
 }
 body main .cart-container .offcanvas.offcanvas-end .offcanvas-body .button-container {
   display: flex;
@@ -258,19 +264,19 @@ body main .clr-button {
 body header .heading-logo-light {
     font-size: 50px;
   }
-  body main .container .main-heading {
+  body .container .main-heading {
     font-size: 50px;
   }
-  body main .container .row div .card .card-body .card-title {
+  body .container .row div .card .card-body .card-title {
     font-size: 18px;
   }
-  body main .container .row div .card .card-body .card-text {
+  body .container .row div .card .card-body .card-text {
     font-size: 30px;
   }
-  body main .container .row div .card .card-body .stock-qty {
+  body .container .row div .card .card-body .stock-qty {
     font-size: 1rem;
   }
-  body main .clr-button {
+  body .clr-button {
     font-size: 20px;
     padding: 5px 15px;
   }
