@@ -7,7 +7,9 @@ export interface IProduct {
     images: {
         thumbnail: string,
         large: string,
-    }
+    },
+    stock_status: string | boolean,
+    stock_quantity: number | boolean,
 }
 
 export interface IResult {

@@ -20,6 +20,17 @@ $ff-product: "Source Sans Pro", sans-serif;
 $fw-light: 400;
 $fw-bold: 700;
 
+// PRIMARY HEADING STYLING
+.main-heading {
+  font-family: $ff-logo;
+  color: $clr-white;
+  padding: 20px;
+  border-bottom: 10px dotted white;
+  display: inline-block;
+  font-size: 50px;
+  letter-spacing: 3px;
+}
+
 
 body {
   header {
@@ -195,16 +206,6 @@ body {
       .heading-container {
         display: flex;
         justify-content: center;
-
-        h2 {
-          font-family: $ff-logo;
-          color: $clr-white;
-          padding: 20px;
-          border-bottom: 10px dotted white;
-          display: inline-block;
-          font-size: 50px;
-          letter-spacing: 3px;
-        }
       }
 
       .modal-img {
@@ -231,7 +232,40 @@ body {
     .container {
       --bs-gutter-x: 3rem;
 
-      .row {
+      .main-heading-container {
+        display: flex;
+        justify-content: center;
+      }
+
+      .product-overview {
+        margin: 40px 0 -20px 0;
+        font-family: $ff-product;
+
+        .col-6 {
+          padding: 0;
+
+          p {
+            margin: 0;
+            color: #fff;
+          }
+        }
+
+        .filter {
+          display: flex;
+          justify-content: flex-end;
+        }
+        button {
+          width: 170px;
+          padding: 10px;
+          background-color: $clr-button;
+          border: 0;
+          border-radius: 10px;
+          padding: 3px 8px;
+          font-size: 14px;
+        }
+      }
+
+      .products-container {
         div {
           .card {
             padding: 20px;
