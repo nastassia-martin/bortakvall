@@ -320,7 +320,7 @@ document.querySelector('.offcanvas-body')?.addEventListener('click', e => {
               <div class="row mb-1">
                 <div class="col-5">
                   <label for="postcode">Postnr</label>
-                  <input type="number" min="5" max="5" name="postcode" id="postcode" class="form-control" placeholder="123 45" required>
+                  <input type="number" name="postcode" id="postcode" class="form-control" placeholder="123 45" required>
                 </div>
                 <div class="col-7">
                   <label for="city">Ort</label>
