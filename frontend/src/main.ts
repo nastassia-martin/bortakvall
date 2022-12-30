@@ -26,9 +26,6 @@ getProducts();
 
 // Render products to DOM
 const renderProducts = () => {
-  
-  
-
   rowEl!.innerHTML = products
     .map(
       (product) => `<div class="col-6 col-sm-4 col-lg-3">
@@ -49,38 +46,36 @@ const renderProducts = () => {
     ).join('')
 
 
-
-
- //Test 1 THIS WORKS
-const disableButon = () => {
-  products.forEach(product => {
-     if (product.stock_quantity < 1){
+  //Test 1 THIS WORKS
+  const disableButon = () => {
+    products.forEach(product => {
+      if (product.stock_quantity < 1) {
         document.querySelector(`#product-num${product.id}`)!.setAttribute('disabled', 'disabled')
-     }
-         }); 
-        }
-        
-        
-disableButon()
-
-// render number of products to 'product overview' section
-// EX3T3 - change 'antal' to number in stock
-const inStockProducts = products.filter( product => product.stock_status === 'instock') 
-
-// sort function from a-ö
-products
-  .sort( (a, b) => {
-  if (a.name < b.name) {
-    return -1;
+      }
+    });
   }
-  if (a.name > b.name) {
-    return 1;
-  }
-  return 0;
-})
 
 
-document.querySelector('.product-overview')!.innerHTML = `<div class="col-6">
+  disableButon()
+
+  // render number of products to 'product overview' section
+  // EX3T3 - change 'antal' to number in stock
+  const inStockProducts = products.filter(product => product.stock_status === 'instock')
+
+  // sort function from a-ö
+  products
+    .sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    })
+
+
+  document.querySelector('.product-overview')!.innerHTML = `<div class="col-6">
 <p>Antal produkter: ${products.length}</p>
 <p>Varav ${inStockProducts.length} i lager</p>
 </div>
@@ -88,11 +83,10 @@ document.querySelector('.product-overview')!.innerHTML = `<div class="col-6">
 <button type="button" class ="filter-button button">Filtrera (A-Ö)</button>
 </div>
 `
-document.querySelector('.filter-button')?.addEventListener('click', () => {
-  renderProducts()
-})
+  document.querySelector('.filter-button')?.addEventListener('click', () => {
+    renderProducts()
+  })
 }
-
 
 
 // create variables to use modal (bootstrap)
@@ -111,12 +105,10 @@ const findIndex = () => {
   index = products.findIndex((product) => product.id === Number(clickedID));
 };
 
+
+
 // empty array to put cartItems in
 let cartItems: ICartItems[] = [];
-
-
-  
- 
 
 // function to push clicked item to the cartItems array
 const addToCart = () => {
@@ -201,9 +193,6 @@ rowEl?.addEventListener("click", (e) => {
   // save e.target to clickedItem
   clickedItem = e.target as HTMLElement
 
-
-
-
   // if click on picture, card, name or price
   if (clickedItem.className !== "clr-button") {
     // call function to find index of products to print
@@ -240,11 +229,65 @@ rowEl?.addEventListener("click", (e) => {
     document.querySelector('.modal-button')?.addEventListener('click', e => {
       findIndex()
       addToCart()
+      renderToCart()
     })
   }
   // add item to cart through card 'lägg till'-button
   else if (clickedItem.className === "clr-button") {
     findIndex()
     addToCart()
+    renderToCart()
   }
 });
+
+
+// ** Add / subtract / delete items inside of cart ** 
+document.querySelector('.offcanvas-body')?.addEventListener('click', e => {
+  // change nr of products in cart
+  let clickedBtn;
+  let clickedID: any;
+  clickedBtn = e.target as HTMLButtonElement
+
+  // to be able to print out multiple qty i need to make an array of the elements
+  const productQty = document.querySelectorAll('.product-qty')
+  const productQtyArr = Array.from(productQty)
+  const cartInfo = document.querySelectorAll('.cart-item')
+  const cartInfoArr = Array.from(cartInfo)
+  const productPrice = document.querySelectorAll('.product-sum')
+  const productPriceArr = Array.from(productPrice)
+
+  // only respond to button/img elements
+  if (clickedBtn.tagName === 'BUTTON' || clickedBtn.tagName === 'IMG') {
+
+    // when + is clicked
+    if (clickedBtn.classList.contains('btn-plus')) {
+      // get the product.id from the clicked product and save as index, add 1 to qty and print out new qty
+      clickedID = clickedBtn.dataset.id
+      index = cartItems.findIndex(product => product.id === Number(clickedID))
+      cartItems[index].qty++
+      cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
+      productQtyArr[index].innerHTML = `${cartItems[index].qty}`
+      productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`
+    } else if (clickedBtn.classList.contains('btn-trash')) {
+      // do the same with trashcan, but remove item from cartItems arr and delete el from DOM 
+      clickedID = clickedBtn.dataset.id
+      index = cartItems.findIndex(product => product.id === Number(clickedID))
+      cartItems.splice(index, 1)
+      console.log('trashcan clicked', cartInfoArr[index])
+      cartInfoArr[index].remove()
+    } else if (clickedBtn.classList.contains('btn-minus')) {
+      // do the same with -, but instead subtract by 1 and delete el from DOM 
+      clickedID = clickedBtn.dataset.id
+      index = cartItems.findIndex(product => product.id === Number(clickedID))
+      if (cartItems[index].qty > 1) {
+        cartItems[index].qty--;
+        cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
+        productQtyArr[index].innerHTML = `${cartItems[index].qty}`
+        productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`
+      } else {
+        cartItems.splice(index, 1)
+        cartInfoArr[index].remove()
+      }
+    }
+  }
+})
