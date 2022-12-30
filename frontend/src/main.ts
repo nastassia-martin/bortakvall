@@ -146,6 +146,9 @@ const addToCart = () => {
       item_total: products[index].price,
     });
   }
+
+  // remove 'disabled' from betala-button when something is added to cart
+  document.querySelector('.checkout-btn')?.removeAttribute('disabled')
 };
 
 
@@ -258,7 +261,6 @@ document.querySelector('.offcanvas-body')?.addEventListener('click', e => {
 
   // only respond to button/img elements
   if (clickedBtn.tagName === 'BUTTON' || clickedBtn.tagName === 'IMG') {
-
     // when + is clicked
     if (clickedBtn.classList.contains('btn-plus')) {
       // get the product.id from the clicked product and save as index, add 1 to qty and print out new qty
@@ -314,7 +316,7 @@ document.querySelector('.offcanvas-body')?.addEventListener('click', e => {
               <div class="row mb-1">
                 <div class="col-5">
                   <label for="postcode">Postnr</label>
-                  <input type="number" name="postcode" id="postcode" class="form-control" placeholder="123 45" required>
+                  <input type="number" min="5" max="5" name="postcode" id="postcode" class="form-control" placeholder="123 45" required>
                 </div>
                 <div class="col-7">
                   <label for="city">Ort</label>
