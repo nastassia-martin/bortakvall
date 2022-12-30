@@ -101,8 +101,11 @@ const addToCart = () => {
       item_total: products[index].price
     })
   }
+}
 
-  // print out added items to cart
+
+// print out added items to cart
+const renderToCart = () => {
   document.querySelector('.offcanvas-body')!.innerHTML = cartItems
     .map(cartItem => `
     <div class="container cart-item">
@@ -177,12 +180,14 @@ rowEl?.addEventListener('click', e => {
     document.querySelector('.modal-button')?.addEventListener('click', () => {
       findIndex()
       addToCart()
+      renderToCart()
     })
   }
   // add item to cart through card 'lägg till'-button
   else if (clickedItem.className === "clr-button") {
     findIndex()
     addToCart()
+    renderToCart()
   }
 })
 
@@ -199,6 +204,8 @@ document.querySelector('.offcanvas-body')?.addEventListener('click', e => {
   const productQtyArr = Array.from(productQty)
   const cartInfo = document.querySelectorAll('.cart-item')
   const cartInfoArr = Array.from(cartInfo)
+  const productPrice = document.querySelectorAll('.product-sum')
+  const productPriceArr = Array.from(productPrice)
 
   // only respond to button/img elements
   if (clickedBtn.tagName === 'BUTTON' || clickedBtn.tagName === 'IMG') {
@@ -208,8 +215,10 @@ document.querySelector('.offcanvas-body')?.addEventListener('click', e => {
       // get the product.id from the clicked product and save as index, add 1 to qty and print out new qty
       clickedID = clickedBtn.dataset.id
       index = cartItems.findIndex(product => product.id === Number(clickedID))
-      cartItems[index].qty++;
+      cartItems[index].qty++
+      cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
       productQtyArr[index].innerHTML = `${cartItems[index].qty}`
+      productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`
     } else if (clickedBtn.classList.contains('btn-trash')) {
       // do the same with trashcan, but remove item from cartItems arr and delete el from DOM 
       clickedID = clickedBtn.dataset.id
@@ -223,7 +232,9 @@ document.querySelector('.offcanvas-body')?.addEventListener('click', e => {
       index = cartItems.findIndex(product => product.id === Number(clickedID))
       if (cartItems[index].qty > 1) {
         cartItems[index].qty--;
+        cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
         productQtyArr[index].innerHTML = `${cartItems[index].qty}`
+        productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`
       } else {
         cartItems.splice(index, 1)
         cartInfoArr[index].remove()
