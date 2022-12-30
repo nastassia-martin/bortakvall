@@ -29,6 +29,7 @@ export interface IOrder {
   customer_address: string | number;
   customer_postcode: number;
   customer_city: string;
+  customer_phone?: number;
   customer_email: string | number;
   order_total: number;
   order_items: IOrderInfo[];

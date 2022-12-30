@@ -344,6 +344,8 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       document.querySelector(".heading-container")!.innerHTML = `
             <h2 class="main-heading">Kassa</h2>`;
 
+      const newOrder: IOrder[] = [];
+      console.log("new order ", newOrder);
       // print modal to DOM
       document.querySelector(".modal-body")!.innerHTML = `
       <div class="container">
@@ -354,7 +356,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
           <div class="col-6 modal-body customer-info">
             <form class =post''action="post">
               <div class="form-group mb-1">
-                <label for="name">Namn</label>
+                <label for="name"></label>
                 <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn" required>
               </div>
               <div class="form-group mb-1">
@@ -402,9 +404,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
   const getOrder = async () => {
     order = await fetchOrder();
     //render the order to new modul
-
-    }
-  
+  };
 });
 // ** BETALA BUTTON **
 document.querySelector("#checkout-btn")?.addEventListener("click", async () => {
@@ -424,7 +424,7 @@ document.querySelector("#checkout-btn")?.addEventListener("click", async () => {
           <div class="col-6 modal-body customer-info">
             <form action=
               <div class="form-group mb-1">
-                <label for="name">Namn</label>
+                <label for="name"></label>
                 <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn required>
               </div>
               <div class="form-group mb-1">
@@ -464,35 +464,41 @@ document.querySelector("#checkout-btn")?.addEventListener("click", async () => {
         `;
 });
 
-const orderEl = document.querySelector(".post")?.addEventListener("submit", async (e) => {
-  const ItemOrder = populateOrder(cartItems);
+const orderEl = document
+  .querySelector(".post")
+  ?.addEventListener("submit", async (e) => {
+    //const orderInfoList = document.querySelector(".post")
+    const customerInputName =
+      document.querySelector<HTMLInputElement>("#name")?.value;
+    const customerInputLastname =
+      document.querySelector<HTMLInputElement>("#lastname")?.value;
+    const customerInputAdress =
+      document.querySelector<HTMLInputElement>("#adress")?.value && "0";
+    const customerInputPostcode =
+      document.querySelector<HTMLInputElement>("#postcode")?.value;
+    const customerInputCity =
+      document.querySelector<HTMLInputElement>("#city")?.value;
+    const customerInputEmail =
+      document.querySelector<HTMLInputElement>("#email")?.value;
+    const customerInputPhone =
+      document.querySelector<HTMLInputElement>("#phone")?.value;
 
-  const customerInputName = document.querySelector<HTMLInputElement>('#name"')?.value
-  const customerInputLastname = document.querySelector<HTMLInputElement>('#lastname"')?.value
-  const customerInputAdress = document.querySelector<HTMLInputElement>('#adress"')?.value
-  const customerInputPostcode  = document.querySelector<HTMLInputElement>('#postcode"')?.value
-  const customerInputCity = document.querySelector<HTMLInputElement>('#city"')?.value
-  const customerInputEmail = document.querySelector<HTMLInputElement>('#email"')?.value 
- 
+    if (!orderEl) {
+      alert("That's not a todo");
+      return;
+    }
+    const ItemOrder = populateOrder(cartItems);
+    const newOrder: IOrder = {
+      customer_first_name: "customerInputName",
+      customer_last_name: "customerInputLastname",
+      customer_address: "customerInputAdress",
+      customer_postcode: Number("customerInputPostcode"),
+      customer_city: "customerInputCity",
+      customer_email: "customerInputEmail",
+      customer_phone: Number("cuscustomerInputPhone"),
+      order_total: ItemOrder.order_total,
+      order_items: ItemOrder.order_items,
+    };
 
-
-  if (!customerInputName) {
-    alert("That's not a todo")
-    return
-  }
-
-
-  const newOrder: IOrder ={
-    customer_first_name: customerInputName,
-    customer_last_name: customerInputLastname,
-    customer_address: customerInputAdress ,
-    customer_postcode: customerInputPostcode,
-    customer_city: customerInputCity,
-    customer_email: customerInputEmail,
-    order_total: ItemOrder.order_total,
-    order_items: IOrderInfo[]
-}
-
-await postOrder(newOrder)
-
-});
+    await postOrder(newOrder);
+  });
