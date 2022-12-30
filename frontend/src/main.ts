@@ -105,8 +105,6 @@ const findIndex = () => {
   index = products.findIndex((product) => product.id === Number(clickedID));
 };
 
-
-
 // empty array to put cartItems in
 let cartItems: ICartItems[] = [];
 
@@ -229,7 +227,7 @@ rowEl?.addEventListener("click", (e) => {
     </div>
         `
     // add item to cart through modal 'lägg till' button
-    document.querySelector('.modal-button')?.addEventListener('click', e => {
+    document.querySelector('.modal-button')?.addEventListener('click', () => {
       findIndex()
       addToCart()
       renderToCart()
@@ -276,6 +274,10 @@ document.querySelector('.offcanvas-body')?.addEventListener('click', e => {
       index = cartItems.findIndex(product => product.id === Number(clickedID))
       cartItems.splice(index, 1)
       cartInfoArr[index].remove()
+      // if there no longer is any items in cartItems, set 'betala-btn' to disabled
+      if (cartItems.length < 1) {
+        document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
+      }
     } else if (clickedBtn.classList.contains('btn-minus')) {
       // do the same with -, but instead subtract by 1 and delete el from DOM 
       clickedID = clickedBtn.dataset.id
@@ -288,6 +290,8 @@ document.querySelector('.offcanvas-body')?.addEventListener('click', e => {
       } else {
         cartItems.splice(index, 1)
         cartInfoArr[index].remove()
+        // if there no longer is any items in cartItems, set 'betala-btn' to disabled
+        document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
       }
     } else if (clickedBtn.classList.contains('checkout-btn')) {
       modal.show()
