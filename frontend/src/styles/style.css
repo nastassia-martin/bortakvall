@@ -167,6 +167,13 @@ body main .modal .modal-body {
 body main .modal .modal-body .modal-price {
   font-family: "Neucha", cursive;
 }
+body main .modal .modal-body .customer-info form {
+  font-family: "Source Sans Pro", sans-serif;
+}
+body main .modal .modal-body .customer-info form input {
+  background-color: rgba(252, 188, 26, 0.2823529412);
+  border: 1px solid #fcbd1a;
+}
 body main .container {
   --bs-gutter-x: 3rem;
 }

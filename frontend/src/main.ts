@@ -179,7 +179,7 @@ const renderToCart = () => {
   document.querySelector('.offcanvas-body')!.innerHTML += `
   <div class="button-container">
   <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
-  <button id="checkout-btn" type="button" class="clr-button">Betala</button>
+  <button type="button" class="clr-button checkout-btn">Betala</button>
   </div>
  
   <div class ="total_order_container">
@@ -273,7 +273,6 @@ document.querySelector('.offcanvas-body')?.addEventListener('click', e => {
       clickedID = clickedBtn.dataset.id
       index = cartItems.findIndex(product => product.id === Number(clickedID))
       cartItems.splice(index, 1)
-      console.log('trashcan clicked', cartInfoArr[index])
       cartInfoArr[index].remove()
     } else if (clickedBtn.classList.contains('btn-minus')) {
       // do the same with -, but instead subtract by 1 and delete el from DOM 
@@ -288,32 +287,56 @@ document.querySelector('.offcanvas-body')?.addEventListener('click', e => {
         cartItems.splice(index, 1)
         cartInfoArr[index].remove()
       }
-    }
-  }
-})
+    } else if (clickedBtn.classList.contains('checkout-btn')) {
+      modal.show()
 
-
-
-// ** BETALA BUTTON ** 
-document.querySelector('#checkout-btn')?.addEventListener('click', () => {
-  console.log('test')
-  modal.show();
-
-  // print out headline to modal section
-  document.querySelector('.heading-container')!.innerHTML = `
+      // print out headline to modal section
+      document.querySelector('.heading-container')!.innerHTML = `
             <h2 class="main-heading">Kassa</h2>`
 
-  // print modal to DOM
-  document.querySelector(".modal-body")!.innerHTML = `
-    <div class="container">
-      <div class="row">        
-        <div class="col-6 modal-body checkout-products">
-        test
-        </div>
-        <div class="col-6 modal-body customer-info">
-        test
+      // print modal to DOM
+      document.querySelector(".modal-body")!.innerHTML = `
+      <div class="container">
+        <div class="row">        
+          <div class="col-6 modal-body checkout-products">
+          test
+          </div>
+          <div class="col-6 modal-body customer-info">
+            <form action="post">
+              <div class="form-group mb-1">
+                <label for="name">Namn</label>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn Efternamn" required>
+              </div>
+              <div class="form-group mb-1">
+                <label for="adress">Adress</label>
+                <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" required>
+              </div>
+              <div class="row mb-1">
+                <div class="col-5">
+                  <label for="postcode">Postnr</label>
+                  <input type="number" name="postcode" id="postcode" class="form-control" placeholder="123 45" required>
+                </div>
+                <div class="col-7">
+                  <label for="city">Ort</label>
+                  <input type="text" name="city" id="city" class="form-control" placeholder="Ort" required>
+                </div>
+              </div>
+              <div class="form-group mb-1">
+                <label for="phone">Telefon</label>
+                <input type="tel" name="phone" id="phone" class="form-control" placeholder="+46 701 23 45 67">
+              </div>
+              <div class="form-group mb-3">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" class="form-control" placeholder="exempel@mail.se" required>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="clr-button btn-small">Betala</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
         `
+    }
+  }
 })
