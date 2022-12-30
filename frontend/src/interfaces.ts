@@ -31,7 +31,7 @@ export interface IOrder {
   customer_city: string;
   customer_email: string | number;
   order_total: number;
-  //order_items: IOrderInfo[]
+  order_items: IOrderInfo[];
 }
 
 export interface ICartItems {
