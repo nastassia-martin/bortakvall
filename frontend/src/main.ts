@@ -179,7 +179,7 @@ const renderToCart = () => {
   document.querySelector('.offcanvas-body')!.innerHTML += `
   <div class="button-container">
   <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
-  <button type="button" class="clr-button">Betala</button>
+  <button id="checkout-btn" type="button" class="clr-button">Betala</button>
   </div>
  
   <div class ="total_order_container">
@@ -290,4 +290,30 @@ document.querySelector('.offcanvas-body')?.addEventListener('click', e => {
       }
     }
   }
+})
+
+
+
+// ** BETALA BUTTON ** 
+document.querySelector('#checkout-btn')?.addEventListener('click', () => {
+  console.log('test')
+  modal.show();
+
+  // print out headline to modal section
+  document.querySelector('.heading-container')!.innerHTML = `
+            <h2 class="main-heading">Kassa</h2>`
+
+  // print modal to DOM
+  document.querySelector(".modal-body")!.innerHTML = `
+    <div class="container">
+      <div class="row">        
+        <div class="col-6 modal-body checkout-products">
+        test
+        </div>
+        <div class="col-6 modal-body">
+        test
+        </div>
+      </div>
+    </div>
+        `
 })
