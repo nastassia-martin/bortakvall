@@ -314,11 +314,15 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
         const order = populateOrder(cartItems);
         totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
       } else {
-        totalSum!.innerHTML = ``;
         cartItems.splice(index, 1)
         cartInfoArr[index].remove()
+        const order = populateOrder(cartItems);
+        totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
         // if there no longer is any items in cartItems, set 'betala-btn' to disabled
-        document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
+        if (cartItems.length < 1) {
+          document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
+          totalSum!.innerHTML = ``;
+        }
       }
     } else if (clickedBtn.classList.contains('checkout-btn')) {
       modal.show()
