@@ -345,7 +345,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
                 <input type="text" name="email" id="email" class="form-control" placeholder="exempel@mail.se">
               </div>
               <div class="col-12">
-                <button type="submit" class="clr-button order-btn">Betala</button>
+                <button type="submit" class="clr-button order-btn">Lägg order</button>
               </div>
             </form>
           </div>
