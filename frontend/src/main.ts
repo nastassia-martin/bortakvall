@@ -314,115 +314,73 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       // take the order from the cart and paste into form
 
       // print modal to DOM
-      const checkout = [ ...cartItems]
-      const renderCheckout = () => {
+
       const order = populateOrder(cartItems);
-        document.querySelector('.modal-body')!.innerHTML = checkout
-          .map(
-            (checkoutitem) => `
-              <div class="container">
-                <div class="row">
-                  <div class="col-6 modal-body checkout-products">
-                    <div class="modal-img col-2">
-                      <img src="${URL}${checkoutitem.image}" alt="image of ${checkoutitem.name}">
-                  </div>
-                  <br>
-                  <div class="cart-info col-4">
-                    <div class="product-name">
-                      <p class="cart-name">${checkoutitem.name}</p>
-                    </div>
-                    <div class="qty">
-                      <p data-id="${checkoutitem.id}" class="product-qty">${checkoutitem.qty}</p>
-                      <p class="product-sum">Totalt: ${checkoutitem.item_total}kr (${checkoutitem.item_price}kr/st)</p>
-                    </div>
-                  </div>
+      document.querySelector(".modal-body")!.innerHTML = `
+      <div class="container">
+        <div class="row">        
+          <div class="col-6 modal-body checkout-products">
+          test
+          </div>
+          <div class="col-6 modal-body customer-info">
+            <form action="post">
+              <div class="form-group mb-1">
+                <label for="name">Namn</label>
+                <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn Efternamn" required>
               </div>
-              <div class="col-6 modal-body customer-info">
-                <form action="post">
-                  <div class="form-group mb-1">
-                    <label for="name">Namn</label>
-                    <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn Efternamn" required>
-                  </div>
-                  <div class="form-group mb-1">
-                    <label for="adress">Adress</label>
-                    <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" required>
-                   </div>
-                   <div class="row mb-1">
-                     <div class="col-5">
-                      <label for="postcode">Postnr</label>
-                      <input type="number" name="postcode" id="postcode" class="form-control" placeholder="123 45" required>
-                    </div>
-                    <div class="col-7">
-                           <label for="city">Ort</label>
-                           <input type="text" name="city" id="city" class="form-control" placeholder="Ort" required>
-                    </div>
-                  </div>
-                  <div class="form-group mb-1">
-                    <label for="phone">Telefon</label>
-                    <input type="tel" name="phone" id="phone" class="form-control" placeholder="+46 701 23 45 67">
-                  </div>
-                  <div class="form-group mb-3">
-                    <label for="email">Email</label>
-                    <input type="text" name="email" id="email" class="form-control" placeholder="exempel@mail.se" required>
-                  </div>
-                  <div class="col-12">
-                    <button type="submit" class="clr-button btn-small">Betala</button>
-                  </div>
-                </form>
+              <div class="form-group mb-1">
+                <label for="adress">Adress</label>
+                <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" required>
               </div>
-              <div class="total_order_container">
+              <div class="row mb-1">
+                <div class="col-5">
+                  <label for="postcode">Postnr</label>
+                  <input type="number" name="postcode" id="postcode" class="form-control" placeholder="123 45" required>
+                </div>
+                <div class="col-7">
+                  <label for="city">Ort</label>
+                  <input type="text" name="city" id="city" class="form-control" placeholder="Ort" required>
+                </div>
+              </div>
+              <div class="form-group mb-1">
+                <label for="phone">Telefon</label>
+                <input type="tel" name="phone" id="phone" class="form-control" placeholder="+46 701 23 45 67">
+              </div>
+              <div class="form-group mb-3">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" class="form-control" placeholder="exempel@mail.se" required>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="clr-button btn-small">Betala</button>
+              </div>
+            </form>
+          </div>
+          <div class="total_order_container">
               <h4>TOTALSUMMAN ${order.order_total} kr</h4>
               <p>Varav moms ${order.order_total / 4} kr</p>
-              </div> 
-              `
+          </div> 
+        </div>
+      </div>
+        `
+        document.querySelector('.checkout-products')!.innerHTML = cartItems
+          .map(
+            (cartItem) => `
+              <div class="container cart-item py-2">
+              <div class="cart-img col-2">
+                <img class="img-fluid" src="${URL}${cartItem.image}" alt="image of ${cartItem.name}">
+              </div>
+              <br>
+              <div class="cart-info col-10">
+                  <div class="product-name">
+                    <p class="cart-name">${cartItem.name}</p>
+                    <p data-id="${cartItem.id}" class="product-qty">${cartItem.qty}</p>
+                    <p class="product-sum">Totalt: ${cartItem.item_total}kr (${cartItem.item_price}kr/st)</p>
+                  </div>
+                  
+              </div>
+            </div>`
             )
             .join('');
       }
-      renderCheckout()
-     
-      // document.querySelector(".modal-body")!.innerHTML = `
-      // <div class="container">
-      //   <div class="row">        
-      //     <div class="col-6 modal-body checkout-products">
-      //     test
-      //     </div>
-      //     <div class="col-6 modal-body customer-info">
-      //       <form action="post">
-      //         <div class="form-group mb-1">
-      //           <label for="name">Namn</label>
-      //           <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn Efternamn" required>
-      //         </div>
-      //         <div class="form-group mb-1">
-      //           <label for="adress">Adress</label>
-      //           <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" required>
-      //         </div>
-      //         <div class="row mb-1">
-      //           <div class="col-5">
-      //             <label for="postcode">Postnr</label>
-      //             <input type="number" name="postcode" id="postcode" class="form-control" placeholder="123 45" required>
-      //           </div>
-      //           <div class="col-7">
-      //             <label for="city">Ort</label>
-      //             <input type="text" name="city" id="city" class="form-control" placeholder="Ort" required>
-      //           </div>
-      //         </div>
-      //         <div class="form-group mb-1">
-      //           <label for="phone">Telefon</label>
-      //           <input type="tel" name="phone" id="phone" class="form-control" placeholder="+46 701 23 45 67">
-      //         </div>
-      //         <div class="form-group mb-3">
-      //           <label for="email">Email</label>
-      //           <input type="text" name="email" id="email" class="form-control" placeholder="exempel@mail.se" required>
-      //         </div>
-      //         <div class="col-12">
-      //           <button type="submit" class="clr-button btn-small">Betala</button>
-      //         </div>
-      //       </form>
-      //     </div>
-      //   </div>
-      // </div>
-      //   `
     }
-  }
 })
-
