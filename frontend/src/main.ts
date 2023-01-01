@@ -365,7 +365,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
         document.querySelector('.checkout-products')!.innerHTML = cartItems
           .map(
             (cartItem) => `
-              <div class="container cart-item py-2">
+              <div class="container-md cart-item py-2">
               <div class="cart-img col-2">
                 <img class="img-fluid" src="${URL}${cartItem.image}" alt="image of ${cartItem.name}">
               </div>
