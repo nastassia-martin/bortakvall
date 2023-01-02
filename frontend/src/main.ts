@@ -221,11 +221,11 @@ rowEl?.addEventListener("click", (e) => {
     document.querySelector(".modal-body")!.innerHTML = `
     <div class="container">
       <div class="row">        
-        <div class="col-6">
+        <div class="col-sm-12 col-md-12">
           <img class="img-fluid modal-img" src="${URL}${products[index].images.large}" alt="image of ${products[index].name}">
           <h3 class="modal-title pt-3 text-center">${products[index].name}</h3>
         </div>
-        <div class="col-6 modal-body text-center">
+        <div class="col-sm-12 col-md-12 modal-body text-center">
           <p class="text-center">Produktinformation<p>
           <p class="text-center">Artikel nr: ${products[index].id}</p>
               ${products[index].description}
