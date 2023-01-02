@@ -9,7 +9,7 @@ export interface IProduct {
         large: string,
     },
     stock_status: string | boolean,
-    stock_quantity: number | boolean | string,
+    stock_quantity: number
 }
 
 export interface IResult {
