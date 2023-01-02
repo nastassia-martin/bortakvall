@@ -177,7 +177,7 @@ const renderToCart = () => {
     `
     )
     .join("");
- 
+
 
   document.querySelector(".offcanvas-body")!.innerHTML += `
   <div class="button-container">
@@ -300,7 +300,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       } else {
         totalSum!.innerHTML = ``;
         cartItems.splice(index, 1)
-        cartInfoArr[index].remove() 
+        cartInfoArr[index].remove()
         // if there no longer is any items in cartItems, set 'betala-btn' to disabled
         document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
       }
@@ -366,9 +366,9 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
         </div>
       </div>
         `
-        document.querySelector('.checkout-products')!.innerHTML = cartItems
-          .map(
-            (cartItem) => `
+      document.querySelector('.checkout-products')!.innerHTML = cartItems
+        .map(
+          (cartItem) => `
               <div class="container-md cart-item py-2">
               <div class="cart-img col-2">
                 <img class="img-fluid" src="${URL}${cartItem.image}" alt="image of ${cartItem.name}">
@@ -382,48 +382,34 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
                   </div>
               </div>
             </div>`
-            )
-            .join('');
-            document.querySelector('#new-order')?.addEventListener('submit', async e => {
-              e.preventDefault()
-              console.log("you clicked submit")
-              const customerInputName = document.querySelector<HTMLInputElement>("#first-name")!.value
-              const customerInputLastname = document.querySelector<HTMLInputElement>("#last-name")!.value
-              const customerInputAdress = document.querySelector<HTMLInputElement>("#adress")!.value
-              const customerInputPostcode = document.querySelector<HTMLInputElement>("#postcode")!.value
-              const customerInputCity = document.querySelector<HTMLInputElement>("#city")!.value
-              const customerInputEmail = document.querySelector<HTMLInputElement>("#email")!.value
-              const customerInputPhone = document.querySelector<HTMLInputElement>("#phone")!.value
-              
+        )
+        .join('');
+      document.querySelector('#new-order')?.addEventListener('submit', async e => {
+        e.preventDefault()
 
-              
-              const ItemOrder = populateOrder(cartItems);
-              const newOrder: IOrder = {
-                customer_first_name: customerInputName,
-                customer_last_name: customerInputLastname,
-                customer_address: customerInputAdress,
-                customer_postcode: customerInputPostcode,
-                customer_city: customerInputCity,
-                customer_email: customerInputEmail,
-                customer_phone: customerInputPhone,
-                order_total: ItemOrder.order_total,
-                order_items: ItemOrder.order_items,
-              }
-              console.log("order order: ", newOrder)
-              console.log(JSON.stringify(newOrder)) // we post this information to Johan's server
+        const ItemOrder = populateOrder(cartItems);
+        const newOrder: IOrder = {
+          customer_first_name: document.querySelector<HTMLInputElement>("#first-name")!.value,
+          customer_last_name: document.querySelector<HTMLInputElement>("#last-name")!.value,
+          customer_address: document.querySelector<HTMLInputElement>("#adress")!.value,
+          customer_postcode: document.querySelector<HTMLInputElement>("#postcode")!.value,
+          customer_city: document.querySelector<HTMLInputElement>("#city")!.value,
+          customer_email: document.querySelector<HTMLInputElement>("#email")!.value,
+          customer_phone: document.querySelector<HTMLInputElement>("#phone")?.value,
+          order_total: ItemOrder.order_total,
+          order_items: ItemOrder.order_items,
+        }
 
-              const res = await postOrder(newOrder)
-              console.log(typeof(res))
 
-              let entries = Object.entries(res)
-              let data = (entries[1].filter(data => data.id))
-
-              console.log(data)
-
-              let confirmation: IConfirmation [] = []
-            })
-      }
-      
+        const getConfirmation = async () => {
+          const res = await postOrder(newOrder)
+          const orderData = res.data
+          const orderStatus = res.status
+          console.log(orderData.id) // get the ID 
+          console.log(orderStatus) // get the status
+        }
+        getConfirmation()
+      })
     }
-    
+  }
 })

@@ -21,7 +21,7 @@ export interface IOrderInfo {
     qty: number,
     item_price: number,
     item_total: number,
-  }
+}
 
 export interface IOrder {
     customer_first_name: string,
@@ -33,7 +33,7 @@ export interface IOrder {
     customer_phone?: string,
     order_total: number,
     order_items: IOrderInfo[]
-  }
+}
 
 export interface ICartItems {
     id: number,
@@ -44,9 +44,9 @@ export interface ICartItems {
     item_total: number,
 }
 export interface IConfirmation {
-    order_id: number
+    id: number
 }
 export interface IConfirmationResult {
     status: string,
-    data: IConfirmation[]
+    data: IConfirmation
 }

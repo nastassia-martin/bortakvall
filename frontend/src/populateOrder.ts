@@ -29,7 +29,7 @@ export const populateOrder = (cartItems: ICartItems[]) => {
     customer_postcode: "",
     customer_city: "",
     customer_email: "",
-    customer_phone: 0, 
+    customer_phone: "",
     order_total: calculateOrderTotal(orderInfo), // summan för allt
     order_items: orderInfo,
   };
