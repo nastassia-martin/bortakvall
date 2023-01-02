@@ -66,7 +66,6 @@ const renderProducts = () => {
           .querySelector(`#product-num${product.id}`)!
           .setAttribute("disabled", "disabled");
       }
-      console.log(product)
     });
   };
 
@@ -216,7 +215,7 @@ rowEl?.addEventListener("click", (e) => {
 
     // print out headline to modal section
     document.querySelector(".heading-container")!.innerHTML = `
-            <h2 class="main-heading">${products[index].name}</h2>`;
+            //<h2 class="main-heading">${products[index].name}</h2>`;
 
     // print modal to DOM
     document.querySelector(".modal-body")!.innerHTML = `
