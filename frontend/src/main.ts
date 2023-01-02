@@ -318,6 +318,8 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
         cartInfoArr[index].remove()
         // if there no longer is any items in cartItems, set 'betala-btn' to disabled
         document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
+        const order = populateOrder(cartItems);
+        totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
       }
     } else if (clickedBtn.classList.contains('checkout-btn')) {
       modal.show()
