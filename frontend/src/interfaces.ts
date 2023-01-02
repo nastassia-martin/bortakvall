@@ -30,6 +30,7 @@ export interface IOrder {
     customer_postcode: string,
     customer_city: string,
     customer_email: string | number,
+    customer_phone?: string,
     order_total: number,
     order_items: IOrderInfo[]
   }

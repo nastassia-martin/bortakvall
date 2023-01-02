@@ -338,7 +338,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
               <div class="row mb-1">
                 <div class="col-5">
                   <label for="postcode">Postnr</label>
-                  <input type="text" name="postcode" id="postcode" class="form-control" placeholder="123 45" maxlength="6" required>
+                  <input type="text" name="postcode" id="postcode" class="form-control" placeholder="123 45" maxlength="5" required>
                 </div>
                 <div class="col-7">
                   <label for="city">Ort</label>
@@ -383,6 +383,39 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
             </div>`
             )
             .join('');
+            document.querySelector('#new-order')?.addEventListener('submit', async e => {
+              e.preventDefault()
+              console.log("you clicked submit")
+              const customerInputName = document.querySelector<HTMLInputElement>("#first-name")!.value
+              const customerInputLastname = document.querySelector<HTMLInputElement>("#last-name")!.value
+              const customerInputAdress = document.querySelector<HTMLInputElement>("#adress")!.value
+              const customerInputPostcode = document.querySelector<HTMLInputElement>("#postcode")!.value
+              const customerInputCity = document.querySelector<HTMLInputElement>("#city")!.value
+              const customerInputEmail = document.querySelector<HTMLInputElement>("#email")!.value
+              const customerInputPhone = document.querySelector<HTMLInputElement>("#phone")!.value
+              
+              // if (!orderEl) {
+              //   alert("That's not a order");
+              //   return;
+              // }
+              
+              const ItemOrder = populateOrder(cartItems);
+              const newOrder: IOrder = {
+                customer_first_name: customerInputName,
+                customer_last_name: customerInputLastname,
+                customer_address: customerInputAdress,
+                customer_postcode: customerInputPostcode,
+                customer_city: customerInputCity,
+                customer_email: customerInputEmail,
+                customer_phone: customerInputPhone,
+                order_total: ItemOrder.order_total,
+                order_items: ItemOrder.order_items,
+              }
+              console.log("order order: ", newOrder)
+              console.log(JSON.stringify(newOrder)) // we post this information to Johan's server
+            })
       }
+      
     }
+    
 })
