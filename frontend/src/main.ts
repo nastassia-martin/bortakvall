@@ -66,7 +66,6 @@ const renderProducts = () => {
           .querySelector(`#product-num${product.id}`)!
           .setAttribute("disabled", "disabled");
       }
-      console.log(product)
     });
   };
 
@@ -430,10 +429,8 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
           const orderStatus = res.status
           console.log(orderData.id) // get the ID 
           console.log(orderStatus) // get the status
-        }
-        getConfirmation()
 
-        document.querySelector('.heading-container')!.innerHTML = `
+          document.querySelector('.heading-container')!.innerHTML = `
           <h2 class="main-heading">Orderbekräftelse</h2>`
         // print out order-section to DOM
         document.querySelector(".modal-dialog")!.innerHTML = `
@@ -441,8 +438,20 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
             <div class="modal-body">
             </div>
           </div>
-
       `
+      if(orderStatus === 'success') {
+        document.querySelector(".modal-body")!.innerHTML = `
+          <p class="success-message">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
+          <p class="success-message">Ditt ordernummer är: ${orderData.id}!</p>
+        `
+      } else {
+        document.querySelector(".modal-body")!.innerHTML = `
+          <p class="success-message">Sorry ${newOrder.customer_first_name} ${newOrder.customer_last_name}, something went wrong with your order.</p>
+          <p class="success-message">Please try to place your order again.</p>    
+        `
+      }
+        }
+        getConfirmation()
       })
     } 
   }
