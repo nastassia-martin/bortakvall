@@ -1,9 +1,10 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "./styles/style.css";
 import { fetchData } from "./API";
-import { IProduct, IOrderInfo, IOrder, ICartItems } from "./interfaces";
+import { IProduct, IOrderInfo, IOrder, ICartItems, IConfirmation, IConfirmationResult } from "./interfaces";
 import { Modal, Offcanvas } from "bootstrap";
 import { populateOrder } from "./populateOrder";
+import { fetchOrder, postOrder } from "./post";
 
 //(E2S1T3) - add when we are doing E3
 //import { addToCart } from './btn-click-counter-trolley'
@@ -168,7 +169,7 @@ const renderToCart = () => {
       (cartItem) => `
     <div class="container cart-item">
           <div class="cart-img col-2">
-            <img src="${URL}${cartItem.image}" alt="">
+            <img src="${URL}${cartItem.image}" alt="image of ${cartItem.name}">
           </div>
           <br>
           <div class="cart-info col-9">
@@ -188,10 +189,11 @@ const renderToCart = () => {
     )
     .join("");
 
+
   document.querySelector(".offcanvas-body")!.innerHTML += `
   <div class="button-container">
   <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
-  <button type="button" class="clr-button checkout-btn">Betala</button>
+  <button type="button" class="clr-button checkout-btn">Gå till kassan</button>
   </div>
  
   <div class="total_order_container">
@@ -221,7 +223,7 @@ rowEl?.addEventListener("click", (e) => {
     <div class="container">
       <div class="row">        
         <div class="col-6">
-          <img class="img-fluid modal-img" src="${URL}${products[index].images.large}" alt="">
+          <img class="img-fluid modal-img" src="${URL}${products[index].images.large}" alt="image of ${products[index].name}">
           <h3 class="modal-title pt-3 text-center">${products[index].name}</h3>
         </div>
         <div class="col-6 modal-body text-center">
@@ -332,18 +334,26 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       document.querySelector('.heading-container')!.innerHTML = `
             <h2 class="main-heading">Kassa</h2>`
 
+
+      // take the order from the cart and paste into form
+
       // print modal to DOM
+
+      const order = populateOrder(cartItems);
       document.querySelector(".modal-body")!.innerHTML = `
       <div class="container">
         <div class="row">        
           <div class="col-6 modal-body checkout-products">
-          test
           </div>
           <div class="col-6 modal-body customer-info">
-            <form action="post">
+            <form id="new-order">
               <div class="form-group mb-1">
-                <label for="name">Namn</label>
-                <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn Efternamn" required>
+              <label for="first-name">Förnamn</label>
+              <input type="text" name="first-name" id="first-name" class="form-control" placeholder="Förnamn" required>
+              </div>
+              <div class="form-group mb-1">
+              <label for="last-name">Efternamn</label>
+              <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Efternamn" required>
               </div>
               <div class="form-group mb-1">
                 <label for="adress">Adress</label>
@@ -352,7 +362,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
               <div class="row mb-1">
                 <div class="col-5">
                   <label for="postcode">Postnr</label>
-                  <input type="number" name="postcode" id="postcode" class="form-control" placeholder="123 45" required>
+                  <input type="text" name="postcode" id="postcode" class="form-control" placeholder="123 45" maxlength="5" required>
                 </div>
                 <div class="col-7">
                   <label for="city">Ort</label>
@@ -360,22 +370,80 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
                 </div>
               </div>
               <div class="form-group mb-1">
-                <label for="phone">Telefon</label>
-                <input type="tel" name="phone" id="phone" class="form-control" placeholder="+46 701 23 45 67">
-              </div>
-              <div class="form-group mb-3">
                 <label for="email">Email</label>
                 <input type="text" name="email" id="email" class="form-control" placeholder="exempel@mail.se" required>
               </div>
+              <div class="form-group mb-3">
+                <label for="phone">Telefon</label>
+                <input type="tel" name="phone" id="phone" class="form-control" placeholder="+46 701 23 45 67">
+              </div>
               <div class="col-12">
-                <button type="submit" class="clr-button btn-small">Betala</button>
+                <button type="submit" class="clr-button btn-small">Lägg order</button>
               </div>
             </form>
           </div>
+          <div class="total_order_container">
+              <h4>TOTALSUMMAN ${order.order_total} kr</h4>
+              <p>Varav moms ${order.order_total / 4} kr</p>
+          </div> 
         </div>
       </div>
         `
-    }
+      document.querySelector('.checkout-products')!.innerHTML = cartItems
+        .map(
+          (cartItem) => `
+              <div class="container-md cart-item py-2">
+              <div class="cart-img col-2">
+                <img class="img-fluid" src="${URL}${cartItem.image}" alt="image of ${cartItem.name}">
+              </div>
+              <br>
+              <div class="cart-info col-10">
+                  <div class="product-name">
+                    <p class="cart-name">${cartItem.name}</p>
+                    <p data-id="${cartItem.id}" class="product-qty">${cartItem.qty}</p>
+                    <p class="product-sum">Totalt: ${cartItem.item_total}kr (${cartItem.item_price}kr/st)</p>
+                  </div>
+              </div>
+            </div>`
+        )
+        .join('');
+      document.querySelector('#new-order')?.addEventListener('submit', async e => {
+        e.preventDefault()
+
+        const ItemOrder = populateOrder(cartItems);
+        const newOrder: IOrder = {
+          customer_first_name: document.querySelector<HTMLInputElement>("#first-name")!.value,
+          customer_last_name: document.querySelector<HTMLInputElement>("#last-name")!.value,
+          customer_address: document.querySelector<HTMLInputElement>("#adress")!.value,
+          customer_postcode: document.querySelector<HTMLInputElement>("#postcode")!.value,
+          customer_city: document.querySelector<HTMLInputElement>("#city")!.value,
+          customer_email: document.querySelector<HTMLInputElement>("#email")!.value,
+          customer_phone: document.querySelector<HTMLInputElement>("#phone")?.value,
+          order_total: ItemOrder.order_total,
+          order_items: ItemOrder.order_items,
+        }
+
+
+        const getConfirmation = async () => {
+          const res = await postOrder(newOrder)
+          const orderData = res.data
+          const orderStatus = res.status
+          console.log(orderData.id) // get the ID 
+          console.log(orderStatus) // get the status
+        }
+        getConfirmation()
+
+        document.querySelector('.heading-container')!.innerHTML = `
+          <h2 class="main-heading">Orderbekräftelse</h2>`
+        // print out order-section to DOM
+        document.querySelector(".modal-dialog")!.innerHTML = `
+          <div class="modal-content order-section">
+            <div class="modal-body">
+            </div>
+          </div>
+
+      `
+      })
+    } 
   }
 })
-
