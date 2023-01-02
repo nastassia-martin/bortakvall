@@ -299,7 +299,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       } else {
         totalSum!.innerHTML = ``;
         cartItems.splice(index, 1)
-        cartInfoArr[index].remove()
+        cartInfoArr[index].remove() 
         // if there no longer is any items in cartItems, set 'betala-btn' to disabled
         document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
       }
@@ -320,13 +320,16 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       <div class="container">
         <div class="row">        
           <div class="col-6 modal-body checkout-products">
-          test
           </div>
           <div class="col-6 modal-body customer-info">
-            <form action="post">
+            <form id="new-order">
               <div class="form-group mb-1">
-                <label for="name">Namn</label>
-                <input type="text" name="name" id="name" class="form-control" placeholder="Förnamn Efternamn" required>
+              <label for="first-name">Förnamn</label>
+              <input type="text" name="first-name" id="first-name" class="form-control" placeholder="Förnamn" required>
+              </div>
+              <div class="form-group mb-1">
+              <label for="last-name">Efternamn</label>
+              <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Efternamn" required>
               </div>
               <div class="form-group mb-1">
                 <label for="adress">Adress</label>
@@ -335,7 +338,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
               <div class="row mb-1">
                 <div class="col-5">
                   <label for="postcode">Postnr</label>
-                  <input type="number" name="postcode" id="postcode" class="form-control" placeholder="123 45" required>
+                  <input type="text" name="postcode" id="postcode" class="form-control" placeholder="123 45" maxlength="6" required>
                 </div>
                 <div class="col-7">
                   <label for="city">Ort</label>
@@ -343,12 +346,12 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
                 </div>
               </div>
               <div class="form-group mb-1">
-                <label for="phone">Telefon</label>
-                <input type="tel" name="phone" id="phone" class="form-control" placeholder="+46 701 23 45 67">
-              </div>
-              <div class="form-group mb-3">
                 <label for="email">Email</label>
                 <input type="text" name="email" id="email" class="form-control" placeholder="exempel@mail.se" required>
+              </div>
+              <div class="form-group mb-3">
+                <label for="phone">Telefon</label>
+                <input type="tel" name="phone" id="phone" class="form-control" placeholder="+46 701 23 45 67">
               </div>
               <div class="col-12">
                 <button type="submit" class="clr-button btn-small">Betala</button>
@@ -376,7 +379,6 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
                     <p data-id="${cartItem.id}" class="product-qty">${cartItem.qty}</p>
                     <p class="product-sum">Totalt: ${cartItem.item_total}kr (${cartItem.item_price}kr/st)</p>
                   </div>
-                  
               </div>
             </div>`
             )
