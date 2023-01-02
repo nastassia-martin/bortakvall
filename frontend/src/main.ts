@@ -456,3 +456,4 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
     } 
   }
 })
+getProducts()
