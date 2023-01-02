@@ -342,9 +342,9 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       document.querySelector(".modal-body")!.innerHTML = `
       <div class="container">
         <div class="row">        
-          <div class="col-6 modal-body checkout-products">
+          <div class="col-sm-12 col-md-12 col-lg-6 checkout-products">
           </div>
-          <div class="col-6 modal-body customer-info">
+          <div class="col-sm-12 col-md-12 col-lg-6 customer-info">
             <form id="new-order">
               <div class="form-group mb-1">
               <label for="first-name">Förnamn</label>
