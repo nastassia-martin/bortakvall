@@ -182,7 +182,7 @@ const renderToCart = () => {
   document.querySelector(".offcanvas-body")!.innerHTML += `
   <div class="button-container">
   <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
-  <button type="button" class="clr-button checkout-btn">Betala</button>
+  <button type="button" class="clr-button checkout-btn">Gå till kassan</button>
   </div>
  
   <div class="total_order_container">
@@ -355,7 +355,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
                 <input type="tel" name="phone" id="phone" class="form-control" placeholder="+46 701 23 45 67">
               </div>
               <div class="col-12">
-                <button type="submit" class="clr-button btn-small">Betala</button>
+                <button type="submit" class="clr-button btn-small">Lägg order</button>
               </div>
             </form>
           </div>
@@ -409,7 +409,18 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
           console.log(orderStatus) // get the status
         }
         getConfirmation()
+
+        document.querySelector('.heading-container')!.innerHTML = `
+          <h2 class="main-heading">Orderbekräftelse</h2>`
+        // print out order-section to DOM
+        document.querySelector(".modal-dialog")!.innerHTML = `
+          <div class="modal-content order-section">
+            <div class="modal-body">
+            </div>
+          </div>
+
+      `
       })
-    }
+    } 
   }
 })
