@@ -391,6 +391,14 @@ body {
       }
     }
 
+    // ORDER MODAL
+.order-section {
+  background-color: $clr-button;
+}
+
+    .order-section .modal-body {
+      font-size: 2em;
+    }
     // PRIMARY BUTTON STYLING
     .clr-button {
       background-color: $clr-button;

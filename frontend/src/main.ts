@@ -441,13 +441,13 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       `
       if(orderStatus === 'success') {
         document.querySelector(".modal-body")!.innerHTML = `
-          <p class="success-message">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
-          <p class="success-message">Ditt ordernummer är: ${orderData.id}!</p>
+          <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
+          <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
         `
       } else {
         document.querySelector(".modal-body")!.innerHTML = `
-          <p class="success-message">Sorry ${newOrder.customer_first_name} ${newOrder.customer_last_name}, something went wrong with your order.</p>
-          <p class="success-message">Please try to place your order again.</p>    
+          <p class="success-message text-center p-3">Sorry ${newOrder.customer_first_name} ${newOrder.customer_last_name}, something went wrong with your order.</p>
+          <p class="success-message text-center p-3">Please try to place your order again.</p>    
         `
       }
         }
