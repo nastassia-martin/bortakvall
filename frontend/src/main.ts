@@ -1,9 +1,10 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "./styles/style.css";
 import { fetchData } from "./API";
-import { IProduct, IOrderInfo, IOrder, ICartItems } from "./interfaces";
+import { IProduct, IOrderInfo, IOrder, ICartItems, IConfirmation, IConfirmationResult } from "./interfaces";
 import { Modal, Offcanvas } from "bootstrap";
 import { populateOrder } from "./populateOrder";
+import { fetchOrder, postOrder } from "./post";
 
 //(E2S1T3) - add when we are doing E3
 //import { addToCart } from './btn-click-counter-trolley'
@@ -394,10 +395,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
               const customerInputEmail = document.querySelector<HTMLInputElement>("#email")!.value
               const customerInputPhone = document.querySelector<HTMLInputElement>("#phone")!.value
               
-              // if (!orderEl) {
-              //   alert("That's not a order");
-              //   return;
-              // }
+
               
               const ItemOrder = populateOrder(cartItems);
               const newOrder: IOrder = {
@@ -413,6 +411,16 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
               }
               console.log("order order: ", newOrder)
               console.log(JSON.stringify(newOrder)) // we post this information to Johan's server
+
+              const res = await postOrder(newOrder)
+              console.log(typeof(res))
+
+              let entries = Object.entries(res)
+              let data = (entries[1].filter(data => data.id))
+
+              console.log(data)
+
+              let confirmation: IConfirmation [] = []
             })
       }
       

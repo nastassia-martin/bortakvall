@@ -43,4 +43,10 @@ export interface ICartItems {
     item_price: number,
     item_total: number,
 }
-
+export interface IConfirmation {
+    order_id: number
+}
+export interface IConfirmationResult {
+    status: string,
+    data: IConfirmation[]
+}

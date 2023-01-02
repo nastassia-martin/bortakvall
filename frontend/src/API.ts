@@ -9,3 +9,5 @@ export const fetchData = async () => {
 
     return await res.json() as IResult
 }
+
+
