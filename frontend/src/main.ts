@@ -66,7 +66,6 @@ const renderProducts = () => {
           .querySelector(`#product-num${product.id}`)!
           .setAttribute("disabled", "disabled");
       }
-      console.log(product)
     });
   };
 
