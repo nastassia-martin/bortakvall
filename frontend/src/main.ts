@@ -322,8 +322,11 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
         cartItems[index].qty--;
         updateQty()
       } else {
-        removeFromCart()
-        disableCheckoutBtn()
+        totalSum!.innerHTML = ``;
+        cartItems.splice(index, 1)
+        cartInfoArr[index].remove()
+        // if there no longer is any items in cartItems, set 'betala-btn' to disabled
+        document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
       }
     } else if (clickedBtn.classList.contains('checkout-btn')) {
       modal.show()
