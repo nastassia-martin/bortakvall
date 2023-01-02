@@ -46,7 +46,7 @@ const renderProducts = () => {
               <h3 data-id="${product.id}" class="card-title pt-3">${product.name}</h3>
               <p data-id="${product.id}" class="card-text">${product.price} kr</p>
               <p data-id="${product.id}" class="card-text stock-qty">${product.stock_quantity} i lager</p>
-              <button id="product-num${product.id}" class = "clr-button" data-id="${product.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              <button id="product-num${product.id}" class ="clr-button" data-id="${product.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
               class="bi bi-basket" viewBox="0 0 16 16">
               <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z" />
               </svg>Lägg till</button>
@@ -60,11 +60,12 @@ const renderProducts = () => {
   //Test 1 THIS WORKS
   const disableButton = () => {
     products.forEach((product) => {
-      if (product.stock_quantity < 1) {
+      if (product.stock_status === "outofstock") {
         document
           .querySelector(`#product-num${product.id}`)!
           .setAttribute("disabled", "disabled");
       }
+      console.log(product)
     });
   };
 
@@ -91,7 +92,7 @@ const renderProducts = () => {
 <p>Varav ${inStockProducts.length} i lager</p>
 </div>
 <div class="col-6 filter">
-<button type="button" class ="filter-button button">Filtrera (A-Ö)</button>
+<button type="button" class="filter-button button">Filtrera (A-Ö)</button>
 </div>
 `;
   document.querySelector(".filter-button")?.addEventListener("click", () => {
@@ -237,7 +238,7 @@ rowEl?.addEventListener("click", (e) => {
     </div>
         `;
     // if product is out of stock, disable 'lägg till'-btn 
-    if (products[index].stock_quantity < 1) {
+    if (products[index].stock_status === "outofstock") {
       document
         .querySelector(`#product-num${products[index].id}`)!
         .setAttribute("disabled", "disabled");
@@ -261,12 +262,10 @@ rowEl?.addEventListener("click", (e) => {
 
 // ** Add / subtract / delete items inside of cart **
 document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
-  // change nr of products in cart
-  let clickedBtn;
-  let clickedID: any;
+  let clickedBtn: any
   clickedBtn = e.target as HTMLButtonElement;
 
-  // to be able to print out multiple qty i need to make an array of the elements
+  // to be able to print out the clicked item i made arrays of the elements
   const productQty = document.querySelectorAll(".product-qty");
   const productQtyArr = Array.from(productQty);
   const cartInfo = document.querySelectorAll(".cart-item");
@@ -275,51 +274,59 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
   const productPriceArr = Array.from(productPrice);
   const totalSum = document.querySelector(".total_order_container");
 
+  // get the product.id from the clicked product and save as index, add 1 to qty and print out new qty
+  const getClickedIndex = () => {
+    let clickedID: any
+    clickedID = clickedBtn.dataset.id
+    index = cartItems.findIndex(product => product.id === Number(clickedID))
+  }
+
+  // count item_total and print out new qty and total sum
+  const updateQty = () => {
+    cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
+    productQtyArr[index].innerHTML = `${cartItems[index].qty}`
+    productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`
+    const order = populateOrder(cartItems);
+    totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
+  }
+
+  // remove chosen item from array and cart and print out new sum
+  const removeFromCart = () => {
+    cartItems.splice(index, 1)
+    cartInfoArr[index].remove()
+    const order = populateOrder(cartItems);
+    totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
+  }
+
+  // if there no longer is any items in cartItems, set 'betala-btn' to disabled
+  const disableCheckoutBtn = () => {
+    if (cartItems.length < 1) {
+      document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
+      totalSum!.innerHTML = ``;
+    }
+  }
+
   // only respond to button/img elements
   if (clickedBtn.tagName === 'BUTTON' || clickedBtn.tagName === 'IMG') {
-    // when + is clicked
     if (clickedBtn.classList.contains("btn-plus")) {
-      // get the product.id from the clicked product and save as index, add 1 to qty and print out new qty
-      clickedID = clickedBtn.dataset.id
-      index = cartItems.findIndex(product => product.id === Number(clickedID))
+      getClickedIndex()
       cartItems[index].qty++
-      cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
-      productQtyArr[index].innerHTML = `${cartItems[index].qty}`
-      productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`
-      const order = populateOrder(cartItems);
-      totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
+      updateQty()
     } else if (clickedBtn.classList.contains('btn-trash')) {
-      // do the same with trashcan, but remove item from cartItems arr and delete el from DOM 
-      clickedID = clickedBtn.dataset.id
-      index = cartItems.findIndex(product => product.id === Number(clickedID))
-      cartItems.splice(index, 1)
-      cartInfoArr[index].remove()
-      const order = populateOrder(cartItems);
-      totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
-      // if there no longer is any items in cartItems, set 'betala-btn' to disabled
-      if (cartItems.length < 1) {
-        document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
-        totalSum!.innerHTML = ``;
-      }
+      getClickedIndex()
+      removeFromCart()
+      disableCheckoutBtn()
     } else if (clickedBtn.classList.contains('btn-minus')) {
-      // do the same with -, but instead subtract by 1 and delete el from DOM 
-      clickedID = clickedBtn.dataset.id
-      index = cartItems.findIndex(product => product.id === Number(clickedID))
+      getClickedIndex()
       if (cartItems[index].qty > 1) {
         cartItems[index].qty--;
-        cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price;
-        productQtyArr[index].innerHTML = `${cartItems[index].qty}`;
-        productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`;
-        const order = populateOrder(cartItems);
-        totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
+        updateQty()
       } else {
         totalSum!.innerHTML = ``;
         cartItems.splice(index, 1)
         cartInfoArr[index].remove()
         // if there no longer is any items in cartItems, set 'betala-btn' to disabled
         document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
-        const order = populateOrder(cartItems);
-        totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
       }
     } else if (clickedBtn.classList.contains('checkout-btn')) {
       modal.show()
