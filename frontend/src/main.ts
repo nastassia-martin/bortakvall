@@ -426,11 +426,16 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
               </div>
               <br>
               <div class="cart-info col-10">
-                  <div class="product-name">
-                    <p class="cart-name">${cartItem.name}</p>
-                    <p data-id="${cartItem.id}" class="product-qty">${cartItem.qty}</p>
-                    <p class="product-sum">Totalt: ${cartItem.item_total}kr (${cartItem.item_price}kr/st)</p>
-                  </div>
+                <div class="product-name checkout-info">
+                  <p class="cart-name">Produkt</p>
+                  <p class="product-qty">Antal</p>
+                  <p class="product-sum">Totalt:</p>
+                </div>
+                <div class="product-name checkout-product">
+                  <p class="cart-name">${cartItem.name}</p>
+                  <p data-id="${cartItem.id}" class="product-qty">${cartItem.qty}</p>
+                  <p class="product-sum">${cartItem.item_total}kr (${cartItem.item_price}kr/st)</p>
+                </div>
               </div>
             </div>`
         )
