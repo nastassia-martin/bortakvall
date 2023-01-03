@@ -6,10 +6,6 @@ import { Modal, Offcanvas } from "bootstrap";
 import { populateOrder } from "./populateOrder";
 import { fetchOrder, postOrder } from "./post";
 
-//(E2S1T3) - add when we are doing E3
-//import { addToCart } from './btn-click-counter-trolley'
-//addToCart() */
-
 const rowEl = document.querySelector(".products-container")
 const URL = "https://www.bortakvall.se/"
 
@@ -26,15 +22,14 @@ const getProducts = async () => {
 
 getProducts()
 
-// Check if products are in stock 
+// Check if products are in stock, set value from null to 0
 const checkStockStatus = () => {
   products.forEach((product) => {
     if (product.stock_quantity < 1) {
-      product.stock_quantity = "finns inte"
+      product.stock_quantity = 0
     }
   })
 }
-
 
 // Render products to DOM
 const renderProducts = () => {
@@ -47,7 +42,7 @@ const renderProducts = () => {
               <h3 data-id="${product.id}" class="card-title pt-3">${product.name}</h3>
               <p data-id="${product.id}" class="card-text">${product.price} kr</p>
               <p data-id="${product.id}" class="card-text stock-qty">${product.stock_quantity} i lager</p>
-              <button id="product-num${product.id}" class ="clr-button" data-id="${product.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              <button id="product-num${product.id}" class="clr-button" data-id="${product.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
               class="bi bi-basket" viewBox="0 0 16 16">
               <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z" />
               </svg>Lägg till</button>
@@ -56,49 +51,52 @@ const renderProducts = () => {
        </div>
        `
     )
-    .join("");
+    .join("")
 
-  //Test 1 THIS WORKS
-  const disableButton = () => {
-    products.forEach((product) => {
-      if (product.stock_status === "outofstock") {
-        document
-          .querySelector(`#product-num${product.id}`)!
-          .setAttribute("disabled", "disabled");
-      }
-    });
-  };
+  products.forEach((product) => {
+    if (product.stock_status === "outofstock") {
+      document
+        .querySelector(`#product-num${product.id}`)!
+        .setAttribute("disabled", "disabled")
+    }
+  })
 
-  disableButton();
+  // filter the products not in stock
+  let inStockProducts = products.filter(
+    (product) => product.stock_quantity > 0
+  )
 
-  // render number of products to 'product overview' section
-  const inStockProducts = products.filter(
-    (product) => product.stock_status === "instock"
-  );
+  // print out stock overview top left
+  document.querySelector(".product-overview")!.innerHTML = `
+  <div class="col-6">
+    <p>Antal produkter: ${products.length}</p>
+    <p>Varav ${inStockProducts.length} i lager</p>
+  </div>
+  <div class="col-6 filter">
+    <button type="button" class="filter-button button">Filtrera (A-Ö)</button>
+  </div>`
 
   // sort function from a-ö
-  products.sort((a, b) => {
-    if (a.name < b.name) {
-      return -1;
-    }
-    if (a.name > b.name) {
-      return 1;
-    }
-    return 0;
-  });
+  const sortProducts = () => {
+    products.sort((a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    })
+  }
 
-  document.querySelector(".product-overview")!.innerHTML = `<div class="col-6">
-<p>Antal produkter: ${products.length}</p>
-<p>Varav ${inStockProducts.length} i lager</p>
-</div>
-<div class="col-6 filter">
-<button type="button" class="filter-button button">Filtrera (A-Ö)</button>
-</div>
-`;
   document.querySelector(".filter-button")?.addEventListener("click", () => {
-    renderProducts();
-  });
-};
+    // only sort the products if filter-btn is pressed
+    sortProducts()
+    renderProducts()
+  })
+}
+
+
 
 // create variables to use modal (bootstrap)
 const modalEl = document.getElementById("moreInfoModal")!;
@@ -140,7 +138,10 @@ const addToCart = () => {
   // instead of adding a new one, only add qty of that item and count item_total
   if (doubleID) {
     const index = cartItems.findIndex((product) => product.id === doubleID?.id);
-    cartItems[index].qty++;
+    // only add to cart if stock_quantity is > 0
+    if (products[index].stock_quantity) {
+      cartItems[index].qty++;
+    }
     cartItems[index].item_total =
       cartItems[index].qty * cartItems[index].item_price;
   }
@@ -158,7 +159,18 @@ const addToCart = () => {
 
   // remove 'disabled' from betala-button when something is added to cart
   document.querySelector('.checkout-btn')?.removeAttribute('disabled')
-};
+
+  // adjust stock_quantity of added item
+  if (products[index].stock_quantity >= 1) {
+    products[index].stock_quantity--
+    renderProducts()
+    if (!products[index].stock_quantity) {
+      products[index].stock_status = "outofstock"
+      renderProducts()
+    }
+  }
+}
+
 
 // print out added items to cart
 const renderToCart = () => {
@@ -215,7 +227,7 @@ rowEl?.addEventListener("click", (e) => {
 
     // print out headline to modal section
     document.querySelector(".heading-container")!.innerHTML = `
-            <h2 class="main-heading">${products[index].name}</h2>`;
+                <h2 class="main-heading">${products[index].name}</h2>`;
 
     // print modal to DOM
     document.querySelector(".modal-body")!.innerHTML = `
@@ -313,18 +325,39 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       getClickedIndex()
       cartItems[index].qty++
       updateQty()
+      findIndex()
+      products[index].stock_quantity--
+      renderProducts()
     } else if (clickedBtn.classList.contains('btn-trash')) {
       getClickedIndex()
+      // save the qty that were collected
+      const resetQty = cartItems[index].qty
       removeFromCart()
       disableCheckoutBtn()
+      findIndex()
+      // set the products stock_quantity back to what it had
+      products[index].stock_quantity = resetQty
+      products[index].stock_status = "instock"
+      renderProducts()
     } else if (clickedBtn.classList.contains('btn-minus')) {
       getClickedIndex()
       if (cartItems[index].qty > 1) {
         cartItems[index].qty--;
         updateQty()
+        findIndex()
+        products[index].stock_quantity++
+        products[index].stock_status = "instock"
+        renderProducts()
       } else {
-        removeFromCart()
-        disableCheckoutBtn()
+        totalSum!.innerHTML = ``;
+        cartItems.splice(index, 1)
+        cartInfoArr[index].remove()
+        findIndex()
+        products[index].stock_quantity++
+        products[index].stock_status = "instock"
+        renderProducts()
+        // if there no longer is any items in cartItems, set 'betala-btn' to disabled
+        document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
       }
     } else if (clickedBtn.classList.contains('checkout-btn')) {
       modal.show()
@@ -333,11 +366,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       document.querySelector('.heading-container')!.innerHTML = `
             <h2 class="main-heading">Kassa</h2>`
 
-
-      // take the order from the cart and paste into form
-
       // print modal to DOM
-
       const order = populateOrder(cartItems);
       document.querySelector(".modal-body")!.innerHTML = `
       <div class="container">
@@ -440,9 +469,8 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
             <div class="modal-body">
             </div>
           </div>
-
       `
       })
-    } 
+    }
   }
 })
