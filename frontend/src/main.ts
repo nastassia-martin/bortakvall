@@ -341,7 +341,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       const order = populateOrder(cartItems);
       document.querySelector(".modal-body")!.innerHTML = `
       <div class="container">
-        <div class="row">        
+        <div class="row gy-4">     
           <div class="col-sm-12 col-md-12 col-lg-6 checkout-products">
           </div>
           <div class="col-sm-12 col-md-12 col-lg-6 customer-info">
@@ -455,4 +455,3 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
     } 
   }
 })
-getProducts()
