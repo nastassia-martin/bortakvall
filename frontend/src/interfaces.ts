@@ -48,5 +48,6 @@ export interface IConfirmation {
 }
 export interface IConfirmationResult {
     status: string,
-    data: IConfirmation
+    data: IConfirmation,
+    message: string
 }
