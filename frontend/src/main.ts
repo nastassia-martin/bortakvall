@@ -9,8 +9,11 @@ import { fetchOrder, postOrder } from "./post";
 const rowEl = document.querySelector(".products-container")
 const URL = "https://www.bortakvall.se/"
 
+const jsonCartItems = localStorage.getItem('cartItems') ?? '[]'
+const jsonProducts = localStorage.getItem('products') ?? '[]'
+
 // Empty array to fetch data to
-let products: IProduct[] = []
+let products: IProduct[] = JSON.parse(jsonProducts)
 
 // Get data from API and save it into products-array
 const getProducts = async () => {
@@ -18,6 +21,9 @@ const getProducts = async () => {
   products = result.data
   checkStockStatus()
   renderProducts()
+  if (cartItems) {
+    renderToCart()
+  }
 };
 
 getProducts()
@@ -115,7 +121,7 @@ const findIndex = () => {
 };
 
 // empty array to put cartItems in
-let cartItems: ICartItems[] = [];
+let cartItems: ICartItems[] = JSON.parse(jsonCartItems)
 
 // function to push clicked item to the cartItems array
 const addToCart = () => {
@@ -169,6 +175,22 @@ const addToCart = () => {
       renderProducts()
     }
   }
+
+  saveItems()
+}
+
+const saveItems = () => {
+  const setCartItems = JSON.stringify(cartItems)
+  const setProducts = JSON.stringify(products)
+
+  localStorage.setItem('cartItems', setCartItems)
+  localStorage.setItem('stock_qty', setProducts)
+  console.log()
+
+  // has to save products as well, (stock_quantity, stock_status)
+  // behöver lägga till när man trycker på +, - och trash
+
+  // kolla om product stock_qty sparas och rendera ut produkter igen
 }
 
 
@@ -406,7 +428,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
                 <input type="tel" name="phone" id="phone" class="form-control" placeholder="+46 701 23 45 67">
               </div>
               <div class="col-12">
-                <button type="submit" class="clr-button btn-small">Lägg order</button>
+                <button type="submit" class="clr-button order-btn">Lägg order</button>
               </div>
             </form>
           </div>
