@@ -9,8 +9,9 @@ import { fetchOrder, postOrder } from "./post";
 const rowEl = document.querySelector(".products-container")
 const URL = "https://www.bortakvall.se/"
 
-const jsonCartItems = localStorage.getItem('cartItems') ?? '[]'
-const jsonProducts = localStorage.getItem('products') ?? '[]'
+// Get items from localStorage
+const jsonProducts = localStorage.getItem('stock_qty') ?? '[]'
+const jsonCart = localStorage.getItem('cart_items') ?? '[]'
 
 // Empty array to fetch data to
 let products: IProduct[] = JSON.parse(jsonProducts)
@@ -18,13 +19,16 @@ let products: IProduct[] = JSON.parse(jsonProducts)
 // Get data from API and save it into products-array
 const getProducts = async () => {
   const result = await fetchData()
-  products = result.data
+  // if localstorage is empty, fill products array 
+  if (products.length <= 0) {
+    products = result.data
+  }
   checkStockStatus()
   renderProducts()
   if (cartItems) {
     renderToCart()
   }
-};
+}
 
 getProducts()
 
@@ -102,8 +106,6 @@ const renderProducts = () => {
   })
 }
 
-
-
 // create variables to use modal (bootstrap)
 const modalEl = document.getElementById("moreInfoModal")!;
 const modal = new Modal(modalEl);
@@ -121,7 +123,7 @@ const findIndex = () => {
 };
 
 // empty array to put cartItems in
-let cartItems: ICartItems[] = JSON.parse(jsonCartItems)
+let cartItems: ICartItems[] = JSON.parse(jsonCart)
 
 // function to push clicked item to the cartItems array
 const addToCart = () => {
@@ -175,23 +177,18 @@ const addToCart = () => {
       renderProducts()
     }
   }
-
+  // save products to localstorage
   saveItems()
+  console.log(products)
 }
 
 const saveItems = () => {
-  const setCartItems = JSON.stringify(cartItems)
-  const setProducts = JSON.stringify(products)
+  localStorage.setItem('stock_qty', JSON.stringify(products))
+  localStorage.setItem('cart_items', JSON.stringify(cartItems))
 
-  localStorage.setItem('cartItems', setCartItems)
-  localStorage.setItem('stock_qty', setProducts)
-  console.log()
-
-  // has to save products as well, (stock_quantity, stock_status)
   // behöver lägga till när man trycker på +, - och trash
-
-  // kolla om product stock_qty sparas och rendera ut produkter igen
 }
+
 
 
 // print out added items to cart
@@ -246,7 +243,6 @@ rowEl?.addEventListener("click", (e) => {
     findIndex()
     // open modal
     modal.show()
-    console.log(clickedItem.tagName)
 
     // print out headline to modal section
     document.querySelector(".heading-container")!.innerHTML = `
@@ -350,6 +346,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       findIndex()
       products[index].stock_quantity--
       renderProducts()
+      saveItems()
     } else if (clickedBtn.classList.contains('btn-trash')) {
       getClickedIndex()
       // save the qty that were collected
@@ -358,9 +355,10 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       disableCheckoutBtn()
       findIndex()
       // set the products stock_quantity back to what it had
-      products[index].stock_quantity = resetQty
+      products[index].stock_quantity += resetQty
       products[index].stock_status = "instock"
       renderProducts()
+      saveItems()
     } else if (clickedBtn.classList.contains('btn-minus')) {
       getClickedIndex()
       if (cartItems[index].qty > 1) {
@@ -370,6 +368,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
         products[index].stock_quantity++
         products[index].stock_status = "instock"
         renderProducts()
+        saveItems()
       } else {
         totalSum!.innerHTML = ``;
         cartItems.splice(index, 1)
@@ -380,6 +379,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
         renderProducts()
         // if there no longer is any items in cartItems, set 'betala-btn' to disabled
         document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
+        saveItems()
       }
     } else if (clickedBtn.classList.contains('checkout-btn')) {
       modal.show()
@@ -483,9 +483,9 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
           const res = await postOrder(newOrder)
           const orderData = res.data
           const orderStatus = res.status
-          console.log(orderData.id) // get the ID 
-          console.log(orderStatus) // get the status
+
         }
+
         getConfirmation()
 
         document.querySelector('.heading-container')!.innerHTML = `
