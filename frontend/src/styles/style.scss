@@ -240,8 +240,11 @@ body {
         .modal-price {
           font-family: $ff-price;
         }
-
-        .checkout-products {
+        .modal-button {
+          width: 100%;
+          height: 3em;
+        }
+        .checkout-products{
           .cart-item {
             background-color: #fff;
             height: 90px;
@@ -300,6 +303,12 @@ body {
             input {
               background-color: #fcbc1a48;
               border: 1px solid $clr-button;
+            }
+
+            .lagg-order {
+              width: 100%;
+              height: 3em;
+              margin-bottom: 10px;
             }
           }
         }
@@ -395,6 +404,14 @@ body {
       }
     }
 
+    // ORDER MODAL
+.order-section {
+  background-color: $clr-button;
+}
+
+    .order-section .modal-body {
+      font-size: 2em;
+    }
     // PRIMARY BUTTON STYLING
     .clr-button {
       background-color: $clr-button;

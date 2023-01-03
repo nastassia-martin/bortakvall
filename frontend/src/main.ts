@@ -203,8 +203,8 @@ const renderToCart = () => {
 
   document.querySelector(".offcanvas-body")!.innerHTML += `
   <div class="button-container">
-  <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
-  <button type="button" class="clr-button checkout-btn">Gå till kassan</button>
+  <button type="button" class="clr-button mx-1" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
+  <button type="button" class="clr-button mx-1 checkout-btn">Gå till kassan</button>
   </div>
  
   <div class="total_order_container">
@@ -233,11 +233,11 @@ rowEl?.addEventListener("click", (e) => {
     document.querySelector(".modal-body")!.innerHTML = `
     <div class="container">
       <div class="row">        
-        <div class="col-6">
+        <div class="col-sm-12 col-md-12">
           <img class="img-fluid modal-img" src="${URL}${products[index].images.large}" alt="image of ${products[index].name}">
           <h3 class="modal-title pt-3 text-center">${products[index].name}</h3>
         </div>
-        <div class="col-6 modal-body text-center">
+        <div class="col-sm-12 col-md-12 modal-body text-center">
           <p class="text-center">Produktinformation<p>
           <p class="text-center">Artikel nr: ${products[index].id}</p>
               ${products[index].description}
@@ -370,10 +370,10 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       const order = populateOrder(cartItems);
       document.querySelector(".modal-body")!.innerHTML = `
       <div class="container">
-        <div class="row">        
-          <div class="col-6 modal-body checkout-products">
+        <div class="row gy-4">     
+          <div class="col-sm-12 col-md-12 col-lg-6 checkout-products">
           </div>
-          <div class="col-6 modal-body customer-info">
+          <div class="col-sm-12 col-md-12 col-lg-6 customer-info">
             <form id="new-order">
               <div class="form-group mb-1">
               <label for="first-name">Förnamn</label>
@@ -405,8 +405,8 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
                 <label for="phone">Telefon</label>
                 <input type="tel" name="phone" id="phone" class="form-control" placeholder="+46 701 23 45 67">
               </div>
-              <div class="col-12">
-                <button type="submit" class="clr-button btn-small">Lägg order</button>
+              <div >
+                <button type="submit" role="button" class="clr-button lagg-order">Lägg order</button>
               </div>
             </form>
           </div>
@@ -424,7 +424,6 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
               <div class="cart-img col-2">
                 <img class="img-fluid" src="${URL}${cartItem.image}" alt="image of ${cartItem.name}">
               </div>
-              <br>
               <div class="cart-info col-10">
                   <div class="product-name">
                     <p class="cart-name">${cartItem.name}</p>
@@ -458,10 +457,8 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
           const orderStatus = res.status
           console.log(orderData.id) // get the ID 
           console.log(orderStatus) // get the status
-        }
-        getConfirmation()
 
-        document.querySelector('.heading-container')!.innerHTML = `
+          document.querySelector('.heading-container')!.innerHTML = `
           <h2 class="main-heading">Orderbekräftelse</h2>`
         // print out order-section to DOM
         document.querySelector(".modal-dialog")!.innerHTML = `
@@ -470,6 +467,19 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
             </div>
           </div>
       `
+      if(orderStatus === 'success') {
+        document.querySelector(".modal-body")!.innerHTML = `
+          <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
+          <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
+        `
+      } else {
+        document.querySelector(".modal-body")!.innerHTML = `
+          <p class="success-message text-center p-3">Sorry ${newOrder.customer_first_name} ${newOrder.customer_last_name}, something went wrong with your order.</p>
+          <p class="success-message text-center p-3">Please try to place your order again.</p>    
+        `
+      }
+        }
+        getConfirmation()
       })
     }
   }
