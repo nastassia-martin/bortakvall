@@ -298,8 +298,6 @@ body {
           form {
             font-family: $ff-product;
 
-            label {}
-
             input {
               background-color: #fcbc1a48;
               border: 1px solid $clr-button;
@@ -396,6 +394,7 @@ body {
                   height: 25px;
                   width: 25px;
                   padding-right: 5px;
+                  pointer-events: none
                 }
               }
             }
