@@ -82,7 +82,7 @@ body {
       border: none;
       position: fixed;
       right: 0;
-      bottom:100px;
+      bottom: 100px;
       z-index: 1;
     }
 
@@ -239,7 +239,8 @@ body {
         .modal-price {
           font-family: $ff-price;
         }
-        .checkout-products{
+
+        .checkout-products {
           .cart-item {
             background-color: #fff;
             height: 90px;
@@ -249,12 +250,13 @@ body {
             align-items: center;
             border-bottom: 1px solid rgb(196, 196, 196);
 
-          .cart-img {
-            width: 50px;
-            height: 50px;
-            box-shadow: 1px 1px 7px #0000007c;
+            .cart-img {
+              width: 50px;
+              height: 50px;
+              box-shadow: 1px 1px 7px #0000007c;
+            }
           }
-        }
+
           .cart-name {
             // background-color: $clr-white;
             display: inline-block;
@@ -268,14 +270,14 @@ body {
             justify-content: space-between;
             width: 100%;
             align-items: center;
-            
+
 
             p {
               margin: 1rem 0 0 0;
             }
-            
+
           }
-          
+
           .qty {
             display: flex;
             align-items: center;
@@ -287,6 +289,7 @@ body {
             }
           }
         }
+
         .customer-info {
           form {
             font-family: $ff-product;
@@ -389,6 +392,21 @@ body {
       }
     }
 
+    // -----BACK TO TOP BUTTON-------
+    #btn-back-to-top {
+      position: fixed;
+      bottom: 20px;
+      right: 35px;
+      display: flex;
+      color: #fcbd1a;
+    }
+
+    .bi-arrow-up {
+      color: #000000;
+    }
+
+
+
     // PRIMARY BUTTON STYLING
     .clr-button {
       background-color: $clr-button;
@@ -490,15 +508,6 @@ body {
           }
         }
       }
-
-      #btn-back-to-top {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        display: none;
-        color: #fcbd1a;
-      }
-
 
       .clr-button {
         font-size: 20px;
