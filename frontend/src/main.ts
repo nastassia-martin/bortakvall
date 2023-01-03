@@ -366,11 +366,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       document.querySelector('.heading-container')!.innerHTML = `
             <h2 class="main-heading">Kassa</h2>`
 
-
-      // take the order from the cart and paste into form
-
       // print modal to DOM
-
       const order = populateOrder(cartItems);
       document.querySelector(".modal-body")!.innerHTML = `
       <div class="container">
@@ -473,7 +469,6 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
             <div class="modal-body">
             </div>
           </div>
-
       `
       })
     }
