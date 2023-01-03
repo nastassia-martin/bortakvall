@@ -191,8 +191,8 @@ const renderToCart = () => {
 
   document.querySelector(".offcanvas-body")!.innerHTML += `
   <div class="button-container">
-  <button type="button" class="clr-button" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
-  <button type="button" class="clr-button checkout-btn">Gå till kassan</button>
+  <button type="button" class="clr-button mx-1" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
+  <button type="button" class="clr-button mx-1 checkout-btn">Gå till kassan</button>
   </div>
  
   <div class="total_order_container">
@@ -376,8 +376,8 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
                 <label for="phone">Telefon</label>
                 <input type="tel" name="phone" id="phone" class="form-control" placeholder="+46 701 23 45 67">
               </div>
-              <div class="col-12">
-                <button type="submit" class="clr-button btn-small">Lägg order</button>
+              <div >
+                <button type="submit" role="button" class="clr-button lagg-order">Lägg order</button>
               </div>
             </form>
           </div>
@@ -395,7 +395,6 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
               <div class="cart-img col-2">
                 <img class="img-fluid" src="${URL}${cartItem.image}" alt="image of ${cartItem.name}">
               </div>
-              <br>
               <div class="cart-info col-10">
                   <div class="product-name">
                     <p class="cart-name">${cartItem.name}</p>
