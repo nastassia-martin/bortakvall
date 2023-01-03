@@ -489,8 +489,15 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
           const orderData = res.data
           const orderStatus = res.status
 
+          if (orderStatus === 'success'){
+            localStorage.clear()
+          }
+
+          console.log (orderData)
+          console.log(orderStatus)
         }
 
+        
         getConfirmation()
 
         document.querySelector('.heading-container')!.innerHTML = `
