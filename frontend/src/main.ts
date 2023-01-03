@@ -496,9 +496,10 @@ const sendOrder = () => {
       const orderData = res.data
       const orderStatus = res.status
 
+      // print out order-section to DOM
       document.querySelector('.heading-container')!.innerHTML = `
           <h2 class="main-heading">Orderbekräftelse</h2>`
-      // print out order-section to DOM
+
       document.querySelector(".modal-dialog")!.innerHTML = `
           <div class="modal-content order-section">
             <div class="modal-body">
