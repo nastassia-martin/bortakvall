@@ -216,18 +216,19 @@ const renderToCart = () => {
 
 rowEl?.addEventListener("click", (e) => {
   // save e.target to clickedItem
-  clickedItem = e.target as HTMLElement;
+  clickedItem = e.target as HTMLElement
 
   // if click on picture, card, name or price
-  if (clickedItem.className !== "clr-button") {
+  if (clickedItem.tagName !== "DIV" && clickedItem.className !== "clr-button") {
     // call function to find index of products to print
-    findIndex();
+    findIndex()
     // open modal
-    modal.show();
+    modal.show()
+    console.log(clickedItem.tagName)
 
     // print out headline to modal section
     document.querySelector(".heading-container")!.innerHTML = `
-                <h2 class="main-heading">${products[index].name}</h2>`;
+    <h2 class="main-heading">${products[index].name}</h2>`
 
     // print modal to DOM
     document.querySelector(".modal-body")!.innerHTML = `
@@ -248,8 +249,7 @@ rowEl?.addEventListener("click", (e) => {
           </svg>Lägg till</button>
         </div>
       </div>
-    </div>
-        `;
+    </div>`
     // if product is out of stock, disable 'lägg till'-btn 
     if (products[index].stock_status === "outofstock") {
       document
