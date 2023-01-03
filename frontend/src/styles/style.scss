@@ -181,6 +181,13 @@ body {
                   text-align: right;
                   font-size: 0.8rem;
                 }
+
+                .err {
+                  font-size: 0.7rem;
+                  color: red;
+                  width: 100%;
+                  padding-left: 10px;
+                }
               }
             }
           }
@@ -302,8 +309,6 @@ body {
         .customer-info {
           form {
             font-family: $ff-product;
-
-            label {}
 
             input {
               background-color: #fcbc1a48;

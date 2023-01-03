@@ -13,13 +13,13 @@ const URL = "https://www.bortakvall.se/"
 const jsonProducts = localStorage.getItem('stock_qty') ?? '[]'
 const jsonCart = localStorage.getItem('cart_items') ?? '[]'
 
-// Empty array to fetch data to
+// Array for products, with products from localStorage if there is any
 let products: IProduct[] = JSON.parse(jsonProducts)
 
 // Get data from API and save it into products-array
 const getProducts = async () => {
   const result = await fetchData()
-  // if localstorage is empty, fill products array 
+  // IF localstorage is empty, fill products array 
   if (products.length <= 0) {
     products = result.data
   }
@@ -112,7 +112,8 @@ const modal = new Modal(modalEl);
 
 // should be able to be different depending on what eventListener used
 let clickedItem: any;
-let index: any;
+let index: number;
+let productIndex: any;
 
 // function to find the index of the item clicked
 const findIndex = () => {
@@ -211,6 +212,7 @@ const renderToCart = () => {
                 <button title="btnMinus" class="btn-minus" data-id="${cartItem.id}"><img data-id="${cartItem.id}" class="btn-minus" src="/node_modules/bootstrap-icons/icons/dash-circle.svg" alt="Bootstrap" width="25" height="25"></button>
                 <p data-id="${cartItem.id}" class="product-qty">${cartItem.qty}</p>
                 <button title="btnPlus" class="btn-plus" data-id="${cartItem.id}"><img data-id="${cartItem.id}" class="btn-plus" src="/node_modules/bootstrap-icons/icons/plus-circle-fill.svg" alt="Bootstrap" width="25" height="25"></button>
+                <p class="err"></p>
                 <p class="product-sum">Totalt: ${cartItem.item_total}kr (${cartItem.item_price}kr/st)</p>
               </div>
           </div>
@@ -303,6 +305,8 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
   const cartInfoArr = Array.from(cartInfo);
   const productPrice = document.querySelectorAll(".product-sum");
   const productPriceArr = Array.from(productPrice);
+  const err = document.querySelectorAll('.err')
+  const errArr = Array.from(err)
   const totalSum = document.querySelector(".total_order_container");
 
   // get the product.id from the clicked product and save as index, add 1 to qty and print out new qty
@@ -310,9 +314,10 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
     let clickedID: any
     clickedID = clickedBtn.dataset.id
     index = cartItems.findIndex(product => product.id === Number(clickedID))
+    productIndex = products.findIndex((product) => product.id === Number(clickedID));
   }
 
-  // count item_total and print out new qty and total sum
+  // count item_total and render new qty and total sum
   const updateQty = () => {
     cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
     productQtyArr[index].innerHTML = `${cartItems[index].qty}`
@@ -337,49 +342,49 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
     }
   }
 
-  // only respond to button/img elements
+  // render updated stock values to DOM and save items to localstorage
+  const renderAndSave = () => {
+    renderProducts()
+    saveItems()
+  }
+
+  // only respond to button/img element clicks
   if (clickedBtn.tagName === 'BUTTON' || clickedBtn.tagName === 'IMG') {
     if (clickedBtn.classList.contains("btn-plus")) {
       getClickedIndex()
-      cartItems[index].qty++
-      updateQty()
-      findIndex()
-      products[index].stock_quantity--
-      renderProducts()
-      saveItems()
+      if (products[productIndex].stock_quantity) {
+        cartItems[index].qty++
+        products[productIndex].stock_quantity--
+        updateQty()
+        renderAndSave()
+      } else {
+        errArr[index]!.innerHTML = `0 i lager`
+        setTimeout(() => {
+          errArr[index]!.innerHTML = ``
+        }, 2000);
+      }
     } else if (clickedBtn.classList.contains('btn-trash')) {
       getClickedIndex()
-      // save the qty that were collected
       const resetQty = cartItems[index].qty
       removeFromCart()
       disableCheckoutBtn()
-      findIndex()
-      // set the products stock_quantity back to what it had
-      products[index].stock_quantity += resetQty
-      products[index].stock_status = "instock"
-      renderProducts()
-      saveItems()
+      products[productIndex].stock_quantity += resetQty
+      products[productIndex].stock_status = "instock"
+      renderAndSave()
     } else if (clickedBtn.classList.contains('btn-minus')) {
       getClickedIndex()
       if (cartItems[index].qty > 1) {
         cartItems[index].qty--;
+        products[productIndex].stock_quantity++
+        products[productIndex].stock_status = "instock"
         updateQty()
-        findIndex()
-        products[index].stock_quantity++
-        products[index].stock_status = "instock"
-        renderProducts()
-        saveItems()
+        renderAndSave()
       } else {
-        totalSum!.innerHTML = ``;
-        cartItems.splice(index, 1)
-        cartInfoArr[index].remove()
-        findIndex()
-        products[index].stock_quantity++
-        products[index].stock_status = "instock"
-        renderProducts()
-        // if there no longer is any items in cartItems, set 'betala-btn' to disabled
+        removeFromCart()
+        products[productIndex].stock_quantity++
+        products[productIndex].stock_status = "instock"
         document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
-        saveItems()
+        renderAndSave()
       }
     } else if (clickedBtn.classList.contains('checkout-btn')) {
       modal.show()
