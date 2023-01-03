@@ -176,17 +176,17 @@ body {
                   margin: 0;
                 }
 
-                .product-sum {
-                  width: 100%;
-                  text-align: right;
-                  font-size: 0.8rem;
-                }
-
                 .err {
                   font-size: 0.7rem;
                   color: red;
                   width: 100%;
                   padding-left: 10px;
+                }
+
+                .product-sum {
+                  width: 100%;
+                  text-align: right;
+                  font-size: 0.8rem;
                 }
               }
             }
@@ -247,11 +247,13 @@ body {
         .modal-price {
           font-family: $ff-price;
         }
+
         .modal-button {
           width: 100%;
           height: 3em;
         }
-        .checkout-products{
+
+        .checkout-products {
           .cart-item {
             background-color: #fff;
             height: 90px;
@@ -419,13 +421,11 @@ body {
     }
 
     // ORDER MODAL
-.order-section {
-  background-color: $clr-button;
-}
-
-    .order-section .modal-body {
+    .modalbody.order-section {
+      background-color: $clr-button;
       font-size: 2em;
     }
+
     // PRIMARY BUTTON STYLING
     .clr-button {
       background-color: $clr-button;

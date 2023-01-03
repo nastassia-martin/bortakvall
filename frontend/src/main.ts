@@ -180,7 +180,6 @@ const addToCart = () => {
   }
   // save products to localstorage
   saveItems()
-  console.log(products)
 }
 
 const saveItems = () => {
@@ -388,14 +387,20 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
       }
     } else if (clickedBtn.classList.contains('checkout-btn')) {
       modal.show()
+      renderCheckout()
+      sendOrder()
+    }
+  }
+})
 
-      // print out headline to modal section
-      document.querySelector('.heading-container')!.innerHTML = `
+const renderCheckout = () => {
+  // print out headline to modal section
+  document.querySelector('.heading-container')!.innerHTML = `
             <h2 class="main-heading">Kassa</h2>`
 
-      // print modal to DOM
-      const order = populateOrder(cartItems);
-      document.querySelector(".modal-body")!.innerHTML = `
+  // print modal to DOM
+  const order = populateOrder(cartItems);
+  document.querySelector(".modal-body")!.innerHTML = `
       <div class="container">
         <div class="row gy-4">     
           <div class="col-sm-12 col-md-12 col-lg-6 checkout-products">
@@ -444,9 +449,9 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
         </div>
       </div>
         `
-      document.querySelector('.checkout-products')!.innerHTML = cartItems
-        .map(
-          (cartItem) => `
+  document.querySelector('.checkout-products')!.innerHTML = cartItems
+    .map(
+      (cartItem) => `
               <div class="container-md cart-item py-2">
               <div class="cart-img col-2">
                 <img class="img-fluid" src="${URL}${cartItem.image}" alt="image of ${cartItem.name}">
@@ -464,57 +469,61 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
                 </div>
               </div>
             </div>`
-        )
-        .join('');
-      document.querySelector('#new-order')?.addEventListener('submit', async e => {
-        e.preventDefault()
-
-        const ItemOrder = populateOrder(cartItems);
-        const newOrder: IOrder = {
-          customer_first_name: document.querySelector<HTMLInputElement>("#first-name")!.value,
-          customer_last_name: document.querySelector<HTMLInputElement>("#last-name")!.value,
-          customer_address: document.querySelector<HTMLInputElement>("#adress")!.value,
-          customer_postcode: document.querySelector<HTMLInputElement>("#postcode")!.value,
-          customer_city: document.querySelector<HTMLInputElement>("#city")!.value,
-          customer_email: document.querySelector<HTMLInputElement>("#email")!.value,
-          customer_phone: document.querySelector<HTMLInputElement>("#phone")?.value,
-          order_total: ItemOrder.order_total,
-          order_items: ItemOrder.order_items,
-        }
+    )
+    .join('');
+}
 
 
-        const getConfirmation = async () => {
-          const res = await postOrder(newOrder)
-          const orderData = res.data
-          const orderStatus = res.status
+const sendOrder = () => {
+  document.querySelector('#new-order')?.addEventListener('submit', async e => {
+    e.preventDefault()
 
-        }
+    const ItemOrder = populateOrder(cartItems);
+    const newOrder: IOrder = {
+      customer_first_name: document.querySelector<HTMLInputElement>("#first-name")!.value,
+      customer_last_name: document.querySelector<HTMLInputElement>("#last-name")!.value,
+      customer_address: document.querySelector<HTMLInputElement>("#adress")!.value,
+      customer_postcode: document.querySelector<HTMLInputElement>("#postcode")!.value,
+      customer_city: document.querySelector<HTMLInputElement>("#city")!.value,
+      customer_email: document.querySelector<HTMLInputElement>("#email")!.value,
+      customer_phone: document.querySelector<HTMLInputElement>("#phone")?.value,
+      order_total: ItemOrder.order_total,
+      order_items: ItemOrder.order_items,
+    }
 
-        getConfirmation()
+    const getConfirmation = async () => {
+      const res = await postOrder(newOrder)
+      const orderData = res.data
+      const orderStatus = res.status
 
-        document.querySelector('.heading-container')!.innerHTML = `
+      document.querySelector('.heading-container')!.innerHTML = `
           <h2 class="main-heading">Orderbekräftelse</h2>`
-        // print out order-section to DOM
-        document.querySelector(".modal-dialog")!.innerHTML = `
+      // print out order-section to DOM
+      document.querySelector(".modal-dialog")!.innerHTML = `
           <div class="modal-content order-section">
             <div class="modal-body">
             </div>
           </div>
       `
-        if (orderStatus === 'success') {
-          document.querySelector(".modal-body")!.innerHTML = `
+      if (orderStatus === 'success') {
+        document.querySelector(".modal-body")!.innerHTML = `
           <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
           <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
         `
-        } else {
-          document.querySelector(".modal-body")!.innerHTML = `
+      } else {
+        document.querySelector(".modal-body")!.innerHTML = `
           <p class="success-message text-center p-3">Sorry ${newOrder.customer_first_name} ${newOrder.customer_last_name}, something went wrong with your order.</p>
           <p class="success-message text-center p-3">Please try to place your order again.</p>    
         `
-        }
       }
-        getConfirmation()
-      })
     }
-  }
-})
+    // empty cart and clear local storage
+    cartItems = []
+    localStorage.clear()
+    renderProducts()
+    renderToCart()
+
+    // get order and print out if success or not
+    getConfirmation()
+  })
+}
