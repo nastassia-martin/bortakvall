@@ -450,38 +450,38 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
           order_items: ItemOrder.order_items,
         }
 
-
         const getConfirmation = async () => {
-          const res = await postOrder(newOrder)
-          const orderData = res.data
-          const orderStatus = res.status
-          const message = res.message
-          console.log(res)
-          console.log(message)
-          console.log(orderData)
-          console.log(orderData.id) // get the ID 
-          console.log(orderStatus) // get the status
 
-          document.querySelector('.heading-container')!.innerHTML = `
+          try {
+            const res = await postOrder(newOrder)
+            const orderData = res.data
+            const orderStatus = res.status
+
+
+
+            document.querySelector('.heading-container')!.innerHTML = `
           <h2 class="main-heading">Orderbekräftelse</h2>`
-        // print out order-section to DOM
-        document.querySelector(".modal-dialog")!.innerHTML = `
+            // print out order-section to DOM
+            document.querySelector(".modal-dialog")!.innerHTML = `
           <div class="modal-content order-section">
             <div class="modal-body">
             </div>
           </div>
       `
-      if(orderStatus === 'success') {
-        document.querySelector(".modal-body")!.innerHTML = `
+            if (orderStatus === 'success') {
+              document.querySelector(".modal-body")!.innerHTML = `
           <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
           <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
         `
-      } else {
-        document.querySelector(".modal-body")!.innerHTML = `
+            } else {
+              document.querySelector(".modal-body")!.innerHTML = `
           <p class="success-message text-center p-3">Sorry ${newOrder.customer_first_name} ${newOrder.customer_last_name}, something went wrong with your order.</p>
           <p class="success-message text-center p-3">Please try to place your order again.</p>    
         `
-      }
+            }
+          } catch (e) {
+            alert(e)
+          }
         }
         getConfirmation()
       })
