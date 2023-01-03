@@ -377,11 +377,11 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
             <form id="new-order">
               <div class="form-group mb-1">
               <label for="first-name">Förnamn</label>
-              <input type="text" name="first-name" id="first-name" class="form-control" placeholder="Förnamn">
+              <input type="text" name="first-name" id="first-name" class="form-control" placeholder="Förnamn" required>
               </div>
               <div class="form-group mb-1">
               <label for="last-name">Efternamn</label>
-              <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Efternamn">
+              <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Efternamn" required>
               </div>
               <div class="form-group mb-1">
                 <label for="adress">Adress</label>
@@ -456,8 +456,6 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
             const res = await postOrder(newOrder)
             const orderData = res.data
             const orderStatus = res.status
-
-
 
             document.querySelector('.heading-container')!.innerHTML = `
           <h2 class="main-heading">Orderbekräftelse</h2>`
