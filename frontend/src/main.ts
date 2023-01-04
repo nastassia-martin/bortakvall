@@ -531,73 +531,98 @@ const sendOrder = () => {
   document.querySelector('#new-order')?.addEventListener('submit', async e => {
     e.preventDefault()
 
-        const ItemOrder = populateOrder(cartItems);
-        const newOrder: IOrder = {
-          customer_first_name: document.querySelector<HTMLInputElement>("#first-name")!.value,
-          customer_last_name: document.querySelector<HTMLInputElement>("#last-name")!.value,
-          customer_address: document.querySelector<HTMLInputElement>("#adress")!.value,
-          customer_postcode: document.querySelector<HTMLInputElement>("#postcode")!.value,
-          customer_city: document.querySelector<HTMLInputElement>("#city")!.value,
-          customer_email: document.querySelector<HTMLInputElement>("#email")!.value,
-          customer_phone: document.querySelector<HTMLInputElement>("#phone")?.value,
-          order_total: ItemOrder.order_total,
-          order_items: ItemOrder.order_items,
-        }
+    const ItemOrder = populateOrder(cartItems);
+    const newOrder: IOrder = {
+      customer_first_name: document.querySelector<HTMLInputElement>("#first-name")!.value,
+      customer_last_name: document.querySelector<HTMLInputElement>("#last-name")!.value,
+      customer_address: document.querySelector<HTMLInputElement>("#adress")!.value,
+      customer_postcode: document.querySelector<HTMLInputElement>("#postcode")!.value,
+      customer_city: document.querySelector<HTMLInputElement>("#city")!.value,
+      customer_email: document.querySelector<HTMLInputElement>("#email")!.value,
+      customer_phone: document.querySelector<HTMLInputElement>("#phone")?.value,
+      order_total: ItemOrder.order_total,
+      order_items: ItemOrder.order_items,
+    }
 
-        const getConfirmation = async () => {
+    const getConfirmation = async () => {
 
-          try {
-            const res = await postOrder(newOrder)
-            const orderData = res.data
-            const orderStatus = res.status
-            const test = Object.entries(orderData)
+      try {
+        const res = await postOrder(newOrder)
+        const orderData = res.data
+        const orderStatus = res.status
+        const test = Object.entries(orderData)
 
-            // 4. Save the order-information to local storage
-            savedOrder.push(orderData)
-            localStorage.setItem('orders', JSON.stringify(savedOrder))
+        // 4. Save the order-information to local storage
+        savedOrder.push(orderData)
+        localStorage.setItem('orders', JSON.stringify(savedOrder))
 
-            // print out order-section to DOM
+        // print out order-section to DOM
 
-            document.querySelector('.heading-container')!.innerHTML = `
+        document.querySelector('.heading-container')!.innerHTML = `
               <h2 class="main-heading">Orderbekräftelse</h2>
               `
-            
-            document.querySelector(".modal-dialog")!.innerHTML = `
+
+        document.querySelector(".modal-dialog")!.innerHTML = `
               <div class="modal-content order-section">
                 <div class="modal-body">
                 </div>
               </div>
               `
-            if (orderStatus === 'success') {
-                document.querySelector(".modal-body")!.innerHTML = `
+        if (orderStatus === 'success') {
+          document.querySelector(".modal-body")!.innerHTML = `
                 <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
                 <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
                 `
-            } else {
-              document.querySelector(".modal-body")!.innerHTML = `
+        } else {
+          document.querySelector(".modal-body")!.innerHTML = `
                 <p class="success-message text-center p-3">Sorry something went wrong with your order. Please check below!</p>
                 <p class ="error-message"text-center p-3"></p>   
                 <p class="success-message text-center p-3">Please try to place your order again.</p>    
                 `
-              test.forEach(error => {
-          
-              document.querySelector('.error-message')!.innerHTML += `
+          test.forEach(error => {
+
+            document.querySelector('.error-message')!.innerHTML += `
                 <p class ="error-message text-center p-3">${error[1]}</p>   
               `
-            });
-        
-            }
-            } catch (e: any) {
-            alert(e)
-            }
-          }
-        getConfirmation()
-        // empty cart array and localstorage
-        cartItems = []
-        localStorage.removeItem('cart_items')
-        renderProducts()
-        renderToCart()
+          });
+
+        }
+      } catch (e: any) {
+        alert(e)
+      }
+    }
+    getConfirmation()
+    // empty cart array and localstorage
+    cartItems = []
+    localStorage.removeItem('cart_items')
+    renderProducts()
+    renderToCart()
 
     // customer information and items are still saved in array newOrder
   })
+}
+
+let mybutton = document.getElementById("btn-back-to-top");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function () {
+  scrollFunction();
+};
+
+function scrollFunction() {
+  if (
+    document.body.scrollTop > 20 ||
+    document.documentElement.scrollTop > 20
+  ) {
+    mybutton!.style.display = "block";
+  } else {
+    mybutton!.style.display = "none";
+  }
+}
+// When the user clicks on the button, scroll to the top of the document
+mybutton!.addEventListener("click", backToTop);
+
+function backToTop() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 }
