@@ -265,16 +265,17 @@ const renderToCart = () => {
 const headingContainer = document.querySelector(".heading-container")
 const modalBody = document.querySelector(".modal-body")
 
-rowEl?.addEventListener('click', e => {
-  // 1. Save the clicked item into an variable
-  clickedItem = e.target as HTMLElement
-  if (clickedItem.tagName !== "DIV" && clickedItem.className !== "clr-button") {
-    findIndex()
-    modal.show()
+const renderProductOverview = () => {
+  rowEl?.addEventListener('click', e => {
+    // 1. Save the clicked item into an variable
+    clickedItem = e.target as HTMLElement
+    if (clickedItem.tagName !== "DIV" && clickedItem.className !== "clr-button") {
+      findIndex()
+      modal.show()
 
-    // 2. Print out the product to modal section
-    headingContainer!.innerHTML = `<h2 class="main-heading">${products[index].name}</h2>`
-    modalBody!.innerHTML = `
+      // 2. Print out the product to modal section
+      headingContainer!.innerHTML = `<h2 class="main-heading">${products[index].name}</h2>`
+      modalBody!.innerHTML = `
     <div class="container">
       <div class="row">        
         <div class="col-sm-12 col-md-12 col-lg-6 product-modal">
@@ -294,28 +295,30 @@ rowEl?.addEventListener('click', e => {
       </div>
     </div>`
 
-    // 3. If the stock qty is outofstock, disable the 'lägg till'-button
-    if (products[index].stock_status === "outofstock") {
-      document
-        .querySelector(`#product-num${products[index].id}`)!
-        .setAttribute("disabled", "disabled")
-    }
+      // 3. If the stock qty is outofstock, disable the 'lägg till'-button
+      if (products[index].stock_status === "outofstock") {
+        document
+          .querySelector(`#product-num${products[index].id}`)!
+          .setAttribute("disabled", "disabled")
+      }
 
-    // 4. Add item to cart through modal 'lägg till' button
-    document.querySelector('.modal-button')?.addEventListener('click', () => {
+      // 4. Add item to cart through modal 'lägg till' button
+      document.querySelector('.modal-button')?.addEventListener('click', () => {
+        findIndex()
+        addToCart()
+        renderToCart()
+      })
+    }
+    // 5. Add item to cart through card 'lägg till'-button
+    else if (clickedItem.className === "clr-button") {
       findIndex()
       addToCart()
       renderToCart()
-    })
-  }
-  // 5. Add item to cart through card 'lägg till'-button
-  else if (clickedItem.className === "clr-button") {
-    findIndex()
-    addToCart()
-    renderToCart()
-  }
-})
+    }
+  })
+}
 
+renderProductOverview()
 
 /** ** CHANGE THE QTY OF ITEMS FROM INSIDE THE CART **
  * 1. Check what product is being clicked, to get information about product
@@ -399,7 +402,7 @@ offcanvasBody?.addEventListener("click", (e) => {
         errArr[index]!.innerHTML = `0 i lager`
         setTimeout(() => {
           errArr[index]!.innerHTML = ``
-        }, 2000);
+        }, 2000)
       }
     } else if (clickedBtn.classList.contains('btn-trash')) {
       // 8. Remove product from cartItems and set products qty and stock status back to its values 
@@ -434,7 +437,6 @@ offcanvasBody?.addEventListener("click", (e) => {
       sendOrder()
     }
   }
-  console.log(cartItems)
 })
 
 
@@ -546,7 +548,6 @@ const sendOrder = () => {
     }
 
     const getConfirmation = async () => {
-
       try {
         const res = await postOrder(newOrder)
         const orderData = res.data
@@ -558,16 +559,8 @@ const sendOrder = () => {
         localStorage.setItem('orders', JSON.stringify(savedOrder))
 
         // print out order-section to DOM
-
         document.querySelector('.heading-container')!.innerHTML = `
               <h2 class="main-heading">Orderbekräftelse</h2>
-              `
-
-        document.querySelector(".modal-dialog")!.innerHTML = `
-              <div class="modal-content order-section">
-                <div class="modal-body">
-                </div>
-              </div>
               `
         if (orderStatus === 'success') {
           document.querySelector(".modal-body")!.innerHTML = `
@@ -581,24 +574,21 @@ const sendOrder = () => {
                 <p class="success-message text-center p-3">Please try to place your order again.</p>    
                 `
           test.forEach(error => {
-
             document.querySelector('.error-message')!.innerHTML += `
-                <p class ="error-message text-center p-3">${error[1]}</p>   
-              `
-          });
-
+                        <p class ="error-message text-center p-3">${error[1]}</p>`
+          })
         }
       } catch (e: any) {
         alert(e)
       }
     }
+
     getConfirmation()
     // empty cart array and localstorage
     cartItems = []
     localStorage.removeItem('cart_items')
     renderProducts()
     renderToCart()
-
     // customer information and items are still saved in array newOrder
   })
 }

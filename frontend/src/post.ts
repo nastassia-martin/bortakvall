@@ -16,5 +16,4 @@ export const postOrder = async (newOrder: IOrder) => {
   }
 
   return (await res.json()) as IConfirmationResult
-
-};
+}
