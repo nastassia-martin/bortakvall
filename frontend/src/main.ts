@@ -129,6 +129,7 @@ let cartItems: ICartItems[] = JSON.parse(jsonCart)
 
 // function to push clicked item to the cartItems array
 const addToCart = () => {
+
   // put a new item in cart with qty 1, if there is no items added already
   if (!cartItems[0]) {
     cartItems.unshift({
@@ -233,6 +234,11 @@ const renderToCart = () => {
   <p>Varav moms ${order.order_total / 4} kr</p>
   </div> 
   `
+
+  if (!cartItems[0]) {
+    document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
+  }
+  console.log(Boolean(cartItems), cartItems)
 }
 
 rowEl?.addEventListener("click", (e) => {
