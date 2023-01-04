@@ -12,6 +12,7 @@ const URL = "https://www.bortakvall.se/"
 // Get items from localStorage
 const jsonProducts = localStorage.getItem('stock_qty') ?? '[]'
 const jsonCart = localStorage.getItem('cart_items') ?? '[]'
+const jsonOrder = localStorage.getItem('orders') ?? '[]'
 
 // Array for products, with products from localStorage if there is any
 let products: IProduct[] = JSON.parse(jsonProducts)
@@ -47,7 +48,7 @@ const renderProducts = () => {
     .map(
       (product) => `<div class="col-6 col-sm-4 col-lg-3">
          <div data-id="${product.id}" class="card mt-5">
-          <img data-id="${product.id}" class="card-img img-fluid" src="${URL}${product.images.thumbnail}" alt="Image of ***">
+          <img data-id="${product.id}" class="card-img img-fluid" src="${URL}${product.images.thumbnail}" alt="image of ${product.name}">
            <div data-id="${product.id}" class="card-body">
               <h3 data-id="${product.id}" class="card-title pt-3">${product.name}</h3>
               <p data-id="${product.id}" class="card-text">${product.price} kr</p>
@@ -204,7 +205,7 @@ const renderToCart = () => {
           <br>
           <div class="cart-info col-9">
               <div class="product-name">
-                <p class="cart-name">${cartItem.name}</p>
+                <h3 class="cart-name">${cartItem.name}</h3>
                 <button title="trash" class="btn-trash" data-id="${cartItem.id}"><img data-id="${cartItem.id}" class="btn-trash" src="/node_modules/bootstrap-icons/icons/trash3.svg" alt="Bootstrap" width="20" height="20"></button>
               </div>
               <div class="qty">
@@ -228,7 +229,7 @@ const renderToCart = () => {
   </div>
  
   <div class="total_order_container">
-  <h4>TOTALSUMMAN ${order.order_total} kr</h4>
+  <h5>TOTALSUMMAN ${order.order_total} kr</h5>
   <p>Varav moms ${order.order_total / 4} kr</p>
   </div> 
   `
@@ -253,14 +254,14 @@ rowEl?.addEventListener("click", (e) => {
     document.querySelector(".modal-body")!.innerHTML = `
     <div class="container">
       <div class="row">        
-        <div class="col-sm-12 col-md-12 col-lg-6">
+        <div class="col-sm-12 col-md-12 col-lg-6 product-modal">
           <img class="img-fluid modal-img" src="${URL}${products[index].images.large}" alt="image of ${products[index].name}">
           <h3 class="modal-title pt-3 text-center">${products[index].name}</h3>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-6 modal-body text-center">
           <p class="text-center">Produktinformation<p>
           <p class="text-center">Artikel nr: ${products[index].id}</p>
-              ${products[index].description}
+          ${products[index].description}
           <p class="modal-price text-center">${products[index].price} kr</p>
           <button id="product-num${products[index].id}" class="text-center clr-button modal-button" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
           class="bi bi-basket" viewBox="0 0 16 16">
@@ -322,7 +323,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
     productQtyArr[index].innerHTML = `${cartItems[index].qty}`
     productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`
     const order = populateOrder(cartItems)
-    totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`
+    totalSum!.innerHTML = `<h5>TOTALSUMMAN ${order.order_total} kr</h5><p>Varav moms ${order.order_total / 4} kr</p>`
   }
 
   // remove chosen item from array and cart and print out new sum
@@ -330,7 +331,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
     cartItems.splice(index, 1)
     cartInfoArr[index].remove()
     const order = populateOrder(cartItems)
-    totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`
+    totalSum!.innerHTML = `<h5>TOTALSUMMAN ${order.order_total} kr</h5><p>Varav moms ${order.order_total / 4} kr</p>`
   }
 
   // if there no longer is any items in cartItems, set 'betala-btn' to disabled
@@ -422,7 +423,7 @@ const renderCheckout = () => {
               <div class="row mb-1">
                 <div class="col-5">
                   <label for="postcode">Postnr</label>
-                  <input type="text" name="postcode" id="postcode" class="form-control" placeholder="123 45" maxlength="5" required>
+                  <input type="text" name="postcode" id="postcode" class="form-control" placeholder="123 45" minlength="5" maxlength="5" pattern="[0-9]*" required>
                 </div>
                 <div class="col-7">
                   <label for="city">Ort</label>
@@ -437,13 +438,13 @@ const renderCheckout = () => {
                 <label for="phone">Telefon</label>
                 <input type="tel" name="phone" id="phone" class="form-control" placeholder="+46 701 23 45 67">
               </div>
-              <div >
+              <div>
                 <button type="submit" role="button" class="clr-button lagg-order">Lägg order</button>
               </div>
             </form>
           </div>
           <div class="total_order_container">
-              <h4>TOTALSUMMAN ${order.order_total} kr</h4>
+              <h5>TOTALSUMMAN ${order.order_total} kr</h5>
               <p>Varav moms ${order.order_total / 4} kr</p>
           </div> 
         </div>
@@ -463,7 +464,7 @@ const renderCheckout = () => {
                   <p class="product-sum">Totalt:</p>
                 </div>
                 <div class="product-name checkout-product">
-                  <p class="cart-name">${cartItem.name}</p>
+                  <h3 class="cart-name">${cartItem.name}</h3>
                   <p data-id="${cartItem.id}" class="product-qty">${cartItem.qty}</p>
                   <p class="product-sum">${cartItem.item_total}kr (${cartItem.item_price}kr/st)</p>
                 </div>
@@ -473,6 +474,8 @@ const renderCheckout = () => {
     .join('')
 }
 
+// array of previous orders
+let savedOrder: IConfirmation[] = JSON.parse(jsonOrder)
 
 const sendOrder = () => {
   document.querySelector('#new-order')?.addEventListener('submit', async e => {
@@ -496,6 +499,11 @@ const sendOrder = () => {
       const orderData = res.data
       const orderStatus = res.status
 
+      // save the order-information to local storage
+      savedOrder.push(orderData)
+      localStorage.setItem('orders', JSON.stringify(savedOrder))
+
+
       // print out order-section to DOM
       document.querySelector('.heading-container')!.innerHTML = `
           <h2 class="main-heading">Orderbekräftelse</h2>`
@@ -517,10 +525,12 @@ const sendOrder = () => {
           <p class="success-message text-center p-3">Please try to place your order again.</p>    
         `
       }
+      console.log(savedOrder)
     }
 
     // get order and print out if success or not
     getConfirmation()
+
 
     // empty cart array and localstorage
     cartItems = []
@@ -529,5 +539,6 @@ const sendOrder = () => {
     renderToCart()
 
     // customer information and items are still saved in array newOrder
+
   })
 }
