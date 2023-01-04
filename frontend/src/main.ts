@@ -207,7 +207,7 @@ const saveItems = () => {
  * 2. Print out buttons 'fortsätt handla' and 'gå till kassan' and order total sum
  */
 
-document.querySelector('.checkout-btn')
+
 
 const renderToCart = () => {
   // 1. Print out the added name, image, price, qty
