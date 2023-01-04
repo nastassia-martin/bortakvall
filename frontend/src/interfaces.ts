@@ -18,8 +18,8 @@ export interface IResult {
 }
 //--------INTERFACE FOR CLIENTS ORDER FOR EACH PRODUCT
 export interface IOrderInfo {
-    id: number,
-    order_id: number,
+    //id: number,
+    //order_id: number,
     product_id: number,
     qty: number,
     item_price: number,
