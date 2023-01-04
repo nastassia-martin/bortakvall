@@ -224,8 +224,6 @@ body {
       }
     }
 
-
-
     // *** MORE INFO MODAL ***
     .modal {
       background: linear-gradient(to right, $bg-gradient-dark, $bg-gradient-light);
@@ -304,20 +302,16 @@ body {
             width: 100%;
             align-items: center;
 
-
-
             p {
               margin: 0;
               padding: 0;
               font-size: 0.8rem;
             }
-
           }
 
           .product-name.checkout-info {
             font-weight: 600;
           }
-
 
           .product-sum {
             min-width: 30%;
@@ -328,7 +322,6 @@ body {
             min-width: 10%;
             text-align: center;
           }
-
         }
 
         .customer-info {
@@ -511,8 +504,6 @@ body {
   }
 }
 
-
-
 /* MEDIA QUERIES - LAPTOP/DESKTOP */
 @media screen and (min-width: 1440px) {
   body {
@@ -525,6 +516,10 @@ body {
     }
 
     main {
+      .shopping-cart {
+        top: 40vh;
+      }
+
       .container {
         .row {
           // adding space between the cards
@@ -532,7 +527,6 @@ body {
 
           div {
             .card {
-
               .card-body {
                 display: block;
 
@@ -554,7 +548,6 @@ body {
           }
         }
       }
-
 
       .clr-button {
         font-size: 20px;

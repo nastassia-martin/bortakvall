@@ -552,7 +552,6 @@ const sendOrder = () => {
     }
 
     const getConfirmation = async () => {
-
       try {
         const res = await postOrder(newOrder)
         const orderData = res.data
@@ -564,49 +563,29 @@ const sendOrder = () => {
         localStorage.setItem('orders', JSON.stringify(savedOrder))
 
         // print out order-section to DOM
-
         document.querySelector('.heading-container')!.innerHTML = `
-
               <h2 class="main-heading">Orderbekräftelse</h2>
-
               `
 
         if (orderStatus === 'success') {
-
           document.querySelector(".modal-body")!.innerHTML = `
-
                 <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
-
                 <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
-
                 `
-
         } else {
-
           document.querySelector(".modal-body")!.innerHTML = `
-
                 <p class="success-message text-center p-3">Sorry something went wrong with your order. Please check below!</p>
-
                 <p class ="error-message"text-center p-3"></p>  
-
                 <p class="success-message text-center p-3">Please try to place your order again.</p>    
-
                 `
 
           test.forEach(error => {
-
             document.querySelector('.error-message')!.innerHTML += `
-
                         <p class ="error-message text-center p-3">${error[1]}</p>`
-
           })
-
         }
-
       } catch (e: any) {
-
         alert(e)
-
       }
     }
     getConfirmation()
@@ -637,6 +616,7 @@ function scrollFunction() {
     mybutton!.style.display = "none";
   }
 }
+
 // When the user clicks on the button, scroll to the top of the document
 mybutton!.addEventListener("click", backToTop);
 
