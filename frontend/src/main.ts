@@ -83,7 +83,7 @@ const renderProducts = () => {
     <p>Varav ${inStockProducts.length} i lager</p>
   </div>
   <div class="col-6 filter">
-    <button type="button" class="filter-button button">Filtrera (A-Ö)</button>
+    <button type="button" class="clr-button">Filtrera (A-Ö)</button>
   </div>`
 
   // sort function from a-ö
