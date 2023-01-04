@@ -377,7 +377,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
             <form id="new-order">
               <div class="form-group mb-1">
               <label for="first-name">Förnamn</label>
-              <input type="text" name="first-name" id="first-name" class="form-control" placeholder="Förnamn" required>
+              <input type="text" name="first-name" id="first-name" class="form-control" placeholder="Förnamn" >
               </div>
               <div class="form-group mb-1">
               <label for="last-name">Efternamn</label>
@@ -450,38 +450,51 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
           order_items: ItemOrder.order_items,
         }
 
-        const getConfirmation = async () => {
+      //   const getConfirmation = async () => {
 
-          try {
-            const res = await postOrder(newOrder)
-            const orderData = res.data
-            const orderStatus = res.status
+      //     try {
+      //       const res = await postOrder(newOrder)
+      //       const orderData = res.data
+      //       const orderStatus = res.status
 
-            document.querySelector('.heading-container')!.innerHTML = `
-          <h2 class="main-heading">Orderbekräftelse</h2>`
-            // print out order-section to DOM
-            document.querySelector(".modal-dialog")!.innerHTML = `
-          <div class="modal-content order-section">
-            <div class="modal-body">
-            </div>
-          </div>
-      `
-            if (orderStatus === 'success') {
-              document.querySelector(".modal-body")!.innerHTML = `
-          <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
-          <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
-        `
-            } else {
-              document.querySelector(".modal-body")!.innerHTML = `
-          <p class="success-message text-center p-3">Sorry ${newOrder.customer_first_name} ${newOrder.customer_last_name}, something went wrong with your order.</p>
-          <p class="success-message text-center p-3">Please try to place your order again.</p>    
-        `
-            }
-          } catch (e) {
-            alert(e)
-          }
+      //       document.querySelector('.heading-container')!.innerHTML = `
+      //     <h2 class="main-heading">Orderbekräftelse</h2>`
+      //       // print out order-section to DOM
+      //       document.querySelector(".modal-dialog")!.innerHTML = `
+      //     <div class="modal-content order-section">
+      //       <div class="modal-body">
+      //       </div>
+      //     </div>
+      // `
+      //       if (orderStatus === 'success') {
+      //         document.querySelector(".modal-body")!.innerHTML = `
+      //     <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
+      //     <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
+      //   `
+      //       } else {
+      //         document.querySelector(".modal-body")!.innerHTML = `
+      //     <p class="success-message text-center p-3">Sorry ${newOrder.customer_first_name} ${newOrder.customer_last_name}, something went wrong with your order.</p>
+      //     <p class="success-message text-center p-3">Please try to place your order again.</p>    
+      //   `
+      //       }
+      //     } catch (e) {
+      //       alert(e)
+      //     }
+      //   }
+      //   getConfirmation()
+
+      const getConfirmation = async () => {
+
+      
+        try {
+          const res = await postOrder(newOrder)
+          console.log('res', res) // this will always be whatever we get back from johans server so will never get to catch??
+        } catch (e: any) { // e must be defined as any
+          console.log("Caught the error:", e);
+
         }
-        getConfirmation()
+      }
+      getConfirmation()
       })
     }
   }
