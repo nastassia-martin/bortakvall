@@ -459,15 +459,15 @@ const renderCheckout = () => {
             <form id="new-order">
               <div class="form-group mb-1">
               <label for="first-name">Förnamn</label>
-              <input type="text" name="first-name" id="first-name" class="form-control" placeholder="Förnamn" required>
+              <input type="text" name="first-name" id="first-name" class="form-control" placeholder="Förnamn" >
               </div>
               <div class="form-group mb-1">
               <label for="last-name">Efternamn</label>
-              <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Efternamn" required>
+              <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Efternamn" >
               </div>
               <div class="form-group mb-1">
                 <label for="adress">Adress</label>
-                <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" required>
+                <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" >
               </div>
               <div class="row mb-1">
                 <div class="col-5">
@@ -531,61 +531,72 @@ const sendOrder = () => {
   document.querySelector('#new-order')?.addEventListener('submit', async e => {
     e.preventDefault()
 
-    const ItemOrder = populateOrder(cartItems)
-    const newOrder: IOrder = {
-      customer_first_name: document.querySelector<HTMLInputElement>("#first-name")!.value,
-      customer_last_name: document.querySelector<HTMLInputElement>("#last-name")!.value,
-      customer_address: document.querySelector<HTMLInputElement>("#adress")!.value,
-      customer_postcode: document.querySelector<HTMLInputElement>("#postcode")!.value,
-      customer_city: document.querySelector<HTMLInputElement>("#city")!.value,
-      customer_email: document.querySelector<HTMLInputElement>("#email")!.value,
-      customer_phone: document.querySelector<HTMLInputElement>("#phone")?.value,
-      order_total: ItemOrder.order_total,
-      order_items: ItemOrder.order_items,
-    }
+        const ItemOrder = populateOrder(cartItems);
+        const newOrder: IOrder = {
+          customer_first_name: document.querySelector<HTMLInputElement>("#first-name")!.value,
+          customer_last_name: document.querySelector<HTMLInputElement>("#last-name")!.value,
+          customer_address: document.querySelector<HTMLInputElement>("#adress")!.value,
+          customer_postcode: document.querySelector<HTMLInputElement>("#postcode")!.value,
+          customer_city: document.querySelector<HTMLInputElement>("#city")!.value,
+          customer_email: document.querySelector<HTMLInputElement>("#email")!.value,
+          customer_phone: document.querySelector<HTMLInputElement>("#phone")?.value,
+          order_total: ItemOrder.order_total,
+          order_items: ItemOrder.order_items,
+        }
 
-    // 3. Post order and save the results
-    const getConfirmation = async () => {
-      const res = await postOrder(newOrder)
-      const orderData = res.data
-      const orderStatus = res.status
+        const getConfirmation = async () => {
 
-      // 4. Save the order-information to local storage
-      savedOrder.push(orderData)
-      localStorage.setItem('orders', JSON.stringify(savedOrder))
+          try {
+            const res = await postOrder(newOrder)
+            const orderData = res.data
+            const orderStatus = res.status
+            const test = Object.entries(orderData)
 
-      // print out order-section to DOM
-      document.querySelector('.heading-container')!.innerHTML = `
-          <h2 class="main-heading">Orderbekräftelse</h2>`
+            // 4. Save the order-information to local storage
+            savedOrder.push(orderData)
+            localStorage.setItem('orders', JSON.stringify(savedOrder))
 
-      document.querySelector(".modal-dialog")!.innerHTML = `
-          <div class="modal-content order-section">
-            <div class="modal-body">
-            </div>
-          </div>
-      `
-      if (orderStatus === 'success') {
-        modalBody!.innerHTML = `
-          <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
-          <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
-        `
-      } else {
-        modalBody!.innerHTML = `
-          <p class="success-message text-center p-3">Sorry ${newOrder.customer_first_name} ${newOrder.customer_last_name}, something went wrong with your order.</p>
-          <p class="success-message text-center p-3">Please try to place your order again.</p>    
-        `
-      }
-    }
+            // print out order-section to DOM
 
-    // get order and print out if success or not
-    getConfirmation()
-
-
-    // empty cart array and localstorage
-    cartItems = []
-    localStorage.removeItem('cart_items')
-    renderProducts()
-    renderToCart()
+            document.querySelector('.heading-container')!.innerHTML = `
+              <h2 class="main-heading">Orderbekräftelse</h2>
+              `
+            
+            document.querySelector(".modal-dialog")!.innerHTML = `
+              <div class="modal-content order-section">
+                <div class="modal-body">
+                </div>
+              </div>
+              `
+            if (orderStatus === 'success') {
+                document.querySelector(".modal-body")!.innerHTML = `
+                <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
+                <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
+                `
+            } else {
+              document.querySelector(".modal-body")!.innerHTML = `
+                <p class="success-message text-center p-3">Sorry something went wrong with your order. Please check below!</p>
+                <p class ="error-message"text-center p-3"></p>   
+                <p class="success-message text-center p-3">Please try to place your order again.</p>    
+                `
+              test.forEach(error => {
+          
+              document.querySelector('.error-message')!.innerHTML += `
+                <p class ="error-message text-center p-3">${error[1]}</p>   
+              `
+            });
+        
+            }
+            } catch (e: any) {
+            alert(e)
+            }
+          }
+        getConfirmation()
+        // empty cart array and localstorage
+        cartItems = []
+        localStorage.removeItem('cart_items')
+        renderProducts()
+        renderToCart()
 
     // customer information and items are still saved in array newOrder
   })

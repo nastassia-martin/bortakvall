@@ -83,7 +83,7 @@ body {
       border: none;
       position: fixed;
       right: 0;
-      bottom: 20px;
+      bottom: 5vh;
       z-index: 1;
     }
 
@@ -213,7 +213,7 @@ body {
 
 
 
-    // *** MODAL ***
+    // *** MORE INFO MODAL ***
     .modal {
       background: linear-gradient(to right, $bg-gradient-dark, $bg-gradient-light);
       top: 0; // set to unset if header is supposed to be showing
@@ -259,8 +259,8 @@ body {
           width: 100%;
           height: 3em;
         }
-
-        .checkout-products {
+        // CHECKOUT SECTION 
+        .checkout-products{
           .cart-item {
             background-color: #fff;
             height: 90px;
@@ -335,7 +335,7 @@ body {
         }
       }
     }
-
+    // Product overview
     .container {
       --bs-gutter-x: 3rem;
 
@@ -363,6 +363,7 @@ body {
         }
       }
 
+      // Main product section 
       .products-container {
         div {
           .card {
@@ -416,11 +417,15 @@ body {
       }
     }
 
-    // ORDER MODAL
-    .modalbody.order-section {
-      background-color: $clr-button;
-      font-size: 2em;
-    }
+    // ORDER CONFIRMATION MODAL
+.order-section {
+  background-color: $clr-button;
+
+  .modal-body {
+    font-size: 2em;
+  }
+}
+
 
     // PRIMARY BUTTON STYLING
     .clr-button {
