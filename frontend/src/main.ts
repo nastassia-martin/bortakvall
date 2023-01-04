@@ -29,16 +29,19 @@ const modal = new Modal(modalEl)
  *    if not, add the fetched data into products array
  * 2. Make sure their stock value is number, not null 
  */
+
 const getProducts = async () => {
-  const result = await fetchData()
-  // 1. IF localstorage is empty, fill products array 
-  if (products.length <= 0) {
+  try {
+    const result = await fetchData()
     products = result.data
+    checkStockStatus()
+    renderProducts()
+  } catch (e) {
+    alert(e)
   }
-  checkStockStatus()
-  renderProducts()
-  renderToCart()
-}
+
+};
+
 
 getProducts()
 
