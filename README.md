@@ -26,6 +26,21 @@ Ni ska samarbeta i grupper om 3 där ni ska göra en enkel webbshop där man ska
 - [ ] Man ska kunna ta bort en vara på annat sätt än att minska till 0 
 - [ ] Varukorg och kundinformation sparas i Local Storage
 
+Uppdatering 2022-12-28
+### G 
+- [ ] Sortera produkter efter produktnamn.
+- [ ] Produkter är inte längre alltid i lager (stock_status: instock vs. stock_status: outofstock), ska visas ändå men inte gå att lägga i varukorgen (“Lägg till i varukorgen”-knapp kan bli disabled).
+- [ ] Totala antalet produkter i lager ska visas (t.ex. “Visar 137 produkter varav 42 är i lager”) i översikten över alla produkter.
+
+### VG 
+- [ ] Visa hur många (stock_quantity) som finns i lager av varje produkt. Ska ej gå att lägga fler antal av en produkt än vad som finns i lager av produkten.
+
+Uppdatering 2022-12-21
+### G 
+- [ ] Antal produkter ska visas i produktöversikten.
+- [ ] Varukorgen ska visa summa för varje produkt (antal * styckpris) samt ordertotal både i sammanställningen som går att fälla ut och i ”kassan”.
+
+
 ---
 ## Dokumentation buggar
 - ### När man trycker på ett kort registreras ibland ingen produkt
