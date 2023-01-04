@@ -1,12 +1,13 @@
 import "bootstrap/dist/css/bootstrap.css"
 import "./styles/style.css"
 import { fetchData } from "./API"
-import { IProduct, IOrderInfo, IOrder, ICartItems, IConfirmation, IConfirmationResult } from "./interfaces"
-import { Modal, Offcanvas } from "bootstrap"
+import { IProduct, IOrder, ICartItems, IConfirmation } from "./interfaces"
+import { Modal } from "bootstrap"
 import { populateOrder } from "./populateOrder"
-import { fetchOrder, postOrder } from "./post"
+import { postOrder } from "./post"
 
 const rowEl = document.querySelector(".products-container")
+const offcanvasBody = document.querySelector(".offcanvas-body")
 const URL = "https://www.bortakvall.se/"
 
 // Get items from localStorage
@@ -17,23 +18,31 @@ const jsonOrder = localStorage.getItem('orders') ?? '[]'
 // Array for products, with products from localStorage if there is any
 let products: IProduct[] = JSON.parse(jsonProducts)
 
-// Get data from API and save it into products-array
+// create variables to use modal (bootstrap)
+const modalEl = document.getElementById("moreInfoModal")!
+const modal = new Modal(modalEl)
+
+
+
+/** ** GET PRODUCTS FROM API **
+ * 1. Check if products are already in localstorage, 
+ *    if not, add the fetched data into products array
+ * 2. Make sure their stock value is number, not null 
+ */
 const getProducts = async () => {
   const result = await fetchData()
-  // IF localstorage is empty, fill products array 
+  // 1. IF localstorage is empty, fill products array 
   if (products.length <= 0) {
     products = result.data
   }
   checkStockStatus()
   renderProducts()
-  if (cartItems) {
-    renderToCart()
-  }
+  renderToCart()
 }
 
 getProducts()
 
-// Check if products are in stock, set value from null to 0
+// 2. For each product not in stock, set value from null to 0
 const checkStockStatus = () => {
   products.forEach((product) => {
     if (product.stock_quantity < 1) {
@@ -42,53 +51,31 @@ const checkStockStatus = () => {
   })
 }
 
-// Render products to DOM
+
+
+/** ** RENDER PRODUCTS TO DOM ** 
+ * 1. Productoverview should show stock qty and total qty of products 
+ * 2. Productoverview should have a filter function to sort the products
+ * 3. Print out HTML content with bootstrap styling and card layout, one for each product in array
+ *    Content of name, image, price, stock qty and 'lägg till'-btn
+ * 4. If product is out of stock, make sure it's not possible to add to cart with the 'lägg till'-btn
+ * */
+
 const renderProducts = () => {
-  rowEl!.innerHTML = products
-    .map(
-      (product) => `<div class="col-6 col-sm-4 col-lg-3">
-         <div data-id="${product.id}" class="card mt-5">
-          <img data-id="${product.id}" class="card-img img-fluid" src="${URL}${product.images.thumbnail}" alt="image of ${product.name}">
-           <div data-id="${product.id}" class="card-body">
-              <h3 data-id="${product.id}" class="card-title pt-3">${product.name}</h3>
-              <p data-id="${product.id}" class="card-text">${product.price} kr</p>
-              <p data-id="${product.id}" class="card-text stock-qty">${product.stock_quantity} i lager</p>
-              <button id="product-num${product.id}" class="clr-button" data-id="${product.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-              class="bi bi-basket" viewBox="0 0 16 16">
-              <path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z" />
-              </svg>Lägg till</button>
-           </div>
-         </div>
-       </div>
-       `
-    )
-    .join("")
+  // 1. Filter the products not in stock and print out to the product overview to the top left
+  let inStockProducts = products.filter((product) => product.stock_quantity > 0)
 
-  products.forEach((product) => {
-    if (product.stock_status === "outofstock") {
-      document
-        .querySelector(`#product-num${product.id}`)!
-        .setAttribute("disabled", "disabled")
-    }
-  })
-
-  // filter the products not in stock
-  let inStockProducts = products.filter(
-    (product) => product.stock_quantity > 0
-  )
-
-  // print out stock overview top left
   document.querySelector(".product-overview")!.innerHTML = `
   <div class="col-6">
     <p>Antal produkter: ${products.length}</p>
     <p>Varav ${inStockProducts.length} i lager</p>
   </div>
   <div class="col-6 filter">
-    <button type="button" class="clr-button">Filtrera (A-Ö)</button>
+    <button type="button" class="clr-button filter-button">Filtrera (A-Ö)</button>
   </div>`
 
-  // sort function from a-ö
-  const sortProducts = () => {
+  // 2. Sort the products from A-Ö
+  document.querySelector(".filter-button")?.addEventListener("click", () => {
     products.sort((a, b) => {
       if (a.name < b.name) {
         return -1;
@@ -98,39 +85,64 @@ const renderProducts = () => {
       }
       return 0;
     })
-  }
-
-  document.querySelector(".filter-button")?.addEventListener("click", () => {
-    // only sort the products if filter-btn is pressed
-    sortProducts()
     renderProducts()
+  })
+
+  // 3. Render products to DOM (cards), name, image, price, stock qty and 'lägg till'-btn
+  rowEl!.innerHTML = products
+    .map((product) => `
+    <div class="col-6 col-sm-4 col-lg-3">
+      <div data-id="${product.id}" class="card mt-5">
+        <img data-id="${product.id}" class="card-img img-fluid" src="${URL}${product.images.thumbnail}" alt="image of ${product.name}">
+          <div data-id="${product.id}" class="card-body">
+            <h3 data-id="${product.id}" class="card-title pt-3">${product.name}</h3>
+            <p data-id="${product.id}" class="card-text">${product.price} kr</p>
+            <p data-id="${product.id}" class="card-text stock-qty">${product.stock_quantity} i lager</p>
+            <button id="product-num${product.id}" class="clr-button" data-id="${product.id}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            class="bi bi-basket" viewBox="0 0 16 16"><path d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1v4.5a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 1 13.5V9a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h1.217L5.07 1.243a.5.5 0 0 1 .686-.172zM2 9v4.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V9H2zM1 7v1h14V7H1zm3 3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 4 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 6 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3A.5.5 0 0 1 8 10zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z" />
+            </svg>Lägg till</button>
+          </div>
+      </div>
+    </div>`
+    )
+    .join("")
+
+  // 4. If product is out of stock - set 'lägg till'-btn to disabled
+  products.forEach((product) => {
+    if (product.stock_status === "outofstock") {
+      document
+        .querySelector(`#product-num${product.id}`)!
+        .setAttribute("disabled", "disabled")
+    }
   })
 }
 
-// create variables to use modal (bootstrap)
-const modalEl = document.getElementById("moreInfoModal")!
-const modal = new Modal(modalEl)
 
-// should be able to be different depending on what eventListener used
+
+/** ** ADD PRODUCT TO CART **
+ * 1. Get the item clicked, to know what product to add to the cart
+ * 2. Push the values from products-array to cartItems-array
+ * 3. If the product was already added, it should appear on the same row and not two separate
+ * 4. Make sure the customer can go forward with their order (gå till kassan)
+ * 5. Correct the stock qty of the products-array and save the cartItems to localstorage
+ */
+
+// 1. Define variables, has to be any (to get e.target)
 let clickedItem: any
 let index: number
 let productIndex: any
 
-// function to find the index of the item clicked
+// 1. Save ID on clicked item and search for index in product-array
 const findIndex = () => {
-  // save ID on clicked item to search for index
   const clickedID = clickedItem.dataset.id
-  // search for index to get the rest of key values
   index = products.findIndex((product) => product.id === Number(clickedID))
 }
 
-// empty array to put cartItems in
+// 2. Define array with values from localstorage (if any)
 let cartItems: ICartItems[] = JSON.parse(jsonCart)
 
-// function to push clicked item to the cartItems array
 const addToCart = () => {
-
-  // put a new item in cart with qty 1, if there is no items added already
+  // 2. Put a new item in cart with qty 1, if there is no items added already
   if (!cartItems[0]) {
     cartItems.unshift({
       id: products[index].id,
@@ -142,21 +154,17 @@ const addToCart = () => {
     })
   }
 
-  // look for a product already in cart with the same id as the one being added
+  // 3. Look for a product already in cart with the same id as the one being added
   let doubleID = cartItems.find((item) => item.id === products[index].id)
-
-  // find the index of the cart item that has the same id as the one being added,
-  // instead of adding a new one, only add qty of that item and count item_total
   if (doubleID) {
     const index = cartItems.findIndex((product) => product.id === doubleID?.id)
-    // only add to cart if stock_quantity is > 0
     if (products[index].stock_quantity) {
       cartItems[index].qty++
     }
-    cartItems[index].item_total =
-      cartItems[index].qty * cartItems[index].item_price
+    cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
   }
-  // if no dublicates was found, put the item in cart with qty 1
+
+  // 3. If no dublicates was found, put the item in cart with qty 1
   else {
     cartItems.unshift({
       id: products[index].id,
@@ -168,10 +176,10 @@ const addToCart = () => {
     })
   }
 
-  // remove 'disabled' from betala-button when something is added to cart
-  document.querySelector('.checkout-btn')?.removeAttribute('disabled')
+  // 4. Remove 'disabled' from betala-button when something is added to cart
+  checkoutBtn?.removeAttribute('disabled')
 
-  // adjust stock_quantity of added item
+  // 5. Adjust stock_quantity of added item
   if (products[index].stock_quantity >= 1) {
     products[index].stock_quantity--
     renderProducts()
@@ -180,84 +188,94 @@ const addToCart = () => {
       renderProducts()
     }
   }
-  // save products to localstorage
+  // 5. Save products to localstorage
   saveItems()
 }
 
 const saveItems = () => {
   localStorage.setItem('stock_qty', JSON.stringify(products))
   localStorage.setItem('cart_items', JSON.stringify(cartItems))
-
-  // behöver lägga till när man trycker på +, - och trash
 }
 
 
 
-// print out added items to cart
+/** ** RENDER ADDED ITEMS TO CART ** 
+ * 1. Print out the added name, image, price, qty
+ * 2. Print out buttons 'fortsätt handla' and 'gå till kassan' and order total sum
+ */
+
+const checkoutBtn = document.querySelector('.checkout-btn')
+
 const renderToCart = () => {
+  // 1. Print out the added name, image, price, qty
   const order = populateOrder(cartItems)
-  document.querySelector(".offcanvas-body")!.innerHTML = cartItems
-    .map(
-      (cartItem) => `
+  offcanvasBody!.innerHTML = cartItems
+    .map((cartItem) => `
     <div class="container cart-item">
-          <div class="cart-img col-2">
-            <img src="${URL}${cartItem.image}" alt="image of ${cartItem.name}">
-          </div>
-          <br>
-          <div class="cart-info col-9">
-              <div class="product-name">
-                <h3 class="cart-name">${cartItem.name}</h3>
-                <button title="trash" class="btn-trash" data-id="${cartItem.id}"><img data-id="${cartItem.id}" class="btn-trash" src="/node_modules/bootstrap-icons/icons/trash3.svg" alt="Bootstrap" width="20" height="20"></button>
-              </div>
-              <div class="qty">
-                <button title="btnMinus" class="btn-minus" data-id="${cartItem.id}"><img data-id="${cartItem.id}" class="btn-minus" src="/node_modules/bootstrap-icons/icons/dash-circle.svg" alt="Bootstrap" width="25" height="25"></button>
-                <p data-id="${cartItem.id}" class="product-qty">${cartItem.qty}</p>
-                <button title="btnPlus" class="btn-plus" data-id="${cartItem.id}"><img data-id="${cartItem.id}" class="btn-plus" src="/node_modules/bootstrap-icons/icons/plus-circle-fill.svg" alt="Bootstrap" width="25" height="25"></button>
-                <p class="err"></p>
-                <p class="product-sum">Totalt: ${cartItem.item_total}kr (${cartItem.item_price}kr/st)</p>
-              </div>
-          </div>
+      <div class="cart-img col-2">
+        <img src="${URL}${cartItem.image}" alt="image of ${cartItem.name}">
+      </div>
+      <br>
+      <div class="cart-info col-9">
+        <div class="product-name">
+          <h3 class="cart-name">${cartItem.name}</h3>
+          <button title="trash" class="btn-trash" data-id="${cartItem.id}"><img data-id="${cartItem.id}" class="btn-trash" src="/node_modules/bootstrap-icons/icons/trash3.svg" alt="Bootstrap" width="20" height="20"></button>
         </div>
-    `
+        <div class="qty">
+          <button title="btnMinus" class="btn-minus" data-id="${cartItem.id}">
+            <img data-id="${cartItem.id}" class="btn-minus" src="/node_modules/bootstrap-icons/icons/dash-circle.svg" alt="Bootstrap" width="25" height="25">
+          </button>
+          <p data-id="${cartItem.id}" class="product-qty">${cartItem.qty}</p>
+          <button title="btnPlus" class="btn-plus" data-id="${cartItem.id}">
+            <img data-id="${cartItem.id}" class="btn-plus" src="/node_modules/bootstrap-icons/icons/plus-circle-fill.svg" alt="Bootstrap" width="25" height="25">
+          </button>
+          <p class="err"></p>
+          <p class="product-sum">Totalt: ${cartItem.item_total}kr (${cartItem.item_price}kr/st)</p>
+        </div>
+      </div>
+    </div>`
     )
     .join("")
 
-
-  document.querySelector(".offcanvas-body")!.innerHTML += `
+  //. 2. Print out 'fortsätt handla' and 'gå till kassan' btns and order total sum
+  offcanvasBody!.innerHTML += `
   <div class="button-container">
-  <button type="button" class="clr-button mx-1" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
-  <button type="button" class="clr-button mx-1 checkout-btn">Gå till kassan</button>
+    <button type="button" class="clr-button mx-1" data-bs-dismiss="offcanvas" aria-label="Close">Fortsätt handla</button>
+    <button type="button" class="clr-button mx-1 checkout-btn">Gå till kassan</button>
   </div>
- 
   <div class="total_order_container">
-  <h5>TOTALSUMMAN ${order.order_total} kr</h5>
-  <p>Varav moms ${order.order_total / 4} kr</p>
-  </div> 
-  `
+    <h5>TOTALSUMMAN ${order.order_total} kr</h5>
+    <p>Varav moms ${order.order_total / 4} kr</p>
+  </div> `
 
+  // 2. If the cart is empty, make sure the 'gå till kassan' btn is disabled
   if (!cartItems[0]) {
-    document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
+    checkoutBtn?.setAttribute('disabled', 'disabled')
   }
-  console.log(Boolean(cartItems), cartItems)
 }
 
-rowEl?.addEventListener("click", (e) => {
-  // save e.target to clickedItem
-  clickedItem = e.target as HTMLElement
 
-  // if click on picture, card, name or price
+/** ** PRODUCT OVERVIEW (MORE INFO ABOUT PRODUCT) **
+ * 1. Check what product is being clicked, to get information about product
+ * 2. Render the information about the product
+ * 3. Make sure if the product stock qty is out, disable the 'lägg till' button
+ * 4. Make sure the product is possible to add to cart from the product overview
+ * 5. Make sure the product is possible to add to cart from the card (all products overview) 
+ */
+
+const headingContainer = document.querySelector(".heading-container")
+const modalBody = document.querySelector(".modal-body")
+
+rowEl?.addEventListener('click', e => {
+  // 1. Save the clicked item into an variable
+  clickedItem = e.target as HTMLElement
   if (clickedItem.tagName !== "DIV" && clickedItem.className !== "clr-button") {
-    // call function to find index of products to print
     findIndex()
-    // open modal
     modal.show()
 
-    // print out headline to modal section
-    document.querySelector(".heading-container")!.innerHTML = `
-    <h2 class="main-heading">${products[index].name}</h2>`
-
-    // print modal to DOM
-    document.querySelector(".modal-body")!.innerHTML = `
+    // 2. Print out the product to modal section
+    headingContainer!.innerHTML = `<h2 class="main-heading">${products[index].name}</h2>`
+    modalBody!.innerHTML = `
     <div class="container">
       <div class="row">        
         <div class="col-sm-12 col-md-12 col-lg-6 product-modal">
@@ -276,21 +294,22 @@ rowEl?.addEventListener("click", (e) => {
         </div>
       </div>
     </div>`
-    // if product is out of stock, disable 'lägg till'-btn 
+
+    // 3. If the stock qty is outofstock, disable the 'lägg till'-button
     if (products[index].stock_status === "outofstock") {
       document
         .querySelector(`#product-num${products[index].id}`)!
         .setAttribute("disabled", "disabled")
     }
 
-    // add item to cart through modal 'lägg till' button
+    // 4. Add item to cart through modal 'lägg till' button
     document.querySelector('.modal-button')?.addEventListener('click', () => {
       findIndex()
       addToCart()
       renderToCart()
     })
   }
-  // add item to cart through card 'lägg till'-button
+  // 5. Add item to cart through card 'lägg till'-button
   else if (clickedItem.className === "clr-button") {
     findIndex()
     addToCart()
@@ -299,12 +318,17 @@ rowEl?.addEventListener("click", (e) => {
 })
 
 
-// ** Add / subtract / delete items inside of cart **
-document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
+/** ** CHANGE THE QTY OF ITEMS FROM INSIDE THE CART **
+ * 1. Check what product is being clicked, to get information about product
+ * 2. Remove the specific product from the cart
+ */
+
+offcanvasBody?.addEventListener("click", (e) => {
+  // 1. Save the clicked item into an variable, to get the items iformation
   let clickedBtn: any
   clickedBtn = e.target as HTMLButtonElement
 
-  // to be able to print out the clicked item i made arrays of the elements
+  // 1. To be able to print out the clicked item, make arrays of the elements
   const productQty = document.querySelectorAll(".product-qty")
   const productQtyArr = Array.from(productQty)
   const cartInfo = document.querySelectorAll(".cart-item")
@@ -315,12 +339,20 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
   const errArr = Array.from(err)
   const totalSum = document.querySelector(".total_order_container")
 
-  // get the product.id from the clicked product and save as index, add 1 to qty and print out new qty
+  // 1. Get the product.id from the clicked product and save as index
   const getClickedIndex = () => {
     let clickedID: any
     clickedID = clickedBtn.dataset.id
     index = cartItems.findIndex(product => product.id === Number(clickedID))
     productIndex = products.findIndex((product) => product.id === Number(clickedID))
+  }
+
+  // 2. Remove chosen product from array and cart and print out new sum
+  const removeFromCart = () => {
+    cartItems.splice(index, 1)
+    cartInfoArr[index].remove()
+    const order = populateOrder(cartItems)
+    totalSum!.innerHTML = `<h5>TOTALSUMMAN ${order.order_total} kr</h5><p>Varav moms ${order.order_total / 4} kr</p>`
   }
 
   // count item_total and render new qty and total sum
@@ -332,18 +364,10 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
     totalSum!.innerHTML = `<h5>TOTALSUMMAN ${order.order_total} kr</h5><p>Varav moms ${order.order_total / 4} kr</p>`
   }
 
-  // remove chosen item from array and cart and print out new sum
-  const removeFromCart = () => {
-    cartItems.splice(index, 1)
-    cartInfoArr[index].remove()
-    const order = populateOrder(cartItems)
-    totalSum!.innerHTML = `<h5>TOTALSUMMAN ${order.order_total} kr</h5><p>Varav moms ${order.order_total / 4} kr</p>`
-  }
-
   // if there no longer is any items in cartItems, set 'betala-btn' to disabled
   const disableCheckoutBtn = () => {
     if (cartItems.length < 1) {
-      document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
+      checkoutBtn?.setAttribute('disabled', 'disabled')
       totalSum!.innerHTML = ``
     }
   }
@@ -389,7 +413,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
         removeFromCart()
         products[productIndex].stock_quantity++
         products[productIndex].stock_status = "instock"
-        document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
+        checkoutBtn?.setAttribute('disabled', 'disabled')
         renderAndSave()
       }
     } else if (clickedBtn.classList.contains('checkout-btn')) {
@@ -402,12 +426,11 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
 
 const renderCheckout = () => {
   // print out headline to modal section
-  document.querySelector('.heading-container')!.innerHTML = `
-            <h2 class="main-heading">Kassa</h2>`
+  headingContainer!.innerHTML = `<h2 class="main-heading">Kassa</h2>`
 
   // print modal to DOM
   const order = populateOrder(cartItems)
-  document.querySelector(".modal-body")!.innerHTML = `
+  modalBody!.innerHTML = `
       <div class="container">
         <div class="row gy-4">     
           <div class="col-sm-12 col-md-12 col-lg-6 checkout-products">
@@ -521,17 +544,16 @@ const sendOrder = () => {
           </div>
       `
       if (orderStatus === 'success') {
-        document.querySelector(".modal-body")!.innerHTML = `
+        modalBody!.innerHTML = `
           <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
           <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
         `
       } else {
-        document.querySelector(".modal-body")!.innerHTML = `
+        modalBody!.innerHTML = `
           <p class="success-message text-center p-3">Sorry ${newOrder.customer_first_name} ${newOrder.customer_last_name}, something went wrong with your order.</p>
           <p class="success-message text-center p-3">Please try to place your order again.</p>    
         `
       }
-      console.log(savedOrder)
     }
 
     // get order and print out if success or not
