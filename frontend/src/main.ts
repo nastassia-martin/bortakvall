@@ -4,7 +4,7 @@ import { fetchData } from "./API";
 import { IProduct, IOrderInfo, IOrder, ICartItems, IConfirmation, IConfirmationResult } from "./interfaces";
 import { Modal, Offcanvas } from "bootstrap";
 import { populateOrder } from "./populateOrder";
-import { fetchOrder, postOrder } from "./post";
+import { postOrder } from "./post";
 
 const rowEl = document.querySelector(".products-container")
 const URL = "https://www.bortakvall.se/"
@@ -14,10 +14,15 @@ let products: IProduct[] = []
 
 // Get data from API and save it into products-array
 const getProducts = async () => {
-  const result = await fetchData()
-  products = result.data
-  checkStockStatus()
-  renderProducts()
+  try {
+    const result = await fetchData()
+    products = result.data
+    checkStockStatus()
+    renderProducts()
+  } catch (e) {
+    alert(e)
+  }
+
 };
 
 getProducts()
@@ -468,7 +473,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
             document.querySelector('.heading-container')!.innerHTML = `
               <h2 class="main-heading">Orderbekräftelse</h2>
               `
-            
+
             document.querySelector(".modal-dialog")!.innerHTML = `
               <div class="modal-content order-section">
                 <div class="modal-body">
@@ -476,7 +481,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
               </div>
               `
             if (orderStatus === 'success') {
-                document.querySelector(".modal-body")!.innerHTML = `
+              document.querySelector(".modal-body")!.innerHTML = `
                 <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
                 <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
                 `
@@ -487,17 +492,17 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
                 <p class="success-message text-center p-3">Please try to place your order again.</p>    
                 `
               test.forEach(error => {
-          
-              document.querySelector('.error-message')!.innerHTML += `
+
+                document.querySelector('.error-message')!.innerHTML += `
                 <p class ="error-message text-center p-3">${error[1]}</p>   
               `
-            });
-        
+              });
+
             }
-            } catch (e: any) {
+          } catch (e: any) {
             alert(e)
-            }
           }
+        }
         getConfirmation()
       })
     }
