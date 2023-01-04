@@ -1,10 +1,10 @@
-import "bootstrap/dist/css/bootstrap.css";
-import "./styles/style.css";
-import { fetchData } from "./API";
-import { IProduct, IOrderInfo, IOrder, ICartItems, IConfirmation, IConfirmationResult } from "./interfaces";
-import { Modal, Offcanvas } from "bootstrap";
-import { populateOrder } from "./populateOrder";
-import { fetchOrder, postOrder } from "./post";
+import "bootstrap/dist/css/bootstrap.css"
+import "./styles/style.css"
+import { fetchData } from "./API"
+import { IProduct, IOrderInfo, IOrder, ICartItems, IConfirmation, IConfirmationResult } from "./interfaces"
+import { Modal, Offcanvas } from "bootstrap"
+import { populateOrder } from "./populateOrder"
+import { fetchOrder, postOrder } from "./post"
 
 const rowEl = document.querySelector(".products-container")
 const URL = "https://www.bortakvall.se/"
@@ -107,21 +107,21 @@ const renderProducts = () => {
 }
 
 // create variables to use modal (bootstrap)
-const modalEl = document.getElementById("moreInfoModal")!;
-const modal = new Modal(modalEl);
+const modalEl = document.getElementById("moreInfoModal")!
+const modal = new Modal(modalEl)
 
 // should be able to be different depending on what eventListener used
-let clickedItem: any;
-let index: number;
-let productIndex: any;
+let clickedItem: any
+let index: number
+let productIndex: any
 
 // function to find the index of the item clicked
 const findIndex = () => {
   // save ID on clicked item to search for index
-  const clickedID = clickedItem.dataset.id;
+  const clickedID = clickedItem.dataset.id
   // search for index to get the rest of key values
-  index = products.findIndex((product) => product.id === Number(clickedID));
-};
+  index = products.findIndex((product) => product.id === Number(clickedID))
+}
 
 // empty array to put cartItems in
 let cartItems: ICartItems[] = JSON.parse(jsonCart)
@@ -137,22 +137,22 @@ const addToCart = () => {
       qty: 0,
       item_price: products[index].price,
       item_total: products[index].price,
-    });
+    })
   }
 
   // look for a product already in cart with the same id as the one being added
-  let doubleID = cartItems.find((item) => item.id === products[index].id);
+  let doubleID = cartItems.find((item) => item.id === products[index].id)
 
   // find the index of the cart item that has the same id as the one being added,
   // instead of adding a new one, only add qty of that item and count item_total
   if (doubleID) {
-    const index = cartItems.findIndex((product) => product.id === doubleID?.id);
+    const index = cartItems.findIndex((product) => product.id === doubleID?.id)
     // only add to cart if stock_quantity is > 0
     if (products[index].stock_quantity) {
-      cartItems[index].qty++;
+      cartItems[index].qty++
     }
     cartItems[index].item_total =
-      cartItems[index].qty * cartItems[index].item_price;
+      cartItems[index].qty * cartItems[index].item_price
   }
   // if no dublicates was found, put the item in cart with qty 1
   else {
@@ -193,7 +193,7 @@ const saveItems = () => {
 
 // print out added items to cart
 const renderToCart = () => {
-  const order = populateOrder(cartItems);
+  const order = populateOrder(cartItems)
   document.querySelector(".offcanvas-body")!.innerHTML = cartItems
     .map(
       (cartItem) => `
@@ -218,7 +218,7 @@ const renderToCart = () => {
         </div>
     `
     )
-    .join("");
+    .join("")
 
 
   document.querySelector(".offcanvas-body")!.innerHTML += `
@@ -231,8 +231,8 @@ const renderToCart = () => {
   <h4>TOTALSUMMAN ${order.order_total} kr</h4>
   <p>Varav moms ${order.order_total / 4} kr</p>
   </div> 
-  `;
-};
+  `
+}
 
 rowEl?.addEventListener("click", (e) => {
   // save e.target to clickedItem
@@ -273,7 +273,7 @@ rowEl?.addEventListener("click", (e) => {
     if (products[index].stock_status === "outofstock") {
       document
         .querySelector(`#product-num${products[index].id}`)!
-        .setAttribute("disabled", "disabled");
+        .setAttribute("disabled", "disabled")
     }
 
     // add item to cart through modal 'lägg till' button
@@ -285,35 +285,35 @@ rowEl?.addEventListener("click", (e) => {
   }
   // add item to cart through card 'lägg till'-button
   else if (clickedItem.className === "clr-button") {
-    findIndex();
-    addToCart();
-    renderToCart();
+    findIndex()
+    addToCart()
+    renderToCart()
   }
-});
+})
 
 
 // ** Add / subtract / delete items inside of cart **
 document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
   let clickedBtn: any
-  clickedBtn = e.target as HTMLButtonElement;
+  clickedBtn = e.target as HTMLButtonElement
 
   // to be able to print out the clicked item i made arrays of the elements
-  const productQty = document.querySelectorAll(".product-qty");
-  const productQtyArr = Array.from(productQty);
-  const cartInfo = document.querySelectorAll(".cart-item");
-  const cartInfoArr = Array.from(cartInfo);
-  const productPrice = document.querySelectorAll(".product-sum");
-  const productPriceArr = Array.from(productPrice);
+  const productQty = document.querySelectorAll(".product-qty")
+  const productQtyArr = Array.from(productQty)
+  const cartInfo = document.querySelectorAll(".cart-item")
+  const cartInfoArr = Array.from(cartInfo)
+  const productPrice = document.querySelectorAll(".product-sum")
+  const productPriceArr = Array.from(productPrice)
   const err = document.querySelectorAll('.err')
   const errArr = Array.from(err)
-  const totalSum = document.querySelector(".total_order_container");
+  const totalSum = document.querySelector(".total_order_container")
 
   // get the product.id from the clicked product and save as index, add 1 to qty and print out new qty
   const getClickedIndex = () => {
     let clickedID: any
     clickedID = clickedBtn.dataset.id
     index = cartItems.findIndex(product => product.id === Number(clickedID))
-    productIndex = products.findIndex((product) => product.id === Number(clickedID));
+    productIndex = products.findIndex((product) => product.id === Number(clickedID))
   }
 
   // count item_total and render new qty and total sum
@@ -321,23 +321,23 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
     cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
     productQtyArr[index].innerHTML = `${cartItems[index].qty}`
     productPriceArr[index].innerHTML = `Totalt: ${cartItems[index].item_total}kr (${cartItems[index].item_price}kr/st)`
-    const order = populateOrder(cartItems);
-    totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
+    const order = populateOrder(cartItems)
+    totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`
   }
 
   // remove chosen item from array and cart and print out new sum
   const removeFromCart = () => {
     cartItems.splice(index, 1)
     cartInfoArr[index].remove()
-    const order = populateOrder(cartItems);
-    totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`;
+    const order = populateOrder(cartItems)
+    totalSum!.innerHTML = `<h4>TOTALSUMMAN ${order.order_total} kr</h4><p>Varav moms ${order.order_total / 4} kr</p>`
   }
 
   // if there no longer is any items in cartItems, set 'betala-btn' to disabled
   const disableCheckoutBtn = () => {
     if (cartItems.length < 1) {
       document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
-      totalSum!.innerHTML = ``;
+      totalSum!.innerHTML = ``
     }
   }
 
@@ -373,7 +373,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
     } else if (clickedBtn.classList.contains('btn-minus')) {
       getClickedIndex()
       if (cartItems[index].qty > 1) {
-        cartItems[index].qty--;
+        cartItems[index].qty--
         products[productIndex].stock_quantity++
         products[productIndex].stock_status = "instock"
         updateQty()
@@ -399,7 +399,7 @@ const renderCheckout = () => {
             <h2 class="main-heading">Kassa</h2>`
 
   // print modal to DOM
-  const order = populateOrder(cartItems);
+  const order = populateOrder(cartItems)
   document.querySelector(".modal-body")!.innerHTML = `
       <div class="container">
         <div class="row gy-4">     
@@ -470,7 +470,7 @@ const renderCheckout = () => {
               </div>
             </div>`
     )
-    .join('');
+    .join('')
 }
 
 
@@ -478,7 +478,7 @@ const sendOrder = () => {
   document.querySelector('#new-order')?.addEventListener('submit', async e => {
     e.preventDefault()
 
-    const ItemOrder = populateOrder(cartItems);
+    const ItemOrder = populateOrder(cartItems)
     const newOrder: IOrder = {
       customer_first_name: document.querySelector<HTMLInputElement>("#first-name")!.value,
       customer_last_name: document.querySelector<HTMLInputElement>("#last-name")!.value,
@@ -518,6 +518,7 @@ const sendOrder = () => {
         `
       }
     }
+
     // empty cart and clear local storage
     cartItems = []
     localStorage.clear()
