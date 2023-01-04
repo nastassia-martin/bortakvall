@@ -321,6 +321,13 @@ rowEl?.addEventListener('click', e => {
 /** ** CHANGE THE QTY OF ITEMS FROM INSIDE THE CART **
  * 1. Check what product is being clicked, to get information about product
  * 2. Remove the specific product from the cart
+ * 3. Make sure the total sum is rendered and updated 
+ * 4. If there's no products left in cart, make sure the 'gå till kassan' btn is disabled
+ * 5. Render the updated products (because of stock qty) and save the cart to local storage
+ * 6. When click on +, add item to cart 
+ * 7. Prevent from adding more to cart than stock qty 
+ * 8. When click on trashcan, remove all items from cart
+ * 9. When click on -, subtract item from cart
  */
 
 offcanvasBody?.addEventListener("click", (e) => {
@@ -355,7 +362,7 @@ offcanvasBody?.addEventListener("click", (e) => {
     totalSum!.innerHTML = `<h5>TOTALSUMMAN ${order.order_total} kr</h5><p>Varav moms ${order.order_total / 4} kr</p>`
   }
 
-  // count item_total and render new qty and total sum
+  // 3. Count item_total and render new qty and total sum
   const updateQty = () => {
     cartItems[index].item_total = cartItems[index].qty * cartItems[index].item_price
     productQtyArr[index].innerHTML = `${cartItems[index].qty}`
@@ -364,7 +371,7 @@ offcanvasBody?.addEventListener("click", (e) => {
     totalSum!.innerHTML = `<h5>TOTALSUMMAN ${order.order_total} kr</h5><p>Varav moms ${order.order_total / 4} kr</p>`
   }
 
-  // if there no longer is any items in cartItems, set 'betala-btn' to disabled
+  // 4. If there no longer are any items in cartItems, set 'betala-btn' to disabled
   const disableCheckoutBtn = () => {
     if (cartItems.length < 1) {
       checkoutBtn?.setAttribute('disabled', 'disabled')
@@ -372,14 +379,15 @@ offcanvasBody?.addEventListener("click", (e) => {
     }
   }
 
-  // render updated stock values to DOM and save items to localstorage
+  // 5. Render updated stock values to DOM and save items to localstorage
   const renderAndSave = () => {
     renderProducts()
     saveItems()
   }
 
-  // only respond to button/img element clicks
+  // Only respond to the icon clicks
   if (clickedBtn.tagName === 'BUTTON' || clickedBtn.tagName === 'IMG') {
+    // 6. When +, add the qty of cartItems and subtract the qty of products. Render and save updated values.
     if (clickedBtn.classList.contains("btn-plus")) {
       getClickedIndex()
       if (products[productIndex].stock_quantity) {
@@ -388,12 +396,14 @@ offcanvasBody?.addEventListener("click", (e) => {
         updateQty()
         renderAndSave()
       } else {
+        // 7. If stock qty is out, add information that says nothing left in stock
         errArr[index]!.innerHTML = `0 i lager`
         setTimeout(() => {
           errArr[index]!.innerHTML = ``
         }, 2000);
       }
     } else if (clickedBtn.classList.contains('btn-trash')) {
+      // 8. Remove product from cartItems and set products qty and stock status back to its values 
       getClickedIndex()
       const resetQty = cartItems[index].qty
       removeFromCart()
@@ -402,6 +412,7 @@ offcanvasBody?.addEventListener("click", (e) => {
       products[productIndex].stock_status = "instock"
       renderAndSave()
     } else if (clickedBtn.classList.contains('btn-minus')) {
+      // 9. When -, remove qty from cartItems and add to products 
       getClickedIndex()
       if (cartItems[index].qty > 1) {
         cartItems[index].qty--
@@ -410,6 +421,7 @@ offcanvasBody?.addEventListener("click", (e) => {
         updateQty()
         renderAndSave()
       } else {
+        // 9. If there is nothing left in the cart, remove the product from the cart
         removeFromCart()
         products[productIndex].stock_quantity++
         products[productIndex].stock_status = "instock"
@@ -424,11 +436,19 @@ offcanvasBody?.addEventListener("click", (e) => {
   }
 })
 
+
+/** ** CHECKOUT ** 
+ * 1. Render the products from cartItems and a form to fill in customer information to the checkout section
+ * 2. When submit, push the items from cartItems and the customer information into an object of the orderinformation 
+ * 3. Post order and save the results
+ * 4. Save the order to local storage
+ * 5. 
+ */
+
 const renderCheckout = () => {
-  // print out headline to modal section
+  // 1. Render headline and a modal with the products from cartItems, and a form with customer information inputs 
   headingContainer!.innerHTML = `<h2 class="main-heading">Kassa</h2>`
 
-  // print modal to DOM
   const order = populateOrder(cartItems)
   modalBody!.innerHTML = `
       <div class="container">
@@ -507,6 +527,7 @@ const renderCheckout = () => {
 let savedOrder: IConfirmation[] = JSON.parse(jsonOrder)
 
 const sendOrder = () => {
+  // 2. When submit, push the customer information and order items to an object
   document.querySelector('#new-order')?.addEventListener('submit', async e => {
     e.preventDefault()
 
@@ -523,15 +544,15 @@ const sendOrder = () => {
       order_items: ItemOrder.order_items,
     }
 
+    // 3. Post order and save the results
     const getConfirmation = async () => {
       const res = await postOrder(newOrder)
       const orderData = res.data
       const orderStatus = res.status
 
-      // save the order-information to local storage
+      // 4. Save the order-information to local storage
       savedOrder.push(orderData)
       localStorage.setItem('orders', JSON.stringify(savedOrder))
-
 
       // print out order-section to DOM
       document.querySelector('.heading-container')!.innerHTML = `
@@ -567,6 +588,5 @@ const sendOrder = () => {
     renderToCart()
 
     // customer information and items are still saved in array newOrder
-
   })
 }
