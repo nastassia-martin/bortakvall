@@ -180,7 +180,7 @@ const addToCart = () => {
   }
 
   // 4. Remove 'disabled' from betala-button when something is added to cart
-  checkoutBtn?.removeAttribute('disabled')
+  document.querySelector('.checkout-btn')?.removeAttribute('disabled')
 
   // 5. Adjust stock_quantity of added item
   if (products[index].stock_quantity >= 1) {
@@ -207,7 +207,7 @@ const saveItems = () => {
  * 2. Print out buttons 'fortsätt handla' and 'gå till kassan' and order total sum
  */
 
-const checkoutBtn = document.querySelector('.checkout-btn')
+document.querySelector('.checkout-btn')
 
 const renderToCart = () => {
   // 1. Print out the added name, image, price, qty
@@ -253,7 +253,7 @@ const renderToCart = () => {
 
   // 2. If the cart is empty, make sure the 'gå till kassan' btn is disabled
   if (!cartItems[0]) {
-    checkoutBtn?.setAttribute('disabled', 'disabled')
+    document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
   }
 }
 
@@ -377,7 +377,7 @@ offcanvasBody?.addEventListener("click", (e) => {
   // 4. If there no longer are any items in cartItems, set 'betala-btn' to disabled
   const disableCheckoutBtn = () => {
     if (cartItems.length < 1) {
-      checkoutBtn?.setAttribute('disabled', 'disabled')
+      document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
       totalSum!.innerHTML = ``
     }
   }
@@ -428,7 +428,7 @@ offcanvasBody?.addEventListener("click", (e) => {
         removeFromCart()
         products[productIndex].stock_quantity++
         products[productIndex].stock_status = "instock"
-        checkoutBtn?.setAttribute('disabled', 'disabled')
+        document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
         renderAndSave()
       }
     } else if (clickedBtn.classList.contains('checkout-btn')) {
