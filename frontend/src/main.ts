@@ -428,7 +428,7 @@ offcanvasBody?.addEventListener("click", (e) => {
         removeFromCart()
         products[productIndex].stock_quantity++
         products[productIndex].stock_status = "instock"
-        document.querySelector('.checkout-btn')?.setAttribute('disabled', 'disabled')
+        disableCheckoutBtn()
         renderAndSave()
       }
     } else if (clickedBtn.classList.contains('checkout-btn')) {
