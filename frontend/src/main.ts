@@ -385,7 +385,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
               </div>
               <div class="form-group mb-1">
                 <label for="adress">Adress</label>
-                <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" required>
+                <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" >
               </div>
               <div class="row mb-1">
                 <div class="col-5">
@@ -434,25 +434,29 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
             </div>`
         )
         .join('');
-      document.querySelector('#new-order')?.addEventListener('submit', async e => {
+      const newOrder = document.querySelector('#new-order')?.addEventListener('submit', async e => {
         e.preventDefault()
 
-        const ItemOrder = populateOrder(cartItems);
-        const newOrder: IOrder = {
-          customer_first_name: document.querySelector<HTMLInputElement>("#first-name")!.value,
-          customer_last_name: document.querySelector<HTMLInputElement>("#last-name")!.value,
-          customer_address: document.querySelector<HTMLInputElement>("#adress")!.value,
-          customer_postcode: document.querySelector<HTMLInputElement>("#postcode")!.value,
-          customer_city: document.querySelector<HTMLInputElement>("#city")!.value,
-          customer_email: document.querySelector<HTMLInputElement>("#email")!.value,
-          customer_phone: document.querySelector<HTMLInputElement>("#phone")?.value,
-          order_total: ItemOrder.order_total,
-          order_items: ItemOrder.order_items,
-        }
+
+
 
         const getConfirmation = async () => {
 
           try {
+            const ItemOrder = populateOrder(cartItems);
+            const newOrder: IOrder = {
+              customer_first_name: document.querySelector<HTMLInputElement>("#first-name")?.value || '',
+              customer_last_name: document.querySelector<HTMLInputElement>("#last-name")?.value || '',
+              customer_address: document.querySelector<HTMLInputElement>("#adress")?.value || '',
+              customer_postcode: document.querySelector<HTMLInputElement>("#postcode")?.value || '',
+              customer_city: document.querySelector<HTMLInputElement>("#city")?.value || '',
+              customer_email: document.querySelector<HTMLInputElement>("#email")?.value || '',
+              customer_phone: document.querySelector<HTMLInputElement>("#phone")?.value || '',
+              order_total: ItemOrder.order_total,
+              order_items: ItemOrder.order_items,
+            }
+
+
             const res = await postOrder(newOrder)
             const orderData = res.data
             const orderStatus = res.status
@@ -472,13 +476,18 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
           <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
         `
             } else {
+              if (orderData.customer_first_name) {
+                console.log("this one!", orderData)
+              }
+
               document.querySelector(".modal-body")!.innerHTML = `
-          <p class="success-message text-center p-3">Sorry ${newOrder.customer_first_name} ${newOrder.customer_last_name}, something went wrong with your order.</p>
+          <p class="success-message text-center p-3">Sorry ${orderData.customer_first_name}.</p>
           <p class="success-message text-center p-3">Please try to place your order again.</p>    
         `
             }
           } catch (e) {
             alert(e)
+            console.log('Sorry something went wrong when we tried to get the products, please try again later', e)
           }
         }
         getConfirmation()
@@ -486,3 +495,17 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
     }
   }
 })
+
+
+// om orderData inneåller objekt med array med string
+//sätt till variabel 
+//kalla på variable 
+
+
+// function to find the index of the item clicked
+/* const findIndex = () => {
+  // save ID on clicked item to search for index
+  const clickedID = clickedItem.dataset.id;
+  // search for index to get the rest of key values
+  index = products.findIndex((product) => product.id === Number(clickedID));
+}; */

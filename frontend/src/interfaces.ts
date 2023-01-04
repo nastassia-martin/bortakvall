@@ -45,6 +45,15 @@ export interface ICartItems {
 }
 export interface IConfirmation {
     id: number
+    customer_first_name?: string | [],
+    customer_last_name?: string | [],
+    customer_address?: string | number | [],
+    customer_postcode?: string | [],
+    customer_city?: string | [],
+    customer_email?: string | number | [],
+    customer_phone?: string | [],
+    order_total?: number | [],
+    order_items?: IOrderInfo[]
 }
 export interface IConfirmationResult {
     status: string,
