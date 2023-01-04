@@ -355,16 +355,6 @@ body {
           display: flex;
           justify-content: flex-end;
         }
-
-        button {
-          width: 170px;
-          padding: 10px;
-          background-color: $clr-button;
-          border: 0;
-          border-radius: 10px;
-          padding: 3px 8px;
-          font-size: 14px;
-        }
       }
 
       .products-container {
@@ -433,6 +423,10 @@ body {
       border-radius: 10px;
       padding: 3px 8px;
       font-size: 14px;
+
+      svg {
+        margin-right: 5px;
+      }
     }
   }
 
@@ -466,7 +460,6 @@ body {
       .row {
         div {
           .card {
-
             .card-body {
               .card-title {
                 font-size: 18px;
