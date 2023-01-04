@@ -33,15 +33,19 @@ const modal = new Modal(modalEl)
 const getProducts = async () => {
   try {
     const result = await fetchData()
-    products = result.data
+    // 1. IF localstorage is empty, fill products array
+    if (products.length <= 0) {
+      products = result.data
+    }
     checkStockStatus()
     renderProducts()
+    renderToCart()
+
   } catch (e) {
     alert(e)
   }
 
-};
-
+}
 
 getProducts()
 
@@ -466,11 +470,11 @@ const renderCheckout = () => {
               </div>
               <div class="form-group mb-1">
               <label for="last-name">Efternamn</label>
-              <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Efternamn" >
+              <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Efternamn" required>
               </div>
               <div class="form-group mb-1">
                 <label for="adress">Adress</label>
-                <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" >
+                <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" required>
               </div>
               <div class="row mb-1">
                 <div class="col-5">
@@ -561,24 +565,48 @@ const sendOrder = () => {
 
         // print out order-section to DOM
 
+        document.querySelector('.heading-container')!.innerHTML = `
 
+              <h2 class="main-heading">Orderbekräftelse</h2>
+
+              `
 
         if (orderStatus === 'success') {
 
-          return alert(`Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order Ditt ordernummer är: ${orderData.id}!`)
+          document.querySelector(".modal-body")!.innerHTML = `
+
+                <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
+
+                <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
+
+                `
 
         } else {
 
+          document.querySelector(".modal-body")!.innerHTML = `
 
-          return test.forEach(error => {
+                <p class="success-message text-center p-3">Sorry something went wrong with your order. Please check below!</p>
 
-            alert(`Sorry something went wrong with your order. Please check below!${error[1]}`)
+                <p class ="error-message"text-center p-3"></p>  
 
-          });
+                <p class="success-message text-center p-3">Please try to place your order again.</p>    
+
+                `
+
+          test.forEach(error => {
+
+            document.querySelector('.error-message')!.innerHTML += `
+
+                        <p class ="error-message text-center p-3">${error[1]}</p>`
+
+          })
 
         }
+
       } catch (e: any) {
+
         alert(e)
+
       }
     }
     getConfirmation()
