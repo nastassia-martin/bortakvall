@@ -561,32 +561,19 @@ const sendOrder = () => {
 
         // print out order-section to DOM
 
-        document.querySelector('.heading-container')!.innerHTML = `
-              <h2 class="main-heading">Orderbekräftelse</h2>
-              `
 
-        document.querySelector(".modal-dialog")!.innerHTML = `
-              <div class="modal-content order-section">
-                <div class="modal-body">
-                </div>
-              </div>
-              `
+
         if (orderStatus === 'success') {
-          document.querySelector(".modal-body")!.innerHTML = `
-                <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
-                <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
-                `
-        } else {
-          document.querySelector(".modal-body")!.innerHTML = `
-                <p class="success-message text-center p-3">Sorry something went wrong with your order. Please check below!</p>
-                <p class ="error-message"text-center p-3"></p>   
-                <p class="success-message text-center p-3">Please try to place your order again.</p>    
-                `
-          test.forEach(error => {
 
-            document.querySelector('.error-message')!.innerHTML += `
-                <p class ="error-message text-center p-3">${error[1]}</p>   
-              `
+          return alert(`Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order Ditt ordernummer är: ${orderData.id}!`)
+
+        } else {
+
+
+          return test.forEach(error => {
+
+            alert(`Sorry something went wrong with your order. Please check below!${error[1]}`)
+
           });
 
         }
