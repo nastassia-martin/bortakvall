@@ -490,9 +490,6 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
           <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
         `
             } else {
-              
-        
-
               document.querySelector(".modal-body")!.innerHTML = `
           <p class="success-message text-center p-3">Sorry something went wrong with your order. Please check below!</p>
           <p class ="error-message"text-center p-3"></p>   
@@ -500,7 +497,7 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
         `
         test.forEach(error => {
           
-        let example = document.querySelector('.error-message')!.innerHTML += `
+        document.querySelector('.error-message')!.innerHTML += `
           <p class ="error-message text-center p-3">${error[1]}</p>   
           `
         
