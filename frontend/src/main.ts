@@ -381,11 +381,11 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
               </div>
               <div class="form-group mb-1">
               <label for="last-name">Efternamn</label>
-              <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Efternamn" required>
+              <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Efternamn" >
               </div>
               <div class="form-group mb-1">
                 <label for="adress">Adress</label>
-                <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" required>
+                <input type="text" name="adress" id="adress" class="form-control" placeholder="Gatunamn" >
               </div>
               <div class="row mb-1">
                 <div class="col-5">
@@ -450,51 +450,81 @@ document.querySelector(".offcanvas-body")?.addEventListener("click", (e) => {
           order_items: ItemOrder.order_items,
         }
 
-      //   const getConfirmation = async () => {
+        const getConfirmation = async () => {
 
-      //     try {
-      //       const res = await postOrder(newOrder)
-      //       const orderData = res.data
-      //       const orderStatus = res.status
+          try {
+            const res = await postOrder(newOrder)
+            console.log(res)
+            const orderData = res.data
+            console.log(orderData)
+            const orderStatus = res.status
+            console.log(orderStatus)
+            const test = Object.entries(orderData)
 
-      //       document.querySelector('.heading-container')!.innerHTML = `
-      //     <h2 class="main-heading">Orderbekräftelse</h2>`
-      //       // print out order-section to DOM
-      //       document.querySelector(".modal-dialog")!.innerHTML = `
-      //     <div class="modal-content order-section">
-      //       <div class="modal-body">
-      //       </div>
-      //     </div>
-      // `
-      //       if (orderStatus === 'success') {
-      //         document.querySelector(".modal-body")!.innerHTML = `
-      //     <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
-      //     <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
-      //   `
-      //       } else {
-      //         document.querySelector(".modal-body")!.innerHTML = `
-      //     <p class="success-message text-center p-3">Sorry ${newOrder.customer_first_name} ${newOrder.customer_last_name}, something went wrong with your order.</p>
-      //     <p class="success-message text-center p-3">Please try to place your order again.</p>    
-      //   `
-      //       }
-      //     } catch (e) {
-      //       alert(e)
-      //     }
-      //   }
-      //   getConfirmation()
 
-      const getConfirmation = async () => {
+            
+            console.log(test[1])
+
+            
+              
+
+            //   console.log("all errors", error)
+            //   console.log("error 0", error[0])
+            //   console.log("error 1", error[1]) // this is the right one
+              
+            //   // alert(error[1])
+            // });
+
+            document.querySelector('.heading-container')!.innerHTML = `
+          <h2 class="main-heading">Orderbekräftelse</h2>`
+            // print out order-section to DOM
+            document.querySelector(".modal-dialog")!.innerHTML = `
+          <div class="modal-content order-section">
+            <div class="modal-body">
+            </div>
+          </div>
+      `
+            if (orderStatus === 'success') {
+              document.querySelector(".modal-body")!.innerHTML = `
+          <p class="success-message text-center p-3">Tack ${newOrder.customer_first_name} ${newOrder.customer_last_name} för din order!</p>
+          <p class="success-message text-center p-3">Ditt ordernummer är: ${orderData.id}!</p>
+        `
+            } else {
+              
+        
+
+              document.querySelector(".modal-body")!.innerHTML = `
+          <p class="success-message text-center p-3">Sorry something went wrong with your order. Please check below!</p>
+          <p class ="error-message"text-center p-3"></p>   
+          <p class="success-message text-center p-3">Please try to place your order again.</p>    
+        `
+        test.forEach(error => {
+          
+        let example = document.querySelector('.error-message')!.innerHTML += `
+          <p class ="error-message text-center p-3">${error[1]}</p>   
+          `
+        
+      });
+        
+            }
+          } catch (e) {
+            alert(e)
+          }
+        }
+        getConfirmation()
+
+      // const getConfirmation = async () => {
 
       
-        try {
-          const res = await postOrder(newOrder)
-          console.log('res', res) // this will always be whatever we get back from johans server so will never get to catch??
-        } catch (e: any) { // e must be defined as any
-          console.log("Caught the error:", e);
+      //   // try {
+      //   //   const res = await postOrder(newOrder)
+      //   //   console.log('res', res) // this will always be whatever we get back from johans server so will never get to catch??
+      //   // } catch (e: any) { // e must be defined as any
+      //   //   console.log("Caught the error:", e);
 
-        }
-      }
-      getConfirmation()
+      //   }
+      // }
+      // getConfirmation()
       })
     }
   }
