@@ -226,15 +226,15 @@ const renderToCart = () => {
       <div class="cart-info col-9">
         <div class="product-name">
           <h3 class="cart-name">${cartItem.name}</h3>
-          <button title="trash" class="btn-trash" data-id="${cartItem.id}"><img data-id="${cartItem.id}" class="btn-trash" src="/node_modules/bootstrap-icons/icons/trash3.svg" alt="Bootstrap" width="20" height="20"></button>
+          <button title="trash" class="btn-trash" data-id="${cartItem.id}"><img data-id="${cartItem.id}" class="btn-trash" src="/images/trash3.svg" alt="Bootstrap" width="20" height="20"></button>
         </div>
         <div class="qty">
           <button title="btnMinus" class="btn-minus" data-id="${cartItem.id}">
-            <img data-id="${cartItem.id}" class="btn-minus" src="/node_modules/bootstrap-icons/icons/dash-circle.svg" alt="Bootstrap" width="25" height="25">
+            <img data-id="${cartItem.id}" class="btn-minus" src="/images/dash-circle.svg" alt="Bootstrap" width="25" height="25">
           </button>
           <p data-id="${cartItem.id}" class="product-qty">${cartItem.qty}</p>
           <button title="btnPlus" class="btn-plus" data-id="${cartItem.id}">
-            <img data-id="${cartItem.id}" class="btn-plus" src="/node_modules/bootstrap-icons/icons/plus-circle-fill.svg" alt="Bootstrap" width="25" height="25">
+            <img data-id="${cartItem.id}" class="btn-plus" src="/images/plus-circle-fill.svg" alt="Bootstrap" width="25" height="25">
           </button>
           <p class="err"></p>
           <p class="product-sum">Totalt: ${cartItem.item_total}kr (${cartItem.item_price}kr/st)</p>
