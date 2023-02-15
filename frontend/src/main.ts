@@ -49,8 +49,6 @@ const getProducts = async () => {
 
 getProducts()
 
-console.log(products)
-
 // 2. For each product not in stock, set value from null to 0
 const checkStockStatus = () => {
   products.forEach((product) => {
@@ -298,6 +296,7 @@ rowEl?.addEventListener('click', e => {
           <p class="text-center">Artikel nr: ${products[index].id}</p>
           ${products[index].description}
           <p class="modal-price text-center">${products[index].price} kr</p>
+
         </div>
       </div>
     </div>`
@@ -534,6 +533,19 @@ const renderCheckout = () => {
 let savedOrder: IConfirmation[] = JSON.parse(jsonOrder)
 
 const sendOrder = () => {
+
+  const savedCustomer = JSON.parse(localStorage.getItem('customer') || '{}');
+
+  if (Object.keys(savedCustomer).length) {
+    document.querySelector<HTMLInputElement>('#first-name')!.value = savedCustomer.firstName;
+    document.querySelector<HTMLInputElement>('#last-name')!.value = savedCustomer.lastName;
+    document.querySelector<HTMLInputElement>('#adress')!.value = savedCustomer.address;
+    document.querySelector<HTMLInputElement>('#postcode')!.value = savedCustomer.postcode;
+    document.querySelector<HTMLInputElement>('#city')!.value = savedCustomer.city;
+    document.querySelector<HTMLInputElement>('#email')!.value = savedCustomer.email;
+    document.querySelector<HTMLInputElement>('#phone')!.value = savedCustomer.phone;
+  }
+
   // 2. When submit, push the customer information and order items to an object
   document.querySelector('#new-order')?.addEventListener('submit', async e => {
     e.preventDefault()
@@ -549,6 +561,26 @@ const sendOrder = () => {
       customer_phone: document.querySelector<HTMLInputElement>("#phone")?.value,
       order_total: ItemOrder.order_total,
       order_items: ItemOrder.order_items,
+    }
+
+    if (!savedCustomer.email) {
+      localStorage.setItem('customer', JSON.stringify({
+        firstName: newOrder.customer_first_name,
+        lastName: newOrder.customer_last_name,
+        address: newOrder.customer_address,
+        postcode: newOrder.customer_postcode,
+        city: newOrder.customer_city,
+        email: newOrder.customer_email,
+        phone: newOrder.customer_phone,
+      }));
+    } else {
+      document.querySelector<HTMLInputElement>("#first-name")!.value = savedCustomer.firstName;
+      document.querySelector<HTMLInputElement>("#last-name")!.value = savedCustomer.lastName;
+      document.querySelector<HTMLInputElement>("#adress")!.value = savedCustomer.address;
+      document.querySelector<HTMLInputElement>("#postcode")!.value = savedCustomer.postcode;
+      document.querySelector<HTMLInputElement>("#city")!.value = savedCustomer.city;
+      document.querySelector<HTMLInputElement>("#email")!.value = savedCustomer.email;
+      document.querySelector<HTMLInputElement>("#phone")!.value = savedCustomer.phone;
     }
 
     const getConfirmation = async () => {
