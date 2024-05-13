@@ -1,50 +1,35 @@
-# Inlämningsuppgift 2 
+# Bortakväll | Candy Shop
 
-## Instruktioner
-Ni ska samarbeta i grupper om 3 där ni ska göra en enkel webbshop där man ska kunna lägga produkter i en varukorg och därefter ”gå till kassan” och lägga en order.
+## About
 
-### G 
-- [x] Vara responsiv
-- [x] Semantiskt korrekt
-- [x] Använda flexboxes alternativt CSS grid (går så klart bra att använda Bootstrap/Tailwind etc.)
-- [x] All data och status ska finnas i JavaScript, dvs ska ej använda DOM som ”single point of truth”
-- [x] Publicerad via Netlify/GitHub Pages/Vercel
-- [x] Samtliga produkter visas med bild (thumbnail), namn, pris och "lägg till"-knapp
-- [x] Kunna lägga till flera exemplar av en produkt i varukorgen
-- [x] Sida med 'läs mer' om produkten (stor bild, namn, pris, beskrivning) utan att varukorg förloras
-- [x] Visa varukorg med sammanställning
-- [x] Kunna ta bort en produkt från varukorgen 
-- [x] En 'gå till kassa'-knapp
-- [x] Kunna fylla i namn, adress, postnr, ort, telefon (tel ej req), epost
-- [x] Visa eventuella fel när beställning läggs
-- [x] När beställning lyckas, visa ordernr för beställning samt tackmeddelande
+This is a group project built by [Nastassia Martin](https://github.com/nastassia-martin), [Hanna Bjorling](https://github.com/hannabjorling) and [Astrid Lindfors](https://github.com/Snickesnacket) within my first 3 months of my front end developer course.
 
-### VG 
-- [x] Kod skriven i TypeScript
-- [x] Kunna klicka på 'lägg till' flera gånger, men bara 1 rad visas i varukorg
-- [x] Varje produkt har  + -  i varukorg för att öka/minska antal
-- [x] Man ska kunna ta bort en vara på annat sätt än att minska till 0 
-- [x] Varukorg och kundinformation sparas i Local Storage
+Welcome to our Candy Shop project! This web application offers an interface for users to interact with a variety of candy products. It is fully responsive and designed to enhance user experience across devices.
 
-Uppdatering 2022-12-28
-### G 
-- [x] Sortera produkter efter produktnamn.
-- [x] Produkter är inte längre alltid i lager (stock_status: instock vs. stock_status: outofstock), ska visas ändå men inte gå att lägga i varukorgen (“Lägg till i varukorgen”-knapp kan bli disabled).
-- [x] Totala antalet produkter i lager ska visas (t.ex. “Visar 137 produkter varav 42 är i lager”) i översikten över alla produkter.
+## Features
 
-### VG 
-- [x] Visa hur många (stock_quantity) som finns i lager av varje produkt. Ska ej gå att lägga fler antal av en produkt än vad som finns i lager av produkten.
+- browse all available candy
+- sort candies by name
+- view products that are out of stock (these cannot be added to the cart)
+- click on individual candy items for more details
+- add candies to their shopping cart
+- adjust the quantity of candies in their shopping cart
+- remove cadnies from their shopping cart
+- review a summary of their order in their cart
+- simulate placing their order by entering their name and address, and save that information to local storage
 
-Uppdatering 2022-12-21
-### G 
-- [x] Antal produkter ska visas i produktöversikten.
-- [x] Varukorgen ska visa summa för varje produkt (antal * styckpris) samt ordertotal både i sammanställningen som går att fälla ut och i ”kassan”.
+In addition the application is fully responsive.
 
----
-## Dokumentation buggar
+## Tech stack
 
----
-## Links 
-- [Figma](https://www.figma.com/team_invite/redeem/k9Suf5Dh06lWW6c343VTVo) 
-- [Trello](https://trello.com/invite/b/HDwTnRm8/ATTIcdaf93fca38400346eb3fc1b709cf8ffDEE5AB97/hockey-baby)
+- Frontend: HTML, CSS, SCSS & Bootstrap
+- Scripting: Typescript
+- Build Tool: Vite
 
+## Set up
+
+The project's API is currently unavailable. However, you can still set up and browse the project locally by following these steps in your terminal:
+
+1. cd into `frontend`
+2. run the command `npm install` to install all dependencies.
+3. start the development server with `npm run dev`
